@@ -1,7 +1,5 @@
 ---
-title: "Index"
-author: "JP"
+title: "index"
 date: "November 27, 2017"
 output: html_document
 ---
-
