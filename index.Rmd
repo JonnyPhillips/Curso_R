@@ -3,4 +3,43 @@ title: "Index"
 output: html_document
 ---
 
-Index page
+# Course Objectives
+
+1. To give participants the confidence and skills to produce publication-quality outputs from their research.
+2. To build participants' capabilities and professionalism in using R for reproducible research.
+3. Promoting the use of spatial methods by participants, in line with CEPESP's core strengths.
+3. Improving teamwork within CEPESP by ensuring the shared skills and language for conducting intensive research.
+
+# Audience
+Anyone associated with CEPESP who wants to produce precise, attractive tables, charts, maps and documents. For example, to quickly take the results of multiple regressions and present them in formatted tables; to create marginal effect plots or histograms; to analyze and generate maps of key datasets; or to produce an entire reproducible article. 
+
+# Logistics
+
+The course will take place in an FGV classroom at 8am weekly, for 10 weeks. Participants will use their own laptop where possible. The format will start with a demonstration of key functionality, followed by an exercise to be conducted in class, and concluding with a short summary. There is no homework, but participants will be guided to key reference texts where they can learn more and practice.
+
+Participants will be asked to prepare their laptops before the first class (install Rstudio, latex, key packages).
+
+# Weekly Activities
+
+1. Explain the Rstudio interface, options and workflow. Importing data. Viewing data. R as a calculator. R chunks. Producing PDFs and web pages from markdown. 
+
+2. Dataframe manipulation. Piping. Object types.
+
+3. Descriptive statistics, t-tests. Further data manipulation. Table outputs (kable).
+
+4. Models. Stargazer. Chunk options.
+
+5. Charts in ggplot. Scatterplots, histograms. Marginal effect plots. Colours.
+
+6. Merging data. Conditional data manipulation. 
+
+7. Spatial analysis basics - formats, CRS, SF. Plotting maps. Palettes.
+
+8. Georeferencing, spatial statistics. 
+
+9. Raster data. Multi-layer maps.
+
+10. Interactive applications - shiny. 
+
+
+
