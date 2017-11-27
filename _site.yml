@@ -1,0 +1,13 @@
+name: "Analysis, Visualization and Mapping in R"
+output_dir: "."
+navbar:
+  title: "Analysis, Visualization and Mapping in R"
+  left:
+    - text: "Home"
+      icon: fa-home
+      href: Outline.html
+output:
+  html_document:
+    theme: journal
+    css: style.css
+    highlight: tango

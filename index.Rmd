@@ -1,0 +1,11 @@
+---
+title: "Syllabus"
+#author: "JP"
+#date: "May 13, 2017"
+output: html_document
+---
+
+This is the class website for FLS6415, Thursdays 2-6pm.
+
+###[Syllabus](Syllabus.pdf)
+
