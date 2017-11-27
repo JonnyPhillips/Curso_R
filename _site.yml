@@ -6,6 +6,9 @@ navbar:
     - text: "Home"
       icon: fa-home
       href: Index.html
+    - text: "Outline"
+      icon: fa-home
+      href: Outline.html
 output:
   html_document:
     theme: journal
