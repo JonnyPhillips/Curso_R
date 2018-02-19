@@ -35,9 +35,9 @@ Participants will be asked to prepare their laptops before the first class (inst
 
 7. **Analysing Data** - Performing a Comprehensive Analysis.
 
-8. **Spatial Data 1** - Spatial analysis basics - formats, CRS, SF. Plotting maps. Palettes.
+8. **Mapping Data 1** - Spatial analysis basics - formats, CRS, SF. Plotting maps. Palettes.
 
-9. **Spatial Data 2** - Georeferencing, spatial statistics, raster data.
+9. **Mapping Data 2** - Georeferencing, spatial statistics, raster data.
 
 10. **Interactive Data** - Interactive applications - shiny. 
 
