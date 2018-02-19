@@ -26,7 +26,7 @@ Participants will be asked to prepare their laptops before the first class (inst
 
 # Weekly Activities
 
-1. Explain the Rstudio interface, options and workflow. Importing data. Viewing data. R as a calculator. R chunks. Producing PDFs and web pages from markdown. 
+1. **Introduction** - Explain the Rstudio interface, options and workflow. Importing data. Viewing data. R as a calculator. R chunks. Producing PDFs and web pages from markdown. 
 
 2. Dataframe manipulation. Piping. Object types.
 

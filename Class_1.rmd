@@ -1,0 +1,162 @@
+---
+title: "Class 1 - Introduction to Analysis, Visualization and Mapping in R"
+output: 
+  html_document:
+    code_folding: hide
+---
+
+```{r setup, echo=FALSE, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(include=TRUE, warning=FALSE, message=FALSE, eval=FALSE)
+library(tidyverse)
+library(knitr)
+```
+
+
+# Class 1 Objectives
+
+- Create a PDF document and a website to communicate your own analysis
+- Including your own text, analysis, table and chart
+- Using data from an external source (a CSV file)
+
+# Why R?
+- Designed for data science
+- A *lingua franca* of social science
+- Easy to make professional outputs (tables, charts, maps) to promote FGV/CEPESP
+- ANY question you have has already been answered online
+
+# Organizing your Analysis:
+
+1. **Use RStudio for everything.** R is the 'engine' and language powering your analysis, but RStudio makes conducting analysis easy and anything you can do outside Rstudio you can do inside Rstudio. If you do half your data cleaning in Excel, there will be no record of it and we won't be able to fix mistakes. 
+2. **Our work is in the form of a 'Recipe Book':** A step-by-step guide to the data inputs (the ingredients), our analysis (the cooking instructions) and the outputs (the picture of the perfect meal). It is NOT an interactive playground like excel (though it can be with Ctrl-Enter) - the order of what we write matters, and we activate all our analysis at once, not step-by-step.
+3. **Our work should be self-explanatory and reproducible:** Anybody with R should be able to open our work, press 'Run' and produce the same outputs. All files and analysis should be in the same place. And we should use comments in our code and explanations in our text to make everything clear. 
+4. **Use R Markdown (.rmd) files to combine analysis and outputs:** To keep our analysis and outputs together in a single file, R markdown files allow us to combine data processing/analysis in R - in clearly-defined 'chunks' - with the display of text and outputs. We can produce both PDF and HTML outputs. 
+5. **Organize your work in *Projects* in R:** For each major analysis, it's best to choose 'File' -> 'New Project' -> 'New Directory' from Rstudio. Save all your data inputs and outputs in this folder (which Rstudio will do automatically). This will keep all your files together, make accessing them easier, and allow you to easily add on features such as version-tracking with GitHub.
+6. **Data frames (tables) are the main building block of our analysis:** Rather than focusing on individual numbers we focus on manipulating and visualizing tables of data, as these are the best way of organizing our data.
+7. **Use meaningful names in your work:** 'data_v1b_2_061215' won't mean anything in 3 months! All files and objects should reflect their role in the analysis. 
+8. **Process our data in a 'tidy' way:** This means we will use a set of compatible 'packages' called the 'tidyverse' to make our analysis transparent and avoid common problems.
+
+# Basic Tools in Rstudio
+- Code Chunks
+- Assigning to objects: `new_object <- old_object`
+- Inspecting objects: Type their name and press 'Ctrl-Enter'
+- Processing objects: `data_frame %>% action_on_dataframe`
+- Comments: `#Comments go here and won't be processed by R`
+- The actions (functions) we can use depend on the packages we have loaded: `install.packages("New_package")` ONCE, then `library("New_package")` once at the start of each document
+
+# Workflow
+
+1. Dataframe - A table from a file `read_csv`
+2. Process data - `filter`,`select`,`mutate`, `join`
+3. Create measures/statistics - `mutate`, `summarize`
+4. Run regression - `zelig`
+5. Create results table - `stargazer`
+6. Create graph - `ggplot`
+
+```{r, eval=TRUE}
+library(DiagrammeR)
+
+grViz("
+	digraph rmarkdown {
+
+    graph [layout = dot,
+           rankdir = LR]
+
+    node [shape = plaintext]
+	  D [label = 'Dataframe', fontcolor='blue']
+    P [label = 'Process Data', fontcolor='red']
+    S [label = 'Create Measures/Statistics', fontcolor='red']
+    R [label = 'Run Regresion', fontcolor='red']
+    T [label = 'Create Results Table', fontcolor='red']
+    G [label = 'Create Graph', fontcolor='red']
+
+    D->P->S->R->T->G
+	}")
+
+```
+
+
+# Dataframes
+- Variable Names
+- Observations
+- Values
+
+```{r, eval=TRUE}
+#install.packages("nycflights13")
+library(nycflights13)
+flights %>% head() %>% kable()
+
+```
+
+# Actions on our Dataframe
+- `select` variables (columns)
+- `count` number of observations
+- `slice` observations (rows)
+- `filter` observations (rows) by conditions (based on values in columns)
+- `rename` variables (columns)
+- `mutate` (change) values of an existing variable
+- `mutate` to create a new variable based on a transformation of existing data
+- `summarize` data by creating statistics
+- `summarize` data by creating statistics after we have `group_by` distinct groups in our data
+- `round` values to a specifc number of decimal place
+
+Eg. In words: we might want to find the average speed of United (UA) flights. How would we do this?
+In steps: filter the data to carrier UA, calculate the speed of each flight, and then find the average. 
+In code:
+```{r, eval=TRUE}
+avg_speed <- flights %>% filter(carrier=="UA") %>% 
+  mutate(speed=distance/(air_time/60)) %>% 
+  summarize(avg_speed=mean(speed,na.rm=TRUE)) %>%
+  round(1)
+```
+
+The average speed of United Flights is `r avg_speed` miles per hour.
+
+# Exercise: Produce a quick ready-to-share analysis using cepespata
+
+1. Create a project in Rstudio.
+2. Install and load the 'tidyverse' and 'knitr' packages
+```{r}
+#install.packages("tidyverse") #Explain comments
+library(tidyverse)
+library(knitr)
+```
+
+3. Download a CSV from [cepesp.io](cepesp.io) to your project file. Use the 'Eleicoes por Cargo' tab with the default options and the file should include the results of the 2014 Preidential election aggregated for the whole of Brazil.
+4. Create a new Rmarkdown file. 
+5. Import the CSV to Rstudio.
+```{r}
+pres_2014_elec_results <- read_csv("TSE_PRESIDENTE_BR_CANDIDATO_2014.csv")
+```
+
+6. Calculate the vote share of each candidate. 
+```{r}
+pres_2014_elec_results <- pres_2014_elec_results %>% 
+  group_by(NUM_TURNO) %>% 
+  mutate(Vote_Share=100*(QTDE_VOTOS/sum(QTDE_VOTOS)))
+```
+
+7. Produce a text which explains which candidate won the election, and what percentage of the vote they received. 
+8. Produce a table which shows the results of the first round of the election, including vote share.
+```{r}
+pres_2014_elec_results %>% 
+  filter(NUM_TURNO==1) %>% 
+  kable()
+```
+
+9. Produce a bar chart which shows the results of the second round of the election by vote share.
+
+```{r}
+pres_2014_elec_results %>% 
+  filter(NUM_TURNO==2) %>% 
+  ggplot() + 
+  geom_bar(aes(x=NOME_CANDIDATO,y=Vote_Share), stat="identity")
+```
+
+10. Specify whether you want the processing code to show up in your final document.
+```{r}
+#Place this line in a chunk at the start of your code to make sure only the outputs appear
+knitr::opts_chunk$set(echo=FALSE, warning=FALSE, message=FALSE)
+```
+
+11. Produce a PDF which combines all your outputs (text, table, chart).
+12. Produce a web page which combines all your outputs (text, table, chart).

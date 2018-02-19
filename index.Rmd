@@ -21,25 +21,23 @@ Participants will be asked to prepare their laptops before the first class (inst
 
 # Weekly Activities
 
-1. Explain the Rstudio interface, options and workflow. Importing data. Viewing data. R as a calculator. R chunks. Producing PDFs and web pages from markdown. 
+1. **Introduction** - Explain the Rstudio interface, options and workflow. Importing data. Viewing data. R as a calculator. R chunks. Text and equations. Basic formatting. Producing PDFs and web pages from markdown.
 
-2. Dataframe manipulation. Piping. Object types.
+2. **Playing with Data** - Dataframe manipulation. Piping. Object types.
 
-3. Descriptive statistics, t-tests. Further data manipulation. Table outputs (kable).
+3. **Describing Data** - Descriptive statistics, t-tests. Further data manipulation. Table outputs (kable).
 
-4. Models. Stargazer. Chunk options.
+4. **Regressions with Data** - Models. Stargazer. Chunk options.
 
-5. Charts in ggplot. Scatterplots, histograms. Marginal effect plots. Colours.
+5. **Charts from Data** - Charts in ggplot. Scatterplots, histograms. Marginal effect plots. Colours.
 
-6. Merging data. Conditional data manipulation. 
+6. **Combining Data** - Merging data. Conditional data manipulation. 
 
-7. Spatial analysis basics - formats, CRS, SF. Plotting maps. Palettes.
+7. **Analysing Data** - Performing a Comprehensive Analysis.
 
-8. Georeferencing, spatial statistics. 
+8. **Spatial Data 1** - Spatial analysis basics - formats, CRS, SF. Plotting maps. Palettes.
 
-9. Raster data. Multi-layer maps.
+9. **Spatial Data 2** - Georeferencing, spatial statistics, raster data.
 
-10. Interactive applications - shiny. 
-
-
+10. **Interactive Data** - Interactive applications - shiny. 
 

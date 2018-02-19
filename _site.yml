@@ -6,8 +6,10 @@ navbar:
     - text: "Home"
       icon: fa-home
       href: Index.html
+    - text: "Preparation"
+      href: Prior-setup.html
     - text: "Class 1"
-      href: class_1_slides3.html
+      href: class_1_slides10.html
 output:
   html_document:
     theme: journal

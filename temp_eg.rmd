@@ -1,0 +1,8 @@
+## Load a Dataframe
+
+- Specific packages let us access APIs for online data, eg. 
+- Or from local files using `read_csv`
+
+```{r, echo=TRUE, eval=FALSE}
+data <- read_csv("data.csv")
+```

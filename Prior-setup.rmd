@@ -1,0 +1,24 @@
+---
+title: "Prior Setup - Introduction to Analysis, Visualization and Mapping in R"
+output: 
+  html_document:
+    code_folding: hide
+---
+
+To setup your computer to participate in the class, it is vital that you complete the following steps *before the class* so that we can start on time:
+
+1. Install the appropriate version of [R](https://cran.r-project.org/mirrors.html)
+
+2. Install the appropriate version of [Rstudio](https://www.rstudio.com/products/rstudio/download/#download)
+
+3. Install [Latex]([https://miktex.org/download)
+
+4. Install key packages by typing and running these commands in Rstudio:
+
+```{r, echo=TRUE, eval=FALSE}
+install.packages("tidyverse")
+install.packages("knitr")
+install.packages("stargazer")
+install.packages("nycflights13")
+```
+

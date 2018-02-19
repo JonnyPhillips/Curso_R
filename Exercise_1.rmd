@@ -1,0 +1,52 @@
+---
+title: "Exercise_1"
+author: "JP"
+date: "December 6, 2017"
+output: html_document
+---
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(echo=FALSE, warning=FALSE, message=FALSE)
+library(tidyverse)
+library(knitr)
+```
+
+```{r}
+pres_2014_elec_results <- read_csv("TSE_PRESIDENTE_BR_CANDIDATO_2014.csv")
+```
+
+```{r}
+pres_2014_elec_results <- pres_2014_elec_results %>% 
+  group_by(NUM_TURNO) %>% 
+  mutate(Vote_Share=100*(QTDE_VOTOS/sum(QTDE_VOTOS)))
+```
+
+```{r}
+winner <- pres_2014_elec_results %>% 
+  filter(NUM_TURNO==2) %>%
+  arrange(-Vote_Share) %>%
+  top_n(1,Vote_Share)
+
+winner_name <- winner %>% pull(NOME_CANDIDATO)
+
+winner_vote_share <- winner %>% pull(Vote_Share) %>% round(1)
+
+```
+
+
+The winner of the election was `r winner_name`, with `r winner_vote_share`%.
+
+Table showing first-round results:
+```{r, results='asis'}
+pres_2014_elec_results %>% 
+  filter(NUM_TURNO==1) %>% 
+  kable()
+```
+
+Chart showing second-round results:
+```{r}
+pres_2014_elec_results %>% 
+  filter(NUM_TURNO==2) %>% 
+  ggplot() + 
+  geom_bar(aes(x=NOME_CANDIDATO,y=Vote_Share), stat="identity")
+```
