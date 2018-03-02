@@ -15,7 +15,7 @@ Anyone associated with CEPESP who wants to produce precise, attractive tables, c
 
 # Logistics
 
-The course will take place in an FGV classroom at 8am weekly, for 10 weeks. Participants will use their own laptop where possible. The format will start with a demonstration of key functionality, followed by an exercise to be conducted in class, and concluding with a short summary. There is no homework, but participants will be guided to key reference texts where they can learn more and practice.
+The course will take place in 4000 C+D, in the Economics building, at 8am-10am weekly, for 10 weeks starting on March 20th. Participants will use their own laptop where possible. The format will start with a demonstration of key functionality, followed by an exercise to be conducted in class, and concluding with a short summary. There is no homework, but participants will be guided to key reference texts, tutorials and examples where they can learn more and practice.
 
 Participants will be asked to prepare their laptops before the first class (install Rstudio, latex, key packages).
 

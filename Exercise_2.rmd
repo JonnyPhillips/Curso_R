@@ -1,0 +1,46 @@
+---
+title: "Analysis, Visualization and Mapping in R"
+subtitle: "Exercise 1: Produce a quick ready-to-share analysis using cepespata"
+output: 
+  html_document:
+    code_folding: hide
+---
+
+```{r setup, echo=FALSE, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(include=TRUE, warning=FALSE, message=FALSE, eval=FALSE)
+```
+
+1. Create a new Rmarkdown file in Rstudio.
+2. Load the 'tidyverse', 'knitr' and 'nycflights13' packages
+```{r}
+library(tidyverse)
+library(knitr)
+library(nycflights13)
+```
+
+3. Starting from the `flights` dataset, create a table of all the flights of airline carrier 'OO'.
+```{r}
+flights %>% filter(carrier=="OO")
+```
+
+4. Starting from the `flights` dataset, calculate the average departure delay across all flights.
+```{r}
+flights %>% summarize(avg_delay=mean(dep_delay,na.rm=TRUE))
+```
+
+5. Starting from the `flights` dataset, calculate the speed of each flight and then report a table of just the carrier, flight and speed variables, and just the first 5 rows of the table.
+```{r}
+flights %>% mutate(speed=distance/air_time) %>% 
+  select(carrier, flight, speed) %>%
+  slice(1:5)
+```
+
+6. Starting from the `flights` dataset, calculate the average speed separately for each airline (carrier), and arrange the table from fastest to slowest.
+```{r}
+flights %>% mutate(speed=distance/air_time) %>% 
+  group_by(carrier) %>%
+  summarize(avg_speed=mean(speed,na.rm=TRUE)) %>%
+  arrange(-avg_speed)
+```
+
+7. Starting from the `flights` dataset, 

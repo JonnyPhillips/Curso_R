@@ -1,0 +1,90 @@
+---
+title: "Analysis, Visualization and Mapping in R"
+subtitle: "Exercise 1: Produce a quick ready-to-share analysis using cepespata"
+output: 
+  html_document:
+    code_folding: hide
+---
+
+```{r setup, echo=FALSE, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(include=TRUE, warning=FALSE, message=FALSE, eval=FALSE)
+```
+
+1. Create a new Rmarkdown file in Rstudio.
+2. Load the 'tidyverse', 'knitr' and 'nycflights13' packages
+```{r}
+library(tidyverse)
+library(knitr)
+library(nycflights13)
+```
+
+3. Starting from the `flights` dataset, create a table of all the flights of airline carrier 'OO'.
+```{r}
+flights %>% filter(carrier=="OO") %>%
+  kable()
+```
+
+4. Starting from the `flights` dataset, calculate the average departure delay across all flights.
+```{r}
+flights %>% summarize(avg_delay=mean(dep_delay,na.rm=TRUE)) %>%
+  kable()
+```
+
+5. Starting from the `flights` dataset, calculate the speed of each flight and then report a table of just the carrier, flight and speed variables, and just the first 5 rows of the table.
+```{r}
+flights %>% mutate(speed=distance/air_time) %>% 
+  select(carrier, flight, speed) %>%
+  slice(1:5) %>%
+  kable()
+```
+
+6. Starting from the `flights` dataset, calculate the average speed separately for each airline (carrier), and arrange the table from fastest to slowest.
+```{r}
+flights %>% mutate(speed=distance/air_time) %>% 
+  group_by(carrier) %>%
+  summarize(avg_speed=mean(speed,na.rm=TRUE)) %>%
+  arrange(-avg_speed) %>%
+  kable()
+```
+
+7. How do departure delays vary across months?
+```{r}
+flights %>% group_by(month) %>%
+  summarize(avg_delay=mean(dep_delay,na.rm=TRUE)) %>%
+  kable()
+```
+
+8. Make a table showing average departure delays by airline (row) and origin airport (column)
+```{r}
+flights %>% group_by(carrier,origin) %>%
+  summarize(avg_delay=round(mean(dep_delay,na.rm=TRUE),2)) %>%
+  spread(key="origin",value="avg_delay") %>%
+  kable()
+```
+
+9. How many flights from JFK to San Francisco (SFO) landed after 11.45pm on time?
+
+```{r}
+flights %>% filter(origin=="JFK" & dest=="SFO" & arr_time>2345 & arr_delay<=0) %>%
+  count()
+```
+
+10. How many distinct planes (each plane has a different `tailnum`) flew from Newark (EWR) to Phoenix (PHX) in August? Hint: use the verb `distinct`
+
+```{r}
+flights %>% filter(origin=="EWR" & dest=="PHX" & month==8) %>%
+  distinct(tailnum) %>%
+  count()
+```
+
+11. What percentage of flights that took off late arrived on time? Hint: Try making two separate calculations and then calculating the percentage.
+
+```{r}
+num_flights <- flights %>% filter(dep_delay>=0) %>%
+  count()
+
+late_flights <- flights %>% filter(dep_delay>=0 & arr_delay<=0) %>%
+  count()
+
+late_flights/num_flights*100
+```
