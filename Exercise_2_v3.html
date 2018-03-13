@@ -11,7 +11,7 @@
 
 
 
-<title>Index</title>
+<title>Analysis, Visualization and Mapping in R</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -20,6 +20,7 @@
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
 <link href="site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
 
 
@@ -144,6 +145,14 @@ $(document).ready(function () {
 </script>
 
 <!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
 
 
 
@@ -212,46 +221,37 @@ $(document).ready(function () {
 
 <div class="fluid-row" id="header">
 
+<div class="btn-group pull-right">
+<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
 
 
-<h1 class="title toc-ignore">Index</h1>
+
+<h1 class="title toc-ignore">Analysis, Visualization and Mapping in R</h1>
+<h3 class="subtitle"><em>Exercise 2: Manipulating a Big Dataset</em></h3>
 
 </div>
 
 
-<div id="course-objectives" class="section level1">
-<h1>Course Objectives</h1>
 <ol style="list-style-type: decimal">
-<li>To give participants the confidence and skills to produce publication-quality outputs from their research.</li>
-<li>To build participants’ capabilities and professionalism in using R for reproducible research.</li>
-<li>Promoting the use of spatial methods by participants, in line with CEPESP’s core strengths.</li>
-<li>Improving teamwork within CEPESP by ensuring the shared skills and language for conducting intensive research.</li>
+<li>Create a new Rmarkdown file in Rstudio.</li>
+<li><p>Load the ‘tidyverse’, ‘knitr’ and ‘nycflights13’ packages</p></li>
+<li><p>Starting from the <code>flights</code> dataset, create a table of all the flights of airline carrier ‘OO’.</p></li>
+<li><p>What is the average departure delay across all flights?</p></li>
+<li><p>What are the five fastest flights in the dataset? Calculate the speed of each flight and report a table with the origin, destination, carrier and speed of the five fastest flights.</p></li>
+<li><p>Calculate the average speed separately for each airline (carrier), and arrange a table from fastest to slowest airline.</p></li>
+<li><p>How do departure delays vary across months? Report a table. What is the best month to fly?</p></li>
+<li><p>You want to take a holiday in September but hate departure delays. What is the best airport to fly from? What if you wanted to travel in October?</p></li>
+<li><p>Which airline has the worst average record for departure delays? Which airline has the worst record flying from JFK? Which airline is the most <em>consistent</em> (has the lowest variation) in departure delays? Report just the airline code as in-line code for each answer.</p></li>
+<li><p>How many flights flew from JFK to San Francisco in the dataset? Which month had the most flights from JFK to San Francisco?</p></li>
+<li><p>How many flights from JFK to San Francisco (SFO) landed after 11.45pm and were on time? What percentage was this of the total flights from JFK to San Fransisco in the dataset?</p></li>
+<li><p>How many distinct planes (each plane has a different <code>tailnum</code>) flew from Newark (EWR) to Phoenix (PHX) in August? Hint: use the verb <code>distinct</code>. Which <code>tailnum</code> planes flew the most times on this route?</p></li>
+<li><p>What percentage of flights that took off late arrived on time? Hint: Try making two separate calculations and then calculating the percentage.</p></li>
 </ol>
-</div>
-<div id="audience" class="section level1">
-<h1>Audience</h1>
-<p>Anyone associated with CEPESP who wants to produce precise, attractive tables, charts, maps and documents. For example, to quickly take the results of multiple regressions and present them in formatted tables; to create marginal effect plots or histograms; to analyze and generate maps of key datasets; or to produce an entire reproducible article.</p>
-</div>
-<div id="logistics" class="section level1">
-<h1>Logistics</h1>
-<p>The course will take place in 4000 C+D, in the Economics building, at 8am-10am weekly, for 10 weeks starting on March 20th. Participants will use their own laptop where possible. The format will start with a demonstration of key functionality, followed by an exercise to be conducted in class, and concluding with a short summary. There is no homework, but participants will be guided to key reference texts, tutorials and examples where they can learn more and practice.</p>
-<p>Participants will be asked to prepare their laptops before the first class (install Rstudio, latex, key packages).</p>
-</div>
-<div id="weekly-activities" class="section level1">
-<h1>Weekly Activities</h1>
-<ol style="list-style-type: decimal">
-<li><p><strong>Introduction</strong> - Explain the Rstudio interface, options and workflow. Importing data. Viewing data. R as a calculator. R chunks. Text and equations. Basic formatting. Producing PDFs and web pages from markdown.</p></li>
-<li><p><strong>Playing with Data</strong> - Dataframe manipulation. Piping. Object types.</p></li>
-<li><p><strong>Describing Data</strong> - Descriptive statistics, t-tests. Further data manipulation. Table outputs (kable).</p></li>
-<li><p><strong>Regressions with Data</strong> - Models. Stargazer. Chunk options.</p></li>
-<li><p><strong>Charts from Data</strong> - Charts in ggplot. Scatterplots, histograms. Marginal effect plots. Colours.</p></li>
-<li><p><strong>Combining Data</strong> - Merging data. Conditional data manipulation.</p></li>
-<li><p><strong>Analysing Data</strong> - Performing a Comprehensive Analysis.</p></li>
-<li><p><strong>Mapping Data 1</strong> - Spatial analysis basics - formats, CRS, SF. Plotting maps. Palettes.</p></li>
-<li><p><strong>Mapping Data 2</strong> - Georeferencing, spatial statistics, raster data.</p></li>
-<li><p><strong>Interactive Data</strong> - Interactive applications - shiny.</p></li>
-</ol>
-</div>
 
 
 

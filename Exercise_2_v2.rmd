@@ -1,6 +1,6 @@
 ---
 title: "Analysis, Visualization and Mapping in R"
-subtitle: "Exercise 1: Produce a quick ready-to-share analysis using cepespata"
+subtitle: "Exercise 2: Manipulating a Big Dataset"
 output: 
   html_document:
     code_folding: hide
@@ -24,13 +24,13 @@ flights %>% filter(carrier=="OO") %>%
   kable()
 ```
 
-4. Starting from the `flights` dataset, calculate the average departure delay across all flights.
+4. What is the average departure delay across all flights?
 ```{r}
 flights %>% summarize(avg_delay=mean(dep_delay,na.rm=TRUE)) %>%
   kable()
 ```
 
-5. Starting from the `flights` dataset, calculate the speed of each flight and then report a table of just the carrier, flight and speed variables, and just the first 5 rows of the table.
+5. Calculate the speed of each flight and then report a table of just the carrier, flight and speed variables, and just the first 5 rows of the table.
 ```{r}
 flights %>% mutate(speed=distance/air_time) %>% 
   select(carrier, flight, speed) %>%
@@ -38,7 +38,7 @@ flights %>% mutate(speed=distance/air_time) %>%
   kable()
 ```
 
-6. Starting from the `flights` dataset, calculate the average speed separately for each airline (carrier), and arrange the table from fastest to slowest.
+6. Calculate the average speed separately for each airline (carrier), and arrange the table from fastest to slowest.
 ```{r}
 flights %>% mutate(speed=distance/air_time) %>% 
   group_by(carrier) %>%
