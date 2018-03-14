@@ -11,7 +11,7 @@ To setup your computer to participate in the class, it is vital that you complet
 
 2. Install the appropriate version of [Rstudio](https://www.rstudio.com/products/rstudio/download/#download)
 
-3. Install [Latex]([https://miktex.org/download)
+3. Install [Latex](https://miktex.org/download)
 
 4. Install key packages by typing and running these commands in Rstudio:
 
