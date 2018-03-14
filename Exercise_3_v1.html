@@ -11,7 +11,7 @@
 
 
 
-<title>Index</title>
+<title>Analysis, Visualization and Mapping in R</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -20,6 +20,7 @@
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
 <link href="site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
 
 
@@ -144,6 +145,14 @@ $(document).ready(function () {
 </script>
 
 <!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
 
 
 
@@ -212,46 +221,37 @@ $(document).ready(function () {
 
 <div class="fluid-row" id="header">
 
+<div class="btn-group pull-right">
+<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
 
 
-<h1 class="title toc-ignore">Index</h1>
+
+<h1 class="title toc-ignore">Analysis, Visualization and Mapping in R</h1>
+<h3 class="subtitle"><em>Exercise 3: Descriptive Statistics</em></h3>
 
 </div>
 
 
-<div id="course-objectives" class="section level1">
-<h1>Course Objectives</h1>
 <ol style="list-style-type: decimal">
-<li>To give participants the confidence and skills to produce publication-quality outputs from their research.</li>
-<li>To build participants’ capabilities and professionalism in using R for reproducible research.</li>
-<li>Promoting the use of spatial methods by participants, in line with CEPESP’s core strengths.</li>
-<li>Improving teamwork within CEPESP by ensuring the shared skills and language for conducting intensive research.</li>
+<li>Create a new Rmarkdown project and file in Rstudio.</li>
+<li><p>Load the ‘tidyverse’ and ‘knitr’ packages. Install and load the ‘devtools’ and then the ‘CEPESP-R’ package.</p></li>
+<li><p>Let’s use the CEPESP-R API to download the voting data from the 2016 municipal elections. See <a href="https://github.com/Cepesp-Fgv/cepesp-r">here</a> for detailed instructions.</p></li>
+<li><p>On average, how many votes does a prefeito candidate receive in a single municipality in the first round (<code>NUM_TURNO</code>)?</p></li>
+<li><p>On average, how many people voted in each municipality in the first round of the 2016 election?</p></li>
+<li><p>How many votes did each party (<code>SIGLA_PARITDO</code>) receive nationally in the elections? Report a simple table ordered by number of party votes.</p></li>
+<li><p>What percentage of the votes cast in each region (<code>NOME_MACRO</code>) of the country were won by PMDB prefeito candidates?</p></li>
+<li><p>Now compare this result to the percentage of elected prefeitos (<code>DESC_SIT_TOT_TURNO</code>) who were from the PMDB in each region.</p></li>
+<li><p>How do male candidates differ from female candidates (<code>DESCRICAO_SEXO</code>)? Compare averages on two variables: The number of votes (<code>QTDE_VOTOS</code>) and age (<code>IDADE_DATA_ELEICAO</code>). Report the averages in a simple table.</p></li>
+<li><p>Conduct a t-test to assess if women receive a statistically different quantity of votes to men. Report a simple table of the results.</p></li>
+<li><p>Conduct a difference-in-means t-test between men and women of both number of votes and age at the same time. Report the p-values of each t-test</p></li>
+<li><p>Create a neat, well-labelled, table of the average age of elected prefeitos in each region (<code>NOME_MACRO</code>) and by gender (<code>DESCRICAO_SEXO</code>). The table should have regions in the rows and gender in the columns.</p></li>
+<li><p>Are married candidates (<code>DESCRICAO_ESTADO_CIVIL</code>) for prefeito more likely to be elected than unmarried (all groups except married) candidates? Provide a well-formatted, labelled, table.</p></li>
 </ol>
-</div>
-<div id="audience" class="section level1">
-<h1>Audience</h1>
-<p>Anyone associated with CEPESP who wants to produce precise, attractive tables, charts, maps and documents. For example, to quickly take the results of multiple regressions and present them in formatted tables; to create marginal effect plots or histograms; to analyze and generate maps of key datasets; or to produce an entire reproducible article.</p>
-</div>
-<div id="logistics" class="section level1">
-<h1>Logistics</h1>
-<p>The course will take place in 4000 C+D, in the Economics building, at 8am-10am weekly, for 10 weeks starting on March 20th. Participants will use their own laptop where possible. The format will start with a demonstration of key functionality, followed by an exercise to be conducted in class, and concluding with a short summary. There is no homework, but participants will be guided to key reference texts, tutorials and examples where they can learn more and practice.</p>
-<p>Participants will be asked to prepare their laptops before the first class (install Rstudio, latex, key packages).</p>
-</div>
-<div id="weekly-activities" class="section level1">
-<h1>Weekly Activities</h1>
-<ol style="list-style-type: decimal">
-<li><p><strong>Introduction</strong> (20/03) - Explain the Rstudio interface, options and workflow. Importing data. Viewing data. R as a calculator. R chunks. Text and equations. Basic formatting. Producing PDFs and web pages from markdown.</p></li>
-<li><p><strong>Playing with Data</strong> (27/03) - Dataframe manipulation. Piping. Object types.</p></li>
-<li><p><strong>Describing Data</strong> (03/04) - Descriptive statistics, t-tests. Further data manipulation. Table outputs (kable).</p></li>
-<li><p><strong>Regressions with Data</strong> (10/04) - Models. Stargazer. Chunk options.</p></li>
-<li><p><strong>Charts from Data</strong> (17/04) - Charts in ggplot. Scatterplots, histograms. Marginal effect plots. Colours.</p></li>
-<li><p><strong>Combining Data</strong> (24/04) - Merging data. Conditional data manipulation.</p></li>
-<li><p><strong>Analysing Data</strong> (08/05) - Performing a Comprehensive Analysis.</p></li>
-<li><p><strong>Mapping Data 1</strong> (15/05) - Spatial analysis basics - formats, CRS, SF. Plotting maps. Palettes.</p></li>
-<li><p><strong>Mapping Data 2</strong> (22/05) - Georeferencing, spatial statistics, raster data.</p></li>
-<li><p><strong>Interactive Data</strong> (29/05) - Interactive applications - shiny.</p></li>
-</ol>
-</div>
 
 
 

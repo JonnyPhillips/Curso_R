@@ -2,7 +2,7 @@
 title: "Prior Setup - Introduction to Analysis, Visualization and Mapping in R"
 output: 
   html_document:
-    code_folding: hide
+    code_folding: show
 ---
 
 To setup your computer to participate in the class, it is vital that you complete the following steps *before the class* so that we can start on time:

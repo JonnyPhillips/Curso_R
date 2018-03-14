@@ -21,23 +21,23 @@ Participants will be asked to prepare their laptops before the first class (inst
 
 # Weekly Activities
 
-1. **Introduction** - Explain the Rstudio interface, options and workflow. Importing data. Viewing data. R as a calculator. R chunks. Text and equations. Basic formatting. Producing PDFs and web pages from markdown.
+1. **Introduction** (20/03) - Explain the Rstudio interface, options and workflow. Importing data. Viewing data. R as a calculator. R chunks. Text and equations. Basic formatting. Producing PDFs and web pages from markdown.
 
-2. **Playing with Data** - Dataframe manipulation. Piping. Object types.
+2. **Playing with Data** (27/03) - Dataframe manipulation. Piping. Object types.
 
-3. **Describing Data** - Descriptive statistics, t-tests. Further data manipulation. Table outputs (kable).
+3. **Describing Data** (03/04) - Descriptive statistics, t-tests. Further data manipulation. Table outputs (kable).
 
-4. **Regressions with Data** - Models. Stargazer. Chunk options.
+4. **Regressions with Data** (10/04) - Models. Stargazer. Chunk options.
 
-5. **Charts from Data** - Charts in ggplot. Scatterplots, histograms. Marginal effect plots. Colours.
+5. **Charts from Data** (17/04) - Charts in ggplot. Scatterplots, histograms. Marginal effect plots. Colours.
 
-6. **Combining Data** - Merging data. Conditional data manipulation. 
+6. **Combining Data** (24/04) - Merging data. Conditional data manipulation. 
 
-7. **Analysing Data** - Performing a Comprehensive Analysis.
+7. **Analysing Data** (08/05) - Performing a Comprehensive Analysis.
 
-8. **Mapping Data 1** - Spatial analysis basics - formats, CRS, SF. Plotting maps. Palettes.
+8. **Mapping Data 1** (15/05) - Spatial analysis basics - formats, CRS, SF. Plotting maps. Palettes.
 
-9. **Mapping Data 2** - Georeferencing, spatial statistics, raster data.
+9. **Mapping Data 2** (22/05) - Georeferencing, spatial statistics, raster data.
 
-10. **Interactive Data** - Interactive applications - shiny. 
+10. **Interactive Data** (29/05) - Interactive applications - shiny. 
 
