@@ -7,7 +7,7 @@ navbar:
       icon: fa-home
       href: Index.html
     - text: "Preparation"
-      href: Prior-setup.html
+      href: Prior-setup_2.html
     - text: "Classes"
       menu: 
         - text: "Class 1"
