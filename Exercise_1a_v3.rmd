@@ -165,11 +165,9 @@ pres_2014_elec_results %>%
 <button class="btn btn-primary" data-toggle="collapse" data-target="#Output7"> Output </button>  
 <div id="Output7" class="collapse"> 
 ```{r, eval=TRUE, echo=FALSE}
-#pres_2014_elec_results %>% 
-#  filter(NUM_TURNO==1) %>% 
-#  select(NOME_CANDIDATO, SIGLA_PARTIDO, Vote_Share) %>% kable()
-
-flights %>% kable()
+pres_2014_elec_results %>% 
+  filter(NUM_TURNO==1) %>% 
+  select(NOME_CANDIDATO, SIGLA_PARTIDO, Vote_Share) %>% kable()
 ```
 </div>
 
