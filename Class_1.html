@@ -4,7 +4,7 @@
 
 <head>
 
-<meta charset="utf-8">
+<meta charset="utf-8" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 
@@ -21,10 +21,10 @@
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <script src="site_libs/navigation-1.1/codefolding.js"></script>
-<script src="site_libs/htmlwidgets-0.8/htmlwidgets.js"></script>
+<script src="site_libs/htmlwidgets-0.9/htmlwidgets.js"></script>
 <script src="site_libs/viz-0.3/viz.js"></script>
 <link href="site_libs/DiagrammeR-styles-0.2/styles.css" rel="stylesheet" />
-<script src="site_libs/grViz-binding-0.8.5/grViz.js"></script>
+<script src="site_libs/grViz-binding-0.9.2/grViz.js"></script>
 <link href="site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
 
 
@@ -222,11 +222,44 @@ $(document).ready(function () {
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="Index.html">
+  <a href="index.html">
     <span class="fa fa-home"></span>
      
     Home
   </a>
+</li>
+<li>
+  <a href="Prior-setup_2.html">Preparation</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Classes
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="class_1_slides15.html">Class 1</a>
+    </li>
+    <li>
+      <a href="class_2_slides8.html">Class 2</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Exercises
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Exercise_1a_v3.html">Exercise 1</a>
+    </li>
+    <li>
+      <a href="Exercise_2_v3.html">Exercise 2</a>
+    </li>
+  </ul>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -296,6 +329,14 @@ $(document).ready(function () {
 </div>
 <div id="workflow" class="section level1">
 <h1>Workflow</h1>
+<ol style="list-style-type: decimal">
+<li>Dataframe - A table from a file <code>read_csv</code></li>
+<li>Process data - <code>filter</code>,<code>select</code>,<code>mutate</code>, <code>join</code></li>
+<li>Create measures/statistics - <code>mutate</code>, <code>summarize</code></li>
+<li>Run regression - <code>zelig</code></li>
+<li>Create results table - <code>stargazer</code></li>
+<li>Create graph - <code>ggplot</code></li>
+</ol>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(DiagrammeR)
 
 <span class="kw">grViz</span>(<span class="st">&quot;</span>
@@ -314,8 +355,8 @@ $(document).ready(function () {
 
 <span class="st">    D-&gt;P-&gt;S-&gt;R-&gt;T-&gt;G</span>
 <span class="st">    }&quot;</span>)</code></pre></div>
-<div id="htmlwidget-41ebe7dce931ee4c83a1" style="width:672px;height:480px;" class="grViz html-widget"></div>
-<script type="application/json" data-for="htmlwidget-41ebe7dce931ee4c83a1">{"x":{"diagram":"\n\tdigraph rmarkdown {\n\n    graph [layout = dot,\n           rankdir = LR]\n\n    node [shape = plaintext]\n\t  D [label = \"Dataframe\", fontcolor=\"blue\"]\n    P [label = \"Process Data\", fontcolor=\"red\"]\n    S [label = \"Create Measures/Statistics\", fontcolor=\"red\"]\n    R [label = \"Run Regresion\", fontcolor=\"red\"]\n    T [label = \"Create Results Table\", fontcolor=\"red\"]\n    G [label = \"Create Graph\", fontcolor=\"red\"]\n\n    D->P->S->R->T->G\n\t}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-8d0744fa974842e3f515" style="width:672px;height:480px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-8d0744fa974842e3f515">{"x":{"diagram":"\n\tdigraph rmarkdown {\n\n    graph [layout = dot,\n           rankdir = LR]\n\n    node [shape = plaintext]\n\t  D [label = \"Dataframe\", fontcolor=\"blue\"]\n    P [label = \"Process Data\", fontcolor=\"red\"]\n    S [label = \"Create Measures/Statistics\", fontcolor=\"red\"]\n    R [label = \"Run Regresion\", fontcolor=\"red\"]\n    T [label = \"Create Results Table\", fontcolor=\"red\"]\n    G [label = \"Create Graph\", fontcolor=\"red\"]\n\n    D->P->S->R->T->G\n\t}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
 </div>
 <div id="dataframes" class="section level1">
 <h1>Dataframes</h1>
@@ -571,7 +612,7 @@ $(document).ready(function () {
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
     document.getElementsByTagName("head")[0].appendChild(script);
   })();
 </script>

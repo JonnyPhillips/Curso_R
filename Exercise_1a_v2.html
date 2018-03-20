@@ -4,7 +4,7 @@
 
 <head>
 
-<meta charset="utf-8">
+<meta charset="utf-8" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 
@@ -218,14 +218,14 @@ $(document).ready(function () {
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="Index.html">
+  <a href="index.html">
     <span class="fa fa-home"></span>
      
     Home
   </a>
 </li>
 <li>
-  <a href="Prior-setup.html">Preparation</a>
+  <a href="Prior-setup_2.html">Preparation</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -235,10 +235,10 @@ $(document).ready(function () {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="class_1_slides14.html">Class 1</a>
+      <a href="class_1_slides15.html">Class 1</a>
     </li>
     <li>
-      <a href="class_2_slides7.html">Class 2</a>
+      <a href="class_2_slides8.html">Class 2</a>
     </li>
   </ul>
 </li>
@@ -250,7 +250,7 @@ $(document).ready(function () {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="Exercise_1a.html">Exercise 1</a>
+      <a href="Exercise_1a_v3.html">Exercise 1</a>
     </li>
     <li>
       <a href="Exercise_2_v3.html">Exercise 2</a>
@@ -364,22 +364,22 @@ Output
 </button>
 <div id="Output5" class="collapse">
 <pre><code>## # A tibble: 13 x 3
-## # Groups:   NUM_TURNO [2]
-##    NUM_TURNO                             NOME_CANDIDATO  Vote_Share
-##        &lt;int&gt;                                      &lt;chr&gt;       &lt;dbl&gt;
-##  1         1                            MAURO LUÍS IASI  0.04599428
-##  2         1                          RUI COSTA PIMENTA  0.01184729
-##  3         1                  JOSÉ LEVY FIDELIX DA CRUZ  0.42959207
-##  4         1 MARIA OSMARINA MARINA DA SILVA VAZ DE LIMA 21.31879298
-##  5         1                      EVERALDO DIAS PEREIRA  0.75032155
-##  6         1                       AÉCIO NEVES DA CUNHA 33.54733275
-##  7         2                       AÉCIO NEVES DA CUNHA 48.36086390
-##  8         1                          JOSE MARIA EYMAEL  0.05888076
-##  9         1                        LUCIANA KREBS GENRO  1.54982415
-## 10         1                      JOSÉ MARIA DE ALMEIDA  0.08768089
-## 11         1                        DILMA VANA ROUSSEFF 41.59400749
-## 12         2                        DILMA VANA ROUSSEFF 51.63913610
-## 13         1       EDUARDO JORGE MARTINS ALVES SOBRINHO  0.60572579</code></pre>
+## # Groups: NUM_TURNO [2]
+##    NUM_TURNO NOME_CANDIDATO                             Vote_Share
+##        &lt;int&gt; &lt;chr&gt;                                           &lt;dbl&gt;
+##  1         1 &quot;MAURO LU\u00cdS IASI&quot;                         0.0460
+##  2         1 RUI COSTA PIMENTA                              0.0118
+##  3         1 &quot;JOS\u00c9 LEVY FIDELIX DA CRUZ&quot;               0.430 
+##  4         1 MARIA OSMARINA MARINA DA SILVA VAZ DE LIMA    21.3   
+##  5         1 EVERALDO DIAS PEREIRA                          0.750 
+##  6         1 &quot;A\u00c9CIO NEVES DA CUNHA&quot;                   33.5   
+##  7         2 &quot;A\u00c9CIO NEVES DA CUNHA&quot;                   48.4   
+##  8         1 JOSE MARIA EYMAEL                              0.0589
+##  9         1 LUCIANA KREBS GENRO                            1.55  
+## 10         1 &quot;JOS\u00c9 MARIA DE ALMEIDA&quot;                   0.0877
+## 11         1 DILMA VANA ROUSSEFF                           41.6   
+## 12         2 DILMA VANA ROUSSEFF                           51.6   
+## 13         1 EDUARDO JORGE MARTINS ALVES SOBRINHO           0.606</code></pre>
 </div>
 <ol start="11" style="list-style-type: decimal">
 <li>Insert an ‘in-line’ sentence that explains which candidate won the election and what percentage of the vote they received.</li>
@@ -473,7 +473,7 @@ $(document).ready(function () {
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
     document.getElementsByTagName("head")[0].appendChild(script);
   })();
 </script>

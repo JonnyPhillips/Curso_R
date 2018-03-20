@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title></title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/journal.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; background-color: #f8f8f8; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+pre, code { background-color: #f8f8f8; }
+code > span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code > span.dt { color: #204a87; } /* DataType */
+code > span.dv { color: #0000cf; } /* DecVal */
+code > span.bn { color: #0000cf; } /* BaseN */
+code > span.fl { color: #0000cf; } /* Float */
+code > span.ch { color: #4e9a06; } /* Char */
+code > span.st { color: #4e9a06; } /* String */
+code > span.co { color: #8f5902; font-style: italic; } /* Comment */
+code > span.ot { color: #8f5902; } /* Other */
+code > span.al { color: #ef2929; } /* Alert */
+code > span.fu { color: #000000; } /* Function */
+code > span.er { color: #a40000; font-weight: bold; } /* Error */
+code > span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #000000; } /* Constant */
+code > span.sc { color: #000000; } /* SpecialChar */
+code > span.vs { color: #4e9a06; } /* VerbatimString */
+code > span.ss { color: #4e9a06; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #000000; } /* Variable */
+code > span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code > span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code > span.ex { } /* Extension */
+code > span.at { color: #c4a000; } /* Attribute */
+code > span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code > span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 61px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+
+.section h2 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+.section h3 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+.section h4 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+.section h5 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+.section h6 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Analysis, Visualization and Mapping in R</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+    Home
+  </a>
+</li>
+<li>
+  <a href="Prior-setup_2.html">Preparation</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Classes
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="class_1_slides15.html">Class 1</a>
+    </li>
+    <li>
+      <a href="class_2_slides8.html">Class 2</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Exercises
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Exercise_1a_v3.html">Exercise 1</a>
+    </li>
+    <li>
+      <a href="Exercise_2_v3.html">Exercise 2</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+
+</div>
+
+
+<table>
+<tbody>
+<tr class="odd">
+<td>tle: “Analysis, Visualization and Mapping in R”</td>
+</tr>
+<tr class="even">
+<td>btitle: “Exercise 1: Produce a quick ready-to-share analysis using cepespata”</td>
+</tr>
+<tr class="odd">
+<td>tput:</td>
+</tr>
+<tr class="even">
+<td>html_document:</td>
+</tr>
+<tr class="odd">
+<td>code_folding: hide</td>
+</tr>
+<tr class="even">
+<td>s: styles.css</td>
+</tr>
+</tbody>
+</table>
+<ol style="list-style-type: decimal">
+<li><p>Create a project in Rstudio.</p></li>
+<li><p>Download a CSV from <a href="cepesp.io" class="uri">cepesp.io</a> to your project folder. Use the ‘Eleicoes por Cargo’ tab with the default options. The file should include the results of the 2014 Presidential election aggregated for the whole of Brazil.</p></li>
+<li><p>Create a new Rmarkdown document file.</p></li>
+<li><p>Install and load the ‘tidyverse’ and ‘knitr’ packages</p></li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="kw">c</span>(<span class="st">&quot;tidyverse&quot;</span>,<span class="st">&quot;knitr&quot;</span>))
+<span class="kw">library</span>(tidyverse)
+<span class="kw">library</span>(knitr)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyverse)
+<span class="kw">library</span>(knitr)</code></pre></div>
+<ol start="5" style="list-style-type: decimal">
+<li>Import the CSV to Rstudio.</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pres_2014_elec_results &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;TSE_PRESIDENTE_BR_CANDIDATO_2014.csv&quot;</span>)</code></pre></div>
+<ol start="6" style="list-style-type: decimal">
+<li>How many rows are there in the dataset?</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pres_2014_elec_results <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">count</span>()</code></pre></div>
+<button class="btn btn-primary" data-toggle="collapse" data-target="#Output">
+Output
+</button>
+<div id="Output" class="collapse">
+<pre><code>## # A tibble: 1 x 1
+##       n
+##   &lt;int&gt;
+## 1    13</code></pre>
+</div>
+<ol start="7" style="list-style-type: decimal">
+<li>Note your dataset contains both the first and second rounds. How many candidates competed in the first round?</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pres_2014_elec_results <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(NUM_TURNO<span class="op">==</span><span class="dv">1</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">count</span>()</code></pre></div>
+<button class="btn btn-primary" data-toggle="collapse" data-target="#Output2">
+Output
+</button>
+<div id="Output2" class="collapse">
+<pre><code>## # A tibble: 1 x 1
+##       n
+##   &lt;int&gt;
+## 1    11</code></pre>
+</div>
+<ol start="8" style="list-style-type: decimal">
+<li>How many people voted in the first round of the election?</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">voters_first &lt;-<span class="st"> </span>pres_2014_elec_results <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">filter</span>(NUM_TURNO<span class="op">==</span><span class="dv">1</span>) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">summarize</span>(<span class="dt">Total_Votes=</span><span class="kw">sum</span>(QTDE_VOTOS)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">pull</span>(Total_Votes)</code></pre></div>
+<button class="btn btn-primary" data-toggle="collapse" data-target="#Output3">
+Output
+</button>
+<div id="Output3" class="collapse">
+<pre><code>## [1] 104023802</code></pre>
+</div>
+<ol start="9" style="list-style-type: decimal">
+<li>What was the percentage increase in the total number of people who voted between the first and second round? Use an in-line code expression.</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">voters_second &lt;-<span class="st"> </span>pres_2014_elec_results <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">filter</span>(NUM_TURNO<span class="op">==</span><span class="dv">2</span>) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">summarize</span>(<span class="dt">Total_Votes=</span><span class="kw">sum</span>(QTDE_VOTOS)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">pull</span>(Total_Votes)
+
+pct_change &lt;-<span class="st"> </span><span class="dv">100</span><span class="op">*</span>(voters_second <span class="op">-</span><span class="st"> </span>voters_first)<span class="op">/</span>voters_first</code></pre></div>
+<button class="btn btn-primary" data-toggle="collapse" data-target="#Output4">
+Output
+</button>
+<div id="Output4" class="collapse">
+<p>The percentage increase in the total number of people who voted between the first and second round was 1.5%.</p>
+</div>
+<ol start="10" style="list-style-type: decimal">
+<li>The data contains only the number of votes. Calculate the <em>vote share</em> of each candidate for each round as a new column in your data frame. (Remember to assign the result as an object we can use for the rest of the exercise).</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pres_2014_elec_results &lt;-<span class="st"> </span>pres_2014_elec_results <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">group_by</span>(NUM_TURNO) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">Vote_Share=</span><span class="dv">100</span><span class="op">*</span>(QTDE_VOTOS<span class="op">/</span><span class="kw">sum</span>(QTDE_VOTOS)))</code></pre></div>
+<button class="btn btn-primary" data-toggle="collapse" data-target="#Output5">
+Output
+</button>
+<div id="Output5" class="collapse">
+<pre><code>## # A tibble: 13 x 3
+## # Groups: NUM_TURNO [2]
+##    NUM_TURNO NOME_CANDIDATO                             Vote_Share
+##        &lt;int&gt; &lt;chr&gt;                                           &lt;dbl&gt;
+##  1         1 &quot;MAURO LU\u00cdS IASI&quot;                         0.0460
+##  2         1 RUI COSTA PIMENTA                              0.0118
+##  3         1 &quot;JOS\u00c9 LEVY FIDELIX DA CRUZ&quot;               0.430 
+##  4         1 MARIA OSMARINA MARINA DA SILVA VAZ DE LIMA    21.3   
+##  5         1 EVERALDO DIAS PEREIRA                          0.750 
+##  6         1 &quot;A\u00c9CIO NEVES DA CUNHA&quot;                   33.5   
+##  7         2 &quot;A\u00c9CIO NEVES DA CUNHA&quot;                   48.4   
+##  8         1 JOSE MARIA EYMAEL                              0.0589
+##  9         1 LUCIANA KREBS GENRO                            1.55  
+## 10         1 &quot;JOS\u00c9 MARIA DE ALMEIDA&quot;                   0.0877
+## 11         1 DILMA VANA ROUSSEFF                           41.6   
+## 12         2 DILMA VANA ROUSSEFF                           51.6   
+## 13         1 EDUARDO JORGE MARTINS ALVES SOBRINHO           0.606</code></pre>
+</div>
+<ol start="11" style="list-style-type: decimal">
+<li>Insert an ‘in-line’ sentence that explains which candidate won the election and what percentage of the vote they received.</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">winner &lt;-<span class="st"> </span>pres_2014_elec_results <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">filter</span>(NUM_TURNO<span class="op">==</span><span class="dv">2</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">arrange</span>(<span class="op">-</span>Vote_Share) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">slice</span>(<span class="dv">1</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">select</span>(SIGLA_PARTIDO, NOME_CANDIDATO, Vote_Share)
+
+winner_name &lt;-<span class="st"> </span>winner <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">pull</span>(NOME_CANDIDATO)
+winner_Votes &lt;-<span class="st"> </span>winner <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">pull</span>(Vote_Share)</code></pre></div>
+<button class="btn btn-primary" data-toggle="collapse" data-target="#Output6">
+Output
+</button>
+<div id="Output6" class="collapse">
+<p>The winner was DILMA VANA ROUSSEFF with 51.6% of the vote.</p>
+</div>
+<ol start="12" style="list-style-type: decimal">
+<li>Produce a table which shows the results of the first round of the election, including vote share, but excluding boring columns like the year, candidate number etc.</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pres_2014_elec_results <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">filter</span>(NUM_TURNO<span class="op">==</span><span class="dv">1</span>) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">select</span>(NOME_CANDIDATO, SIGLA_PARTIDO, Vote_Share) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">kable</span>()</code></pre></div>
+<button class="btn btn-primary" data-toggle="collapse" data-target="#Output7">
+Output
+</button>
+<div id="Output7" class="collapse">
+<p>NUM_TURNO NOME_CANDIDATO SIGLA_PARTIDO Vote_Share ———- ——————————————- ————– ———– 1 MAURO LUÍS IASI PCB 0.0459943 1 RUI COSTA PIMENTA PCO 0.0118473 1 JOSÉ LEVY FIDELIX DA CRUZ PRTB 0.4295921 1 MARIA OSMARINA MARINA DA SILVA VAZ DE LIMA PSB 21.3187930 1 EVERALDO DIAS PEREIRA PSC 0.7503215 1 AÉCIO NEVES DA CUNHA PSDB 33.5473328 1 JOSE MARIA EYMAEL PSDC 0.0588808 1 LUCIANA KREBS GENRO PSOL 1.5498241 1 JOSÉ MARIA DE ALMEIDA PSTU 0.0876809 1 DILMA VANA ROUSSEFF PT 41.5940075 1 EDUARDO JORGE MARTINS ALVES SOBRINHO PV 0.6057258</p>
+</div>
+<ol start="13" style="list-style-type: decimal">
+<li>Produce a bar chart which shows the results of the second round of the election by vote share.</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pres_2014_elec_results <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">filter</span>(NUM_TURNO<span class="op">==</span><span class="dv">2</span>) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">ggplot</span>() <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_col</span>(<span class="kw">aes</span>(<span class="dt">x=</span>NOME_CANDIDATO,<span class="dt">y=</span>Vote_Share))</code></pre></div>
+<button class="btn btn-primary" data-toggle="collapse" data-target="#Output8">
+Output
+</button>
+<div id="Output8" class="collapse">
+<p><img src="Exercise_1a_v4_new_sys_setup_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
+</div>
+<ol start="14" style="list-style-type: decimal">
+<li>Specify whether you want the processing code to show up in your final document.</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Place this line in a chunk at the start of your code to make sure only the outputs appear</span>
+opts_chunk<span class="op">$</span><span class="kw">set</span>(<span class="dt">echo=</span><span class="ot">FALSE</span>, <span class="dt">warning=</span><span class="ot">FALSE</span>, <span class="dt">message=</span><span class="ot">FALSE</span>)</code></pre></div>
+<ol start="15" style="list-style-type: decimal">
+<li><p>Produce a PDF which combines all your outputs (text, table, chart).</p></li>
+<li><p>Produce a web page which combines all your outputs (text, table, chart).</p></li>
+<li><p>(If you have time…) Include a line chart which shows how the vote share of the two candidates that made the second round changed from the first to the second round.</p></li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">runoff_cands &lt;-<span class="st"> </span>pres_2014_elec_results <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">filter</span>(NUM_TURNO<span class="op">==</span><span class="dv">2</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">pull</span>(NUMERO_CANDIDATO)
+
+pres_2014_elec_results <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(NUMERO_CANDIDATO <span class="op">%in%</span><span class="st"> </span>runoff_cands) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">ggplot</span>() <span class="op">+</span><span class="st"> </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(<span class="dt">x=</span><span class="kw">as.factor</span>(NUM_TURNO),<span class="dt">y=</span>Vote_Share,<span class="dt">group=</span>NOME_CANDIDATO,<span class="dt">color=</span>NOME_CANDIDATO)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">theme_classic</span>() <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;Round&quot;</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Vote Share&quot;</span>)</code></pre></div>
+<button class="btn btn-primary" data-toggle="collapse" data-target="#Output9">
+Output
+</button>
+<div id="Output9" class="collapse">
+<p><img src="Exercise_1a_v4_new_sys_setup_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

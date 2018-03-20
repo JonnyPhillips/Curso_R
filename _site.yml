@@ -11,7 +11,7 @@ navbar:
     - text: "Classes"
       menu: 
         - text: "Class 1"
-          href: class_1_slides14.html
+          href: class_1_slides15.html
         - text: "Class 2"
           href: class_2_slides8.html
     - text: "Exercises"

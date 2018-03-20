@@ -21,7 +21,6 @@ install.packages("knitr")
 install.packages("rmarkdown")
 install.packages("stargazer")
 install.packages("nycflights13")
-install.packages("forcats")
 ```
 
 If you have any problems, please email jonnyphillips [at] gmail.com before the first class so we can fix it.

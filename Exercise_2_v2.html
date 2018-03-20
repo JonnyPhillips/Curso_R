@@ -4,7 +4,7 @@
 
 <head>
 
-<meta charset="utf-8">
+<meta charset="utf-8" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 
@@ -218,14 +218,14 @@ $(document).ready(function () {
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="Index.html">
+  <a href="index.html">
     <span class="fa fa-home"></span>
      
     Home
   </a>
 </li>
 <li>
-  <a href="Prior-setup.html">Preparation</a>
+  <a href="Prior-setup_2.html">Preparation</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -235,7 +235,10 @@ $(document).ready(function () {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="class_1_slides14.html">Class 1</a>
+      <a href="class_1_slides15.html">Class 1</a>
+    </li>
+    <li>
+      <a href="class_2_slides8.html">Class 2</a>
     </li>
   </ul>
 </li>
@@ -247,7 +250,10 @@ $(document).ready(function () {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="Exercise_1a.html">Exercise 1</a>
+      <a href="Exercise_1a_v3.html">Exercise 1</a>
+    </li>
+    <li>
+      <a href="Exercise_2_v3.html">Exercise 2</a>
     </li>
   </ul>
 </li>
@@ -289,902 +295,32 @@ $(document).ready(function () {
 </ol>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">flights <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(carrier<span class="op">==</span><span class="st">&quot;OO&quot;</span>) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">kable</span>()</code></pre></div>
-<table>
-<thead>
-<tr class="header">
-<th align="right">year</th>
-<th align="right">month</th>
-<th align="right">day</th>
-<th align="right">dep_time</th>
-<th align="right">sched_dep_time</th>
-<th align="right">dep_delay</th>
-<th align="right">arr_time</th>
-<th align="right">sched_arr_time</th>
-<th align="right">arr_delay</th>
-<th align="left">carrier</th>
-<th align="right">flight</th>
-<th align="left">tailnum</th>
-<th align="left">origin</th>
-<th align="left">dest</th>
-<th align="right">air_time</th>
-<th align="right">distance</th>
-<th align="right">hour</th>
-<th align="right">minute</th>
-<th align="left">time_hour</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="right">2013</td>
-<td align="right">1</td>
-<td align="right">30</td>
-<td align="right">1222</td>
-<td align="right">1115</td>
-<td align="right">67</td>
-<td align="right">1402</td>
-<td align="right">1215</td>
-<td align="right">107</td>
-<td align="left">OO</td>
-<td align="right">8500</td>
-<td align="left">N978SW</td>
-<td align="left">LGA</td>
-<td align="left">ORD</td>
-<td align="right">132</td>
-<td align="right">733</td>
-<td align="right">11</td>
-<td align="right">15</td>
-<td align="left">2013-01-30 11:00:00</td>
-</tr>
-<tr class="even">
-<td align="right">2013</td>
-<td align="right">11</td>
-<td align="right">3</td>
-<td align="right">1424</td>
-<td align="right">1430</td>
-<td align="right">-6</td>
-<td align="right">1629</td>
-<td align="right">1634</td>
-<td align="right">-5</td>
-<td align="left">OO</td>
-<td align="right">4483</td>
-<td align="left">N813SK</td>
-<td align="left">EWR</td>
-<td align="left">MSP</td>
-<td align="right">166</td>
-<td align="right">1008</td>
-<td align="right">14</td>
-<td align="right">30</td>
-<td align="left">2013-11-03 14:00:00</td>
-</tr>
-<tr class="odd">
-<td align="right">2013</td>
-<td align="right">11</td>
-<td align="right">10</td>
-<td align="right">1443</td>
-<td align="right">1430</td>
-<td align="right">13</td>
-<td align="right">1701</td>
-<td align="right">1634</td>
-<td align="right">27</td>
-<td align="left">OO</td>
-<td align="right">4483</td>
-<td align="left">N813SK</td>
-<td align="left">EWR</td>
-<td align="left">MSP</td>
-<td align="right">177</td>
-<td align="right">1008</td>
-<td align="right">14</td>
-<td align="right">30</td>
-<td align="left">2013-11-10 14:00:00</td>
-</tr>
-<tr class="even">
-<td align="right">2013</td>
-<td align="right">11</td>
-<td align="right">17</td>
-<td align="right">1422</td>
-<td align="right">1430</td>
-<td align="right">-8</td>
-<td align="right">1610</td>
-<td align="right">1634</td>
-<td align="right">-24</td>
-<td align="left">OO</td>
-<td align="right">4483</td>
-<td align="left">N693CA</td>
-<td align="left">EWR</td>
-<td align="left">MSP</td>
-<td align="right">152</td>
-<td align="right">1008</td>
-<td align="right">14</td>
-<td align="right">30</td>
-<td align="left">2013-11-17 14:00:00</td>
-</tr>
-<tr class="odd">
-<td align="right">2013</td>
-<td align="right">11</td>
-<td align="right">25</td>
-<td align="right">1803</td>
-<td align="right">1759</td>
-<td align="right">4</td>
-<td align="right">2011</td>
-<td align="right">2017</td>
-<td align="right">-6</td>
-<td align="left">OO</td>
-<td align="right">4659</td>
-<td align="left">N803SK</td>
-<td align="left">EWR</td>
-<td align="left">MSP</td>
-<td align="right">157</td>
-<td align="right">1008</td>
-<td align="right">17</td>
-<td align="right">59</td>
-<td align="left">2013-11-25 17:00:00</td>
-</tr>
-<tr class="even">
-<td align="right">2013</td>
-<td align="right">11</td>
-<td align="right">30</td>
-<td align="right">1648</td>
-<td align="right">1647</td>
-<td align="right">1</td>
-<td align="right">1814</td>
-<td align="right">1811</td>
-<td align="right">3</td>
-<td align="left">OO</td>
-<td align="right">4967</td>
-<td align="left">N746SK</td>
-<td align="left">LGA</td>
-<td align="left">IAD</td>
-<td align="right">50</td>
-<td align="right">229</td>
-<td align="right">16</td>
-<td align="right">47</td>
-<td align="left">2013-11-30 16:00:00</td>
-</tr>
-<tr class="odd">
-<td align="right">2013</td>
-<td align="right">6</td>
-<td align="right">15</td>
-<td align="right">1626</td>
-<td align="right">1635</td>
-<td align="right">-9</td>
-<td align="right">1810</td>
-<td align="right">1830</td>
-<td align="right">-20</td>
-<td align="left">OO</td>
-<td align="right">4528</td>
-<td align="left">N913EV</td>
-<td align="left">EWR</td>
-<td align="left">DTW</td>
-<td align="right">81</td>
-<td align="right">488</td>
-<td align="right">16</td>
-<td align="right">35</td>
-<td align="left">2013-06-15 16:00:00</td>
-</tr>
-<tr class="even">
-<td align="right">2013</td>
-<td align="right">6</td>
-<td align="right">22</td>
-<td align="right">1846</td>
-<td align="right">1635</td>
-<td align="right">131</td>
-<td align="right">2107</td>
-<td align="right">1830</td>
-<td align="right">157</td>
-<td align="left">OO</td>
-<td align="right">4528</td>
-<td align="left">N427SW</td>
-<td align="left">EWR</td>
-<td align="left">DTW</td>
-<td align="right">88</td>
-<td align="right">488</td>
-<td align="right">16</td>
-<td align="right">35</td>
-<td align="left">2013-06-22 16:00:00</td>
-</tr>
-<tr class="odd">
-<td align="right">2013</td>
-<td align="right">8</td>
-<td align="right">27</td>
-<td align="right">1755</td>
-<td align="right">1805</td>
-<td align="right">-10</td>
-<td align="right">1956</td>
-<td align="right">1953</td>
-<td align="right">3</td>
-<td align="left">OO</td>
-<td align="right">5568</td>
-<td align="left">N789SK</td>
-<td align="left">LGA</td>
-<td align="left">CLE</td>
-<td align="right">64</td>
-<td align="right">419</td>
-<td align="right">18</td>
-<td align="right">5</td>
-<td align="left">2013-08-27 18:00:00</td>
-</tr>
-<tr class="even">
-<td align="right">2013</td>
-<td align="right">8</td>
-<td align="right">28</td>
-<td align="right">2039</td>
-<td align="right">1805</td>
-<td align="right">154</td>
-<td align="right">2213</td>
-<td align="right">1953</td>
-<td align="right">140</td>
-<td align="left">OO</td>
-<td align="right">5568</td>
-<td align="left">N790SK</td>
-<td align="left">LGA</td>
-<td align="left">CLE</td>
-<td align="right">71</td>
-<td align="right">419</td>
-<td align="right">18</td>
-<td align="right">5</td>
-<td align="left">2013-08-28 18:00:00</td>
-</tr>
-<tr class="odd">
-<td align="right">2013</td>
-<td align="right">8</td>
-<td align="right">29</td>
-<td align="right">1832</td>
-<td align="right">1805</td>
-<td align="right">27</td>
-<td align="right">2039</td>
-<td align="right">1953</td>
-<td align="right">46</td>
-<td align="left">OO</td>
-<td align="right">5568</td>
-<td align="left">N797SK</td>
-<td align="left">LGA</td>
-<td align="left">CLE</td>
-<td align="right">70</td>
-<td align="right">419</td>
-<td align="right">18</td>
-<td align="right">5</td>
-<td align="left">2013-08-29 18:00:00</td>
-</tr>
-<tr class="even">
-<td align="right">2013</td>
-<td align="right">8</td>
-<td align="right">30</td>
-<td align="right">1930</td>
-<td align="right">1805</td>
-<td align="right">85</td>
-<td align="right">2102</td>
-<td align="right">1953</td>
-<td align="right">69</td>
-<td align="left">OO</td>
-<td align="right">5568</td>
-<td align="left">N762SK</td>
-<td align="left">LGA</td>
-<td align="left">CLE</td>
-<td align="right">68</td>
-<td align="right">419</td>
-<td align="right">18</td>
-<td align="right">5</td>
-<td align="left">2013-08-30 18:00:00</td>
-</tr>
-<tr class="odd">
-<td align="right">2013</td>
-<td align="right">9</td>
-<td align="right">2</td>
-<td align="right">NA</td>
-<td align="right">1805</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">1953</td>
-<td align="right">NA</td>
-<td align="left">OO</td>
-<td align="right">5568</td>
-<td align="left">N768SK</td>
-<td align="left">LGA</td>
-<td align="left">CLE</td>
-<td align="right">NA</td>
-<td align="right">419</td>
-<td align="right">18</td>
-<td align="right">5</td>
-<td align="left">2013-09-02 18:00:00</td>
-</tr>
-<tr class="even">
-<td align="right">2013</td>
-<td align="right">9</td>
-<td align="right">3</td>
-<td align="right">1759</td>
-<td align="right">1805</td>
-<td align="right">-6</td>
-<td align="right">1959</td>
-<td align="right">1953</td>
-<td align="right">6</td>
-<td align="left">OO</td>
-<td align="right">5568</td>
-<td align="left">N795SK</td>
-<td align="left">LGA</td>
-<td align="left">CLE</td>
-<td align="right">66</td>
-<td align="right">419</td>
-<td align="right">18</td>
-<td align="right">5</td>
-<td align="left">2013-09-03 18:00:00</td>
-</tr>
-<tr class="odd">
-<td align="right">2013</td>
-<td align="right">9</td>
-<td align="right">4</td>
-<td align="right">1803</td>
-<td align="right">1805</td>
-<td align="right">-2</td>
-<td align="right">1941</td>
-<td align="right">1953</td>
-<td align="right">-12</td>
-<td align="left">OO</td>
-<td align="right">5568</td>
-<td align="left">N780SK</td>
-<td align="left">LGA</td>
-<td align="left">CLE</td>
-<td align="right">67</td>
-<td align="right">419</td>
-<td align="right">18</td>
-<td align="right">5</td>
-<td align="left">2013-09-04 18:00:00</td>
-</tr>
-<tr class="even">
-<td align="right">2013</td>
-<td align="right">9</td>
-<td align="right">5</td>
-<td align="right">1758</td>
-<td align="right">1805</td>
-<td align="right">-7</td>
-<td align="right">1938</td>
-<td align="right">1953</td>
-<td align="right">-15</td>
-<td align="left">OO</td>
-<td align="right">5568</td>
-<td align="left">N789SK</td>
-<td align="left">LGA</td>
-<td align="left">CLE</td>
-<td align="right">69</td>
-<td align="right">419</td>
-<td align="right">18</td>
-<td align="right">5</td>
-<td align="left">2013-09-05 18:00:00</td>
-</tr>
-<tr class="odd">
-<td align="right">2013</td>
-<td align="right">9</td>
-<td align="right">6</td>
-<td align="right">1803</td>
-<td align="right">1805</td>
-<td align="right">-2</td>
-<td align="right">1945</td>
-<td align="right">1953</td>
-<td align="right">-8</td>
-<td align="left">OO</td>
-<td align="right">5568</td>
-<td align="left">N740SK</td>
-<td align="left">LGA</td>
-<td align="left">CLE</td>
-<td align="right">70</td>
-<td align="right">419</td>
-<td align="right">18</td>
-<td align="right">5</td>
-<td align="left">2013-09-06 18:00:00</td>
-</tr>
-<tr class="even">
-<td align="right">2013</td>
-<td align="right">9</td>
-<td align="right">8</td>
-<td align="right">1754</td>
-<td align="right">1805</td>
-<td align="right">-11</td>
-<td align="right">1946</td>
-<td align="right">1953</td>
-<td align="right">-7</td>
-<td align="left">OO</td>
-<td align="right">5568</td>
-<td align="left">N726SK</td>
-<td align="left">LGA</td>
-<td align="left">CLE</td>
-<td align="right">67</td>
-<td align="right">419</td>
-<td align="right">18</td>
-<td align="right">5</td>
-<td align="left">2013-09-08 18:00:00</td>
-</tr>
-<tr class="odd">
-<td align="right">2013</td>
-<td align="right">9</td>
-<td align="right">9</td>
-<td align="right">1757</td>
-<td align="right">1805</td>
-<td align="right">-8</td>
-<td align="right">1951</td>
-<td align="right">1953</td>
-<td align="right">-2</td>
-<td align="left">OO</td>
-<td align="right">5568</td>
-<td align="left">N780SK</td>
-<td align="left">LGA</td>
-<td align="left">CLE</td>
-<td align="right">72</td>
-<td align="right">419</td>
-<td align="right">18</td>
-<td align="right">5</td>
-<td align="left">2013-09-09 18:00:00</td>
-</tr>
-<tr class="even">
-<td align="right">2013</td>
-<td align="right">9</td>
-<td align="right">10</td>
-<td align="right">1759</td>
-<td align="right">1805</td>
-<td align="right">-6</td>
-<td align="right">1945</td>
-<td align="right">1953</td>
-<td align="right">-8</td>
-<td align="left">OO</td>
-<td align="right">5568</td>
-<td align="left">N705SK</td>
-<td align="left">LGA</td>
-<td align="left">CLE</td>
-<td align="right">68</td>
-<td align="right">419</td>
-<td align="right">18</td>
-<td align="right">5</td>
-<td align="left">2013-09-10 18:00:00</td>
-</tr>
-<tr class="odd">
-<td align="right">2013</td>
-<td align="right">9</td>
-<td align="right">11</td>
-<td align="right">NA</td>
-<td align="right">1805</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">1953</td>
-<td align="right">NA</td>
-<td align="left">OO</td>
-<td align="right">5568</td>
-<td align="left">N728SK</td>
-<td align="left">LGA</td>
-<td align="left">CLE</td>
-<td align="right">NA</td>
-<td align="right">419</td>
-<td align="right">18</td>
-<td align="right">5</td>
-<td align="left">2013-09-11 18:00:00</td>
-</tr>
-<tr class="even">
-<td align="right">2013</td>
-<td align="right">9</td>
-<td align="right">12</td>
-<td align="right">NA</td>
-<td align="right">1805</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">1953</td>
-<td align="right">NA</td>
-<td align="left">OO</td>
-<td align="right">5568</td>
-<td align="left">N789SK</td>
-<td align="left">LGA</td>
-<td align="left">CLE</td>
-<td align="right">NA</td>
-<td align="right">419</td>
-<td align="right">18</td>
-<td align="right">5</td>
-<td align="left">2013-09-12 18:00:00</td>
-</tr>
-<tr class="odd">
-<td align="right">2013</td>
-<td align="right">9</td>
-<td align="right">13</td>
-<td align="right">1845</td>
-<td align="right">1805</td>
-<td align="right">40</td>
-<td align="right">2041</td>
-<td align="right">1953</td>
-<td align="right">48</td>
-<td align="left">OO</td>
-<td align="right">5568</td>
-<td align="left">N702SK</td>
-<td align="left">LGA</td>
-<td align="left">CLE</td>
-<td align="right">68</td>
-<td align="right">419</td>
-<td align="right">18</td>
-<td align="right">5</td>
-<td align="left">2013-09-13 18:00:00</td>
-</tr>
-<tr class="even">
-<td align="right">2013</td>
-<td align="right">9</td>
-<td align="right">15</td>
-<td align="right">1756</td>
-<td align="right">1805</td>
-<td align="right">-9</td>
-<td align="right">1929</td>
-<td align="right">1953</td>
-<td align="right">-24</td>
-<td align="left">OO</td>
-<td align="right">5568</td>
-<td align="left">N778SK</td>
-<td align="left">LGA</td>
-<td align="left">CLE</td>
-<td align="right">70</td>
-<td align="right">419</td>
-<td align="right">18</td>
-<td align="right">5</td>
-<td align="left">2013-09-15 18:00:00</td>
-</tr>
-<tr class="odd">
-<td align="right">2013</td>
-<td align="right">9</td>
-<td align="right">16</td>
-<td align="right">1752</td>
-<td align="right">1805</td>
-<td align="right">-13</td>
-<td align="right">1939</td>
-<td align="right">1953</td>
-<td align="right">-14</td>
-<td align="left">OO</td>
-<td align="right">5568</td>
-<td align="left">N710SK</td>
-<td align="left">LGA</td>
-<td align="left">CLE</td>
-<td align="right">70</td>
-<td align="right">419</td>
-<td align="right">18</td>
-<td align="right">5</td>
-<td align="left">2013-09-16 18:00:00</td>
-</tr>
-<tr class="even">
-<td align="right">2013</td>
-<td align="right">9</td>
-<td align="right">17</td>
-<td align="right">1755</td>
-<td align="right">1805</td>
-<td align="right">-10</td>
-<td align="right">1937</td>
-<td align="right">1953</td>
-<td align="right">-16</td>
-<td align="left">OO</td>
-<td align="right">5568</td>
-<td align="left">N794SK</td>
-<td align="left">LGA</td>
-<td align="left">CLE</td>
-<td align="right">68</td>
-<td align="right">419</td>
-<td align="right">18</td>
-<td align="right">5</td>
-<td align="left">2013-09-17 18:00:00</td>
-</tr>
-<tr class="odd">
-<td align="right">2013</td>
-<td align="right">9</td>
-<td align="right">18</td>
-<td align="right">1754</td>
-<td align="right">1805</td>
-<td align="right">-11</td>
-<td align="right">1927</td>
-<td align="right">1953</td>
-<td align="right">-26</td>
-<td align="left">OO</td>
-<td align="right">5568</td>
-<td align="left">N701SK</td>
-<td align="left">LGA</td>
-<td align="left">CLE</td>
-<td align="right">64</td>
-<td align="right">419</td>
-<td align="right">18</td>
-<td align="right">5</td>
-<td align="left">2013-09-18 18:00:00</td>
-</tr>
-<tr class="even">
-<td align="right">2013</td>
-<td align="right">9</td>
-<td align="right">19</td>
-<td align="right">1759</td>
-<td align="right">1805</td>
-<td align="right">-6</td>
-<td align="right">1946</td>
-<td align="right">1953</td>
-<td align="right">-7</td>
-<td align="left">OO</td>
-<td align="right">5568</td>
-<td align="left">N760SK</td>
-<td align="left">LGA</td>
-<td align="left">CLE</td>
-<td align="right">64</td>
-<td align="right">419</td>
-<td align="right">18</td>
-<td align="right">5</td>
-<td align="left">2013-09-19 18:00:00</td>
-</tr>
-<tr class="odd">
-<td align="right">2013</td>
-<td align="right">9</td>
-<td align="right">20</td>
-<td align="right">1758</td>
-<td align="right">1805</td>
-<td align="right">-7</td>
-<td align="right">1929</td>
-<td align="right">1953</td>
-<td align="right">-24</td>
-<td align="left">OO</td>
-<td align="right">5568</td>
-<td align="left">N766SK</td>
-<td align="left">LGA</td>
-<td align="left">CLE</td>
-<td align="right">60</td>
-<td align="right">419</td>
-<td align="right">18</td>
-<td align="right">5</td>
-<td align="left">2013-09-20 18:00:00</td>
-</tr>
-<tr class="even">
-<td align="right">2013</td>
-<td align="right">9</td>
-<td align="right">22</td>
-<td align="right">1759</td>
-<td align="right">1805</td>
-<td align="right">-6</td>
-<td align="right">1945</td>
-<td align="right">1953</td>
-<td align="right">-8</td>
-<td align="left">OO</td>
-<td align="right">5568</td>
-<td align="left">N772SK</td>
-<td align="left">LGA</td>
-<td align="left">CLE</td>
-<td align="right">67</td>
-<td align="right">419</td>
-<td align="right">18</td>
-<td align="right">5</td>
-<td align="left">2013-09-22 18:00:00</td>
-</tr>
-<tr class="odd">
-<td align="right">2013</td>
-<td align="right">9</td>
-<td align="right">23</td>
-<td align="right">1759</td>
-<td align="right">1805</td>
-<td align="right">-6</td>
-<td align="right">1935</td>
-<td align="right">1953</td>
-<td align="right">-18</td>
-<td align="left">OO</td>
-<td align="right">5568</td>
-<td align="left">N776SK</td>
-<td align="left">LGA</td>
-<td align="left">CLE</td>
-<td align="right">68</td>
-<td align="right">419</td>
-<td align="right">18</td>
-<td align="right">5</td>
-<td align="left">2013-09-23 18:00:00</td>
-</tr>
-<tr class="even">
-<td align="right">2013</td>
-<td align="right">9</td>
-<td align="right">24</td>
-<td align="right">1751</td>
-<td align="right">1805</td>
-<td align="right">-14</td>
-<td align="right">1937</td>
-<td align="right">1953</td>
-<td align="right">-16</td>
-<td align="left">OO</td>
-<td align="right">5568</td>
-<td align="left">N785SK</td>
-<td align="left">LGA</td>
-<td align="left">CLE</td>
-<td align="right">67</td>
-<td align="right">419</td>
-<td align="right">18</td>
-<td align="right">5</td>
-<td align="left">2013-09-24 18:00:00</td>
-</tr>
-</tbody>
-</table>
 <ol start="4" style="list-style-type: decimal">
-<li>Starting from the <code>flights</code> dataset, calculate the average departure delay across all flights.</li>
+<li>What is the average departure delay across all flights?</li>
 </ol>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">flights <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">summarize</span>(<span class="dt">avg_delay=</span><span class="kw">mean</span>(dep_delay,<span class="dt">na.rm=</span><span class="ot">TRUE</span>)) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">kable</span>()</code></pre></div>
-<div id="avg_delay" class="section level2">
-<h2>avg_delay</h2>
-<p>12.63907</p>
 <ol start="5" style="list-style-type: decimal">
-<li>Starting from the <code>flights</code> dataset, calculate the speed of each flight and then report a table of just the carrier, flight and speed variables, and just the first 5 rows of the table.</li>
+<li>Calculate the speed of each flight and then report a table of just the carrier, flight and speed variables, and just the first 5 rows of the table.</li>
 </ol>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">flights <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">speed=</span>distance<span class="op">/</span>air_time) <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">select</span>(carrier, flight, speed) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">slice</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">kable</span>()</code></pre></div>
-<table>
-<thead>
-<tr class="header">
-<th align="left">carrier</th>
-<th align="right">flight</th>
-<th align="right">speed</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">UA</td>
-<td align="right">1545</td>
-<td align="right">6.167401</td>
-</tr>
-<tr class="even">
-<td align="left">UA</td>
-<td align="right">1714</td>
-<td align="right">6.237885</td>
-</tr>
-<tr class="odd">
-<td align="left">AA</td>
-<td align="right">1141</td>
-<td align="right">6.806250</td>
-</tr>
-<tr class="even">
-<td align="left">B6</td>
-<td align="right">725</td>
-<td align="right">8.612022</td>
-</tr>
-<tr class="odd">
-<td align="left">DL</td>
-<td align="right">461</td>
-<td align="right">6.568966</td>
-</tr>
-</tbody>
-</table>
 <ol start="6" style="list-style-type: decimal">
-<li>Starting from the <code>flights</code> dataset, calculate the average speed separately for each airline (carrier), and arrange the table from fastest to slowest.</li>
+<li>Calculate the average speed separately for each airline (carrier), and arrange the table from fastest to slowest.</li>
 </ol>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">flights <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">speed=</span>distance<span class="op">/</span>air_time) <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">group_by</span>(carrier) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">summarize</span>(<span class="dt">avg_speed=</span><span class="kw">mean</span>(speed,<span class="dt">na.rm=</span><span class="ot">TRUE</span>)) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">arrange</span>(<span class="op">-</span>avg_speed) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">kable</span>()</code></pre></div>
-<table>
-<thead>
-<tr class="header">
-<th align="left">carrier</th>
-<th align="right">avg_speed</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">HA</td>
-<td align="right">8.005962</td>
-</tr>
-<tr class="even">
-<td align="left">VX</td>
-<td align="right">7.436249</td>
-</tr>
-<tr class="odd">
-<td align="left">AS</td>
-<td align="right">7.394648</td>
-</tr>
-<tr class="even">
-<td align="left">F9</td>
-<td align="right">7.086202</td>
-</tr>
-<tr class="odd">
-<td align="left">UA</td>
-<td align="right">7.014730</td>
-</tr>
-<tr class="even">
-<td align="left">DL</td>
-<td align="right">6.974380</td>
-</tr>
-<tr class="odd">
-<td align="left">AA</td>
-<td align="right">6.957879</td>
-</tr>
-<tr class="even">
-<td align="left">WN</td>
-<td align="right">6.675534</td>
-</tr>
-<tr class="odd">
-<td align="left">B6</td>
-<td align="right">6.666191</td>
-</tr>
-<tr class="even">
-<td align="left">FL</td>
-<td align="right">6.572635</td>
-</tr>
-<tr class="odd">
-<td align="left">MQ</td>
-<td align="right">6.140047</td>
-</tr>
-<tr class="even">
-<td align="left">OO</td>
-<td align="right">6.105335</td>
-</tr>
-<tr class="odd">
-<td align="left">EV</td>
-<td align="right">6.049060</td>
-</tr>
-<tr class="even">
-<td align="left">9E</td>
-<td align="right">5.757173</td>
-</tr>
-<tr class="odd">
-<td align="left">US</td>
-<td align="right">5.698995</td>
-</tr>
-<tr class="even">
-<td align="left">YV</td>
-<td align="right">5.532833</td>
-</tr>
-</tbody>
-</table>
 <ol start="7" style="list-style-type: decimal">
 <li>How do departure delays vary across months?</li>
 </ol>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">flights <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">group_by</span>(month) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">summarize</span>(<span class="dt">avg_delay=</span><span class="kw">mean</span>(dep_delay,<span class="dt">na.rm=</span><span class="ot">TRUE</span>)) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">kable</span>()</code></pre></div>
-<table>
-<thead>
-<tr class="header">
-<th align="right">month</th>
-<th align="right">avg_delay</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="right">1</td>
-<td align="right">10.036665</td>
-</tr>
-<tr class="even">
-<td align="right">2</td>
-<td align="right">10.816842</td>
-</tr>
-<tr class="odd">
-<td align="right">3</td>
-<td align="right">13.227076</td>
-</tr>
-<tr class="even">
-<td align="right">4</td>
-<td align="right">13.938038</td>
-</tr>
-<tr class="odd">
-<td align="right">5</td>
-<td align="right">12.986859</td>
-</tr>
-<tr class="even">
-<td align="right">6</td>
-<td align="right">20.846332</td>
-</tr>
-<tr class="odd">
-<td align="right">7</td>
-<td align="right">21.727787</td>
-</tr>
-<tr class="even">
-<td align="right">8</td>
-<td align="right">12.611040</td>
-</tr>
-<tr class="odd">
-<td align="right">9</td>
-<td align="right">6.722476</td>
-</tr>
-<tr class="even">
-<td align="right">10</td>
-<td align="right">6.243988</td>
-</tr>
-<tr class="odd">
-<td align="right">11</td>
-<td align="right">5.435362</td>
-</tr>
-<tr class="even">
-<td align="right">12</td>
-<td align="right">16.576688</td>
-</tr>
-</tbody>
-</table>
 <ol start="8" style="list-style-type: decimal">
 <li>Make a table showing average departure delays by airline (row) and origin airport (column)</li>
 </ol>
@@ -1192,133 +328,17 @@ $(document).ready(function () {
 <span class="st">  </span><span class="kw">summarize</span>(<span class="dt">avg_delay=</span><span class="kw">round</span>(<span class="kw">mean</span>(dep_delay,<span class="dt">na.rm=</span><span class="ot">TRUE</span>),<span class="dv">2</span>)) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">spread</span>(<span class="dt">key=</span><span class="st">&quot;origin&quot;</span>,<span class="dt">value=</span><span class="st">&quot;avg_delay&quot;</span>) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">kable</span>()</code></pre></div>
-<table>
-<thead>
-<tr class="header">
-<th align="left">carrier</th>
-<th align="right">EWR</th>
-<th align="right">JFK</th>
-<th align="right">LGA</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">9E</td>
-<td align="right">5.95</td>
-<td align="right">19.00</td>
-<td align="right">8.89</td>
-</tr>
-<tr class="even">
-<td align="left">AA</td>
-<td align="right">10.04</td>
-<td align="right">10.30</td>
-<td align="right">6.71</td>
-</tr>
-<tr class="odd">
-<td align="left">AS</td>
-<td align="right">5.80</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-</tr>
-<tr class="even">
-<td align="left">B6</td>
-<td align="right">13.10</td>
-<td align="right">12.76</td>
-<td align="right">14.81</td>
-</tr>
-<tr class="odd">
-<td align="left">DL</td>
-<td align="right">12.08</td>
-<td align="right">8.33</td>
-<td align="right">9.57</td>
-</tr>
-<tr class="even">
-<td align="left">EV</td>
-<td align="right">20.16</td>
-<td align="right">18.52</td>
-<td align="right">19.13</td>
-</tr>
-<tr class="odd">
-<td align="left">F9</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">20.22</td>
-</tr>
-<tr class="even">
-<td align="left">FL</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">18.73</td>
-</tr>
-<tr class="odd">
-<td align="left">HA</td>
-<td align="right">NA</td>
-<td align="right">4.90</td>
-<td align="right">NA</td>
-</tr>
-<tr class="even">
-<td align="left">MQ</td>
-<td align="right">17.47</td>
-<td align="right">13.20</td>
-<td align="right">8.53</td>
-</tr>
-<tr class="odd">
-<td align="left">OO</td>
-<td align="right">20.83</td>
-<td align="right">NA</td>
-<td align="right">10.43</td>
-</tr>
-<tr class="even">
-<td align="left">UA</td>
-<td align="right">12.52</td>
-<td align="right">7.90</td>
-<td align="right">12.09</td>
-</tr>
-<tr class="odd">
-<td align="left">US</td>
-<td align="right">3.74</td>
-<td align="right">5.87</td>
-<td align="right">3.31</td>
-</tr>
-<tr class="even">
-<td align="left">VX</td>
-<td align="right">11.93</td>
-<td align="right">13.28</td>
-<td align="right">NA</td>
-</tr>
-<tr class="odd">
-<td align="left">WN</td>
-<td align="right">17.86</td>
-<td align="right">NA</td>
-<td align="right">17.56</td>
-</tr>
-<tr class="even">
-<td align="left">YV</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">19.00</td>
-</tr>
-</tbody>
-</table>
 <ol start="9" style="list-style-type: decimal">
 <li>How many flights from JFK to San Francisco (SFO) landed after 11.45pm on time?</li>
 </ol>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">flights <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(origin<span class="op">==</span><span class="st">&quot;JFK&quot;</span> <span class="op">&amp;</span><span class="st"> </span>dest<span class="op">==</span><span class="st">&quot;SFO&quot;</span> <span class="op">&amp;</span><span class="st"> </span>arr_time<span class="op">&gt;</span><span class="dv">2345</span> <span class="op">&amp;</span><span class="st"> </span>arr_delay<span class="op">&lt;=</span><span class="dv">0</span>) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">count</span>()</code></pre></div>
-<pre><code>## # A tibble: 1 x 1
-##       n
-##   &lt;int&gt;
-## 1    26</code></pre>
 <ol start="10" style="list-style-type: decimal">
 <li>How many distinct planes (each plane has a different <code>tailnum</code>) flew from Newark (EWR) to Phoenix (PHX) in August? Hint: use the verb <code>distinct</code></li>
 </ol>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">flights <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(origin<span class="op">==</span><span class="st">&quot;EWR&quot;</span> <span class="op">&amp;</span><span class="st"> </span>dest<span class="op">==</span><span class="st">&quot;PHX&quot;</span> <span class="op">&amp;</span><span class="st"> </span>month<span class="op">==</span><span class="dv">8</span>) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">distinct</span>(tailnum) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">count</span>()</code></pre></div>
-<pre><code>## # A tibble: 1 x 1
-##       n
-##   &lt;int&gt;
-## 1   140</code></pre>
 <ol start="11" style="list-style-type: decimal">
 <li>What percentage of flights that took off late arrived on time? Hint: Try making two separate calculations and then calculating the percentage.</li>
 </ol>
@@ -1329,9 +349,6 @@ late_flights &lt;-<span class="st"> </span>flights <span class="op">%&gt;%</span
 <span class="st">  </span><span class="kw">count</span>()
 
 late_flights<span class="op">/</span>num_flights<span class="op">*</span><span class="dv">100</span></code></pre></div>
-<pre><code>##          n
-## 1 32.32583</code></pre>
-</div>
 
 
 
@@ -1356,7 +373,7 @@ $(document).ready(function () {
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
     document.getElementsByTagName("head")[0].appendChild(script);
   })();
 </script>
