@@ -25,19 +25,18 @@ Participants will be asked to prepare their laptops before the first class (inst
 
 2. **Playing with Data** (27/03) - Dataframe manipulation. Piping. Object types.
 
-3. **Describing Data** (03/04) - Descriptive statistics, t-tests. Further data manipulation. Table outputs (kable).
+3. **Describing Data** (03/04) - Descriptive statistics, t-tests. Table outputs (kable).
 
-4. **Regressions with Data** (10/04) - Models. Stargazer. Chunk options.
+4. **Regressions with Data** (10/04) - Models with Zelig. Tables with Stargazer. Chunk options.
 
-5. **Charts from Data** (17/04) - Charts in ggplot. Scatterplots, histograms. Marginal effect plots. Colours.
+5. **Charts from Data** (17/04) - Charts in ggplot2. Scatterplots, histograms. Marginal effect plots. Colours.
 
-6. **Combining Data** (24/04) - Merging data. Conditional data manipulation. 
+6. **Combining Data** (24/04) - Merging data. Conditional data manipulation. Bibliographies in Markdown
 
-7. **Analysing Data** (08/05) - Performing a Comprehensive Analysis.
+7. **Mapping Data 1** (08/05) - Spatial analysis basics - formats, CRS. Simple Features.
 
-8. **Mapping Data 1** (15/05) - Spatial analysis basics - formats, CRS, SF. Plotting maps. Palettes.
+8. **Mapping Data 2** (15/05) - Spatial statistics. Visualizing maps. Leaflet.
 
-9. **Mapping Data 2** (22/05) - Georeferencing, spatial statistics, raster data.
+9. **Interactive Data** (22/05) - Interactive applications - shiny. 
 
-10. **Interactive Data** (29/05) - Interactive applications - shiny. 
-
+10. **Integrated Project** (29/05) - Create your own app for cepespdata!
