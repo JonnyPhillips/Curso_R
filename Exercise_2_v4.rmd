@@ -1,0 +1,149 @@
+---
+title: "Analysis, Visualization and Mapping in R"
+subtitle: "Exercise 2: Manipulating a Big Dataset"
+output: 
+  html_document:
+    code_folding: hide
+css: styles.css
+---
+
+```{r setup, echo=FALSE, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(include=TRUE, warning=FALSE, message=FALSE, eval=FALSE)
+```
+
+1. Create a new Rmarkdown file in Rstudio.
+2. Load the 'tidyverse', 'knitr' and 'nycflights13' packages.
+```{r, eval=TRUE}
+library(tidyverse)
+library(knitr)
+library(nycflights13)
+```
+
+3. Starting from the `flights` dataset, create a table of all the flights of airline carrier 'OO'.
+
+```{r}
+flights %>% filter(carrier=="OO") %>%
+  kable()
+```
+
+4. What is the average departure delay across all flights?
+
+```{r}
+flights %>% summarize(avg_delay=mean(dep_delay,na.rm=TRUE)) %>%
+  kable()
+```
+
+5. What are the five fastest flights in the dataset? Calculate the speed of each flight and report a table with the origin, destination, carrier and speed of the five fastest flights.
+
+```{r}
+flights %>% mutate(speed=distance/air_time) %>% 
+  arrange(-speed) %>%
+  select(origin, dest, carrier, speed) %>%
+  slice(1:5) %>%
+  kable()
+```
+
+6. Calculate the average speed separately for each airline (carrier), and arrange a table from fastest to slowest airline.
+
+```{r}
+flights %>% mutate(speed=distance/air_time) %>% 
+  group_by(carrier) %>%
+  summarize(avg_speed=mean(speed,na.rm=TRUE)) %>%
+  arrange(-avg_speed) %>%
+  kable()
+```
+
+7. How do departure delays vary across months? Report a table. What is the best month to fly?
+
+```{r}
+flights %>% group_by(month) %>%
+  summarize(avg_delay=mean(dep_delay,na.rm=TRUE)) %>%
+  kable()
+```
+
+9. You want to take a holiday in September but hate departure delays. What is the best airport to fly from? What if you wanted to travel in October?
+
+```{r}
+flights %>% group_by(month,origin) %>%
+  summarize(avg_delay=mean(dep_delay,na.rm=TRUE)) %>%
+  spread(key="origin",value="avg_delay") %>%
+  kable()
+```
+
+10. Which airline has the worst average record for departure delays? Which airline has the worst record flying from JFK? Which airline is the most *consistent* (has the lowest variation) in departure delays? Report just the airline code as in-line code for each answer. 
+
+```{r}
+flights %>% group_by(carrier) %>%
+  summarize(avg_delay=round(mean(dep_delay,na.rm=TRUE),2)) %>%
+  arrange(-avg_delay) %>%
+  slice(1) %>%
+  pull(carrier)
+
+flights %>% group_by(carrier) %>%
+  filter(origin=="JFK") %>%
+  summarize(avg_delay=round(mean(dep_delay,na.rm=TRUE),2)) %>%
+  arrange(-avg_delay) %>%
+  slice(1) %>%
+  pull(carrier)
+
+flights %>% group_by(carrier) %>%
+  summarize(sd_delay=round(sd(dep_delay,na.rm=TRUE),2)) %>%
+  arrange(sd_delay) %>%
+  slice(1) %>%
+  pull(carrier)
+```
+
+11. How many flights flew from JFK to San Francisco in the dataset? Which month had the most flights from JFK to San Francisco?
+
+```{r}
+flights %>% filter(origin=="JFK" & dest=="SFO") %>%
+  count()
+
+flights %>% filter(origin=="JFK" & dest=="SFO") %>%
+  group_by(month) %>%
+  count() %>%
+  arrange(-n)
+```
+
+
+12. How many flights from JFK to San Francisco (SFO) landed after 11.45pm and were on time? What percentage was this of the total flights from JFK to San Fransisco in the dataset?
+
+```{r}
+flights_selected <- flights %>% filter(origin=="JFK" & dest=="SFO" & arr_time>2345 & arr_delay<=0) %>%
+  count() %>%
+  pull()
+
+flights_total <- flights %>% filter(origin=="JFK" & dest=="SFO") %>%
+  count() %>%
+  pull()
+
+(flights_selected/flights_total)*100
+```
+
+13. How many distinct planes (each plane has a different `tailnum`) flew from Newark (EWR) to Phoenix (PHX) in August? Hint: use the verb `distinct`. Which `tailnum` planes flew the most times on this route?
+
+```{r}
+flights %>% filter(origin=="EWR" & dest=="PHX" & month==8) %>%
+  distinct(tailnum) %>%
+  count()
+
+flights %>% filter(origin=="EWR" & dest=="PHX" & month==8) %>%
+  group_by(tailnum) %>%
+  count() %>%
+  arrange(-n)
+
+```
+
+
+14. What percentage of flights that took off late arrived on time? Hint: Try making two separate calculations and then calculating the percentage.
+
+```{r}
+num_flights <- flights %>% filter(dep_delay>=0) %>%
+  count()
+
+late_flights <- flights %>% filter(dep_delay>=0 & arr_delay<=0) %>%
+  count()
+
+late_flights/num_flights*100
+```
+

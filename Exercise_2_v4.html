@@ -291,7 +291,7 @@ $(document).ready(function () {
 
 <ol style="list-style-type: decimal">
 <li>Create a new Rmarkdown file in Rstudio.</li>
-<li>Load the ‘tidyverse’, ‘knitr’ and ‘nycflights13’ packages</li>
+<li>Load the ‘tidyverse’, ‘knitr’ and ‘nycflights13’ packages.</li>
 </ol>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyverse)
 <span class="kw">library</span>(knitr)
@@ -307,14 +307,15 @@ $(document).ready(function () {
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">flights <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">summarize</span>(<span class="dt">avg_delay=</span><span class="kw">mean</span>(dep_delay,<span class="dt">na.rm=</span><span class="ot">TRUE</span>)) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">kable</span>()</code></pre></div>
 <ol start="5" style="list-style-type: decimal">
-<li>Calculate the speed of each flight and then report a table of just the carrier, flight and speed variables, and just the first 5 rows of the table.</li>
+<li>What are the five fastest flights in the dataset? Calculate the speed of each flight and report a table with the origin, destination, carrier and speed of the five fastest flights.</li>
 </ol>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">flights <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">speed=</span>distance<span class="op">/</span>air_time) <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">select</span>(carrier, flight, speed) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">arrange</span>(<span class="op">-</span>speed) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">select</span>(origin, dest, carrier, speed) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">slice</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">kable</span>()</code></pre></div>
 <ol start="6" style="list-style-type: decimal">
-<li>Calculate the average speed separately for each airline (carrier), and arrange the table from fastest to slowest.</li>
+<li>Calculate the average speed separately for each airline (carrier), and arrange a table from fastest to slowest airline.</li>
 </ol>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">flights <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">speed=</span>distance<span class="op">/</span>air_time) <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">group_by</span>(carrier) <span class="op">%&gt;%</span>
@@ -322,30 +323,73 @@ $(document).ready(function () {
 <span class="st">  </span><span class="kw">arrange</span>(<span class="op">-</span>avg_speed) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">kable</span>()</code></pre></div>
 <ol start="7" style="list-style-type: decimal">
-<li>How do departure delays vary across months?</li>
+<li>How do departure delays vary across months? Report a table. What is the best month to fly?</li>
 </ol>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">flights <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">group_by</span>(month) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">summarize</span>(<span class="dt">avg_delay=</span><span class="kw">mean</span>(dep_delay,<span class="dt">na.rm=</span><span class="ot">TRUE</span>)) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">kable</span>()</code></pre></div>
-<ol start="8" style="list-style-type: decimal">
-<li>Make a table showing average departure delays by airline (row) and origin airport (column)</li>
+<ol start="9" style="list-style-type: decimal">
+<li>You want to take a holiday in September but hate departure delays. What is the best airport to fly from? What if you wanted to travel in October?</li>
 </ol>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">flights <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">group_by</span>(carrier,origin) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">summarize</span>(<span class="dt">avg_delay=</span><span class="kw">round</span>(<span class="kw">mean</span>(dep_delay,<span class="dt">na.rm=</span><span class="ot">TRUE</span>),<span class="dv">2</span>)) <span class="op">%&gt;%</span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">flights <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">group_by</span>(month,origin) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">summarize</span>(<span class="dt">avg_delay=</span><span class="kw">mean</span>(dep_delay,<span class="dt">na.rm=</span><span class="ot">TRUE</span>)) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">spread</span>(<span class="dt">key=</span><span class="st">&quot;origin&quot;</span>,<span class="dt">value=</span><span class="st">&quot;avg_delay&quot;</span>) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">kable</span>()</code></pre></div>
-<ol start="9" style="list-style-type: decimal">
-<li>How many flights from JFK to San Francisco (SFO) landed after 11.45pm on time?</li>
-</ol>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">flights <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(origin<span class="op">==</span><span class="st">&quot;JFK&quot;</span> <span class="op">&amp;</span><span class="st"> </span>dest<span class="op">==</span><span class="st">&quot;SFO&quot;</span> <span class="op">&amp;</span><span class="st"> </span>arr_time<span class="op">&gt;</span><span class="dv">2345</span> <span class="op">&amp;</span><span class="st"> </span>arr_delay<span class="op">&lt;=</span><span class="dv">0</span>) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">count</span>()</code></pre></div>
 <ol start="10" style="list-style-type: decimal">
-<li>How many distinct planes (each plane has a different <code>tailnum</code>) flew from Newark (EWR) to Phoenix (PHX) in August? Hint: use the verb <code>distinct</code></li>
+<li>Which airline has the worst average record for departure delays? Which airline has the worst record flying from JFK? Which airline is the most <em>consistent</em> (has the lowest variation) in departure delays? Report just the airline code as in-line code for each answer.</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">flights <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">group_by</span>(carrier) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">summarize</span>(<span class="dt">avg_delay=</span><span class="kw">round</span>(<span class="kw">mean</span>(dep_delay,<span class="dt">na.rm=</span><span class="ot">TRUE</span>),<span class="dv">2</span>)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">arrange</span>(<span class="op">-</span>avg_delay) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">slice</span>(<span class="dv">1</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">pull</span>(carrier)
+
+flights <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">group_by</span>(carrier) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">filter</span>(origin<span class="op">==</span><span class="st">&quot;JFK&quot;</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">summarize</span>(<span class="dt">avg_delay=</span><span class="kw">round</span>(<span class="kw">mean</span>(dep_delay,<span class="dt">na.rm=</span><span class="ot">TRUE</span>),<span class="dv">2</span>)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">arrange</span>(<span class="op">-</span>avg_delay) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">slice</span>(<span class="dv">1</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">pull</span>(carrier)
+
+flights <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">group_by</span>(carrier) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">summarize</span>(<span class="dt">sd_delay=</span><span class="kw">round</span>(<span class="kw">sd</span>(dep_delay,<span class="dt">na.rm=</span><span class="ot">TRUE</span>),<span class="dv">2</span>)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">arrange</span>(sd_delay) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">slice</span>(<span class="dv">1</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">pull</span>(carrier)</code></pre></div>
+<ol start="11" style="list-style-type: decimal">
+<li>How many flights flew from JFK to San Francisco in the dataset? Which month had the most flights from JFK to San Francisco?</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">flights <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(origin<span class="op">==</span><span class="st">&quot;JFK&quot;</span> <span class="op">&amp;</span><span class="st"> </span>dest<span class="op">==</span><span class="st">&quot;SFO&quot;</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">count</span>()
+
+flights <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(origin<span class="op">==</span><span class="st">&quot;JFK&quot;</span> <span class="op">&amp;</span><span class="st"> </span>dest<span class="op">==</span><span class="st">&quot;SFO&quot;</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">group_by</span>(month) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">count</span>() <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">arrange</span>(<span class="op">-</span>n)</code></pre></div>
+<ol start="12" style="list-style-type: decimal">
+<li>How many flights from JFK to San Francisco (SFO) landed after 11.45pm and were on time? What percentage was this of the total flights from JFK to San Fransisco in the dataset?</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">flights_selected &lt;-<span class="st"> </span>flights <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(origin<span class="op">==</span><span class="st">&quot;JFK&quot;</span> <span class="op">&amp;</span><span class="st"> </span>dest<span class="op">==</span><span class="st">&quot;SFO&quot;</span> <span class="op">&amp;</span><span class="st"> </span>arr_time<span class="op">&gt;</span><span class="dv">2345</span> <span class="op">&amp;</span><span class="st"> </span>arr_delay<span class="op">&lt;=</span><span class="dv">0</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">count</span>() <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">pull</span>()
+
+flights_total &lt;-<span class="st"> </span>flights <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(origin<span class="op">==</span><span class="st">&quot;JFK&quot;</span> <span class="op">&amp;</span><span class="st"> </span>dest<span class="op">==</span><span class="st">&quot;SFO&quot;</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">count</span>() <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">pull</span>()
+
+(flights_selected<span class="op">/</span>flights_total)<span class="op">*</span><span class="dv">100</span></code></pre></div>
+<ol start="13" style="list-style-type: decimal">
+<li>How many distinct planes (each plane has a different <code>tailnum</code>) flew from Newark (EWR) to Phoenix (PHX) in August? Hint: use the verb <code>distinct</code>. Which <code>tailnum</code> planes flew the most times on this route?</li>
 </ol>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">flights <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(origin<span class="op">==</span><span class="st">&quot;EWR&quot;</span> <span class="op">&amp;</span><span class="st"> </span>dest<span class="op">==</span><span class="st">&quot;PHX&quot;</span> <span class="op">&amp;</span><span class="st"> </span>month<span class="op">==</span><span class="dv">8</span>) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">distinct</span>(tailnum) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">count</span>()</code></pre></div>
-<ol start="11" style="list-style-type: decimal">
+<span class="st">  </span><span class="kw">count</span>()
+
+flights <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(origin<span class="op">==</span><span class="st">&quot;EWR&quot;</span> <span class="op">&amp;</span><span class="st"> </span>dest<span class="op">==</span><span class="st">&quot;PHX&quot;</span> <span class="op">&amp;</span><span class="st"> </span>month<span class="op">==</span><span class="dv">8</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">group_by</span>(tailnum) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">count</span>() <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">arrange</span>(<span class="op">-</span>n)</code></pre></div>
+<ol start="14" style="list-style-type: decimal">
 <li>What percentage of flights that took off late arrived on time? Hint: Try making two separate calculations and then calculating the percentage.</li>
 </ol>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">num_flights &lt;-<span class="st"> </span>flights <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(dep_delay<span class="op">&gt;=</span><span class="dv">0</span>) <span class="op">%&gt;%</span>

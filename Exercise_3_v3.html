@@ -24,6 +24,52 @@
 <link href="site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
 
 
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; background-color: #f8f8f8; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+pre, code { background-color: #f8f8f8; }
+code > span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code > span.dt { color: #204a87; } /* DataType */
+code > span.dv { color: #0000cf; } /* DecVal */
+code > span.bn { color: #0000cf; } /* BaseN */
+code > span.fl { color: #0000cf; } /* Float */
+code > span.ch { color: #4e9a06; } /* Char */
+code > span.st { color: #4e9a06; } /* String */
+code > span.co { color: #8f5902; font-style: italic; } /* Comment */
+code > span.ot { color: #8f5902; } /* Other */
+code > span.al { color: #ef2929; } /* Alert */
+code > span.fu { color: #000000; } /* Function */
+code > span.er { color: #a40000; font-weight: bold; } /* Error */
+code > span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #000000; } /* Constant */
+code > span.sc { color: #000000; } /* SpecialChar */
+code > span.vs { color: #4e9a06; } /* VerbatimString */
+code > span.ss { color: #4e9a06; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #000000; } /* Variable */
+code > span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code > span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code > span.ex { } /* Extension */
+code > span.at { color: #c4a000; } /* Attribute */
+code > span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code > span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+div.sourceCode {
+  overflow-x: visible;
+}
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
 
 
 <style type="text/css">
@@ -150,7 +196,7 @@ $(document).ready(function () {
 </style>
 <script>
 $(document).ready(function () {
-  window.initializeCodeFolding("hide" === "show");
+  window.initializeCodeFolding("show" === "show");
 });
 </script>
 
@@ -210,7 +256,7 @@ $(document).ready(function () {
       <a href="Exercise_1a_v3.html">Exercise 1</a>
     </li>
     <li>
-      <a href="Exercise_2_v3.html">Exercise 2</a>
+      <a href="Exercise_2_v4.html">Exercise 2</a>
     </li>
     <li>
       <a href="Exercise_3_v3.html">Exercise 3</a>
@@ -244,14 +290,27 @@ $(document).ready(function () {
 
 
 <ol style="list-style-type: decimal">
-<li><p>Create a new Rmarkdown document in Rstudio. Load the ‘tidyverse’ and ‘knitr’ packages. Install and load the ‘devtools’ and then the ‘CEPESP-R’ package.</p></li>
-<li><p>Let’s use the CEPESP-R API to download the voting data from the 2016 municipal elections. See <a href="https://github.com/Cepesp-Fgv/cepesp-r">here</a> and the code below.</p></li>
-<li><p>On average, how many people voted in a municipality in the first round of the 2016 election?</p></li>
+<li>Create a new Rmarkdown document in Rstudio. Load the ‘tidyverse’ and ‘knitr’ packages. Install and load the ‘devtools’ and then the ‘CEPESP-R’ package.</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyverse)
+<span class="kw">library</span>(knitr)
+
+<span class="kw">install.packages</span>(<span class="st">&quot;devtools&quot;</span>)
+<span class="kw">library</span>(devtools)
+
+devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">&quot;Cepesp-Fgv/cepesp-r&quot;</span>)
+<span class="kw">library</span>(cepespR)</code></pre></div>
+<ol start="2" style="list-style-type: decimal">
+<li>Let’s use the CEPESP-R API to download the prefeito candidate voting data from the 2016 municipal elections. See <a href="https://github.com/Cepesp-Fgv/cepesp-r">here</a> and the code below.</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">data &lt;-<span class="st"> </span><span class="kw">cepespdata</span>(<span class="dt">year=</span><span class="dv">2016</span>, <span class="dt">position=</span><span class="st">&quot;Prefeito&quot;</span>, <span class="dt">regional_aggregation=</span><span class="st">&quot;Municipality&quot;</span>,<span class="dt">political_aggregation=</span><span class="st">&quot;Candidate&quot;</span>)</code></pre></div>
+<ol start="3" style="list-style-type: decimal">
+<li><p>On average, how many people voted in any municipality in the first round of the 2016 election?</p></li>
 <li><p>What percentage of the votes cast in each region (<code>NOME_MACRO</code>) of the country were won by PMDB prefeito candidates?</p></li>
 <li><p>Now compare the previous result to the percentage of elected prefeitos (<code>DESC_SIT_TOT_TURNO</code>) who were from the PMDB in each region.</p></li>
-<li><p>How do male candidates differ from female candidates (<code>DESCRICAO_SEXO</code>)? Compare averages on two variables: The number of votes (<code>QTDE_VOTOS</code>) and age (<code>IDADE_DATA_ELEICAO</code>). Report the averages in a simple table.</p></li>
+<li><p>How do male candidates differ from female candidates (<code>DESCRICAO_SEXO</code>)? Compare averages on two variables: The number of votes (<code>QTDE_VOTOS</code>) and age (<code>IDADE_DATA_ELEICAO</code>). Report the averages in a simple table. Hint: Remember to use <code>summarise_at</code>.</p></li>
 <li><p>Conduct a t-test to assess if women prefeitos receive a statistically different quantity of votes to men. Report a simple table of the results. Hint: Remember the <code>tidy()</code> action after a messy statistical test.</p></li>
-<li><p>Conduct a difference-in-means t-test between men and women of both number of votes and age at the same time. Report the p-values of each t-test</p></li>
+<li><p>Conduct a difference-in-means t-test between men and women of both number of votes and age at the same time. Report the p-values of each t-test.</p></li>
 <li><p>Create a neat, well-labelled, table of the average age of elected prefeitos in each region (<code>NOME_MACRO</code>) and by gender (<code>DESCRICAO_SEXO</code>). The table should have regions in the rows and gender in the columns.</p></li>
 <li><p>Are married candidates (<code>DESCRICAO_ESTADO_CIVIL</code>) for prefeito more likely to be elected than unmarried (all groups except married) candidates? Provide a well-formatted, labelled, table.</p></li>
 </ol>

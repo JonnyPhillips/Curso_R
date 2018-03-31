@@ -3,30 +3,32 @@ title: "Analysis, Visualization and Mapping in R"
 subtitle: "Exercise 3: Descriptive Statistics"
 output: 
   html_document:
-    code_folding: hide
+    code_folding: show
 ---
 
 ```{r setup, echo=FALSE, warning=FALSE, message=FALSE}
-knitr::opts_chunk$set(include=FALSE, warning=FALSE, message=FALSE, eval=FALSE)
+knitr::opts_chunk$set(include=TRUE, warning=FALSE, message=FALSE, eval=FALSE, echo=FALSE)
 ```
 
 1. Create a new Rmarkdown document in Rstudio. Load the 'tidyverse' and 'knitr' packages. Install and load the 'devtools' and then the 'CEPESP-R' package. 
-```{r}
+```{r, echo=TRUE}
 library(tidyverse)
 library(knitr)
-#install.packages("devtools")
+
+install.packages("devtools")
 library(devtools)
-#devtools::install_github("Cepesp-Fgv/cepesp-r")
+
+devtools::install_github("Cepesp-Fgv/cepesp-r")
 library(cepespR)
 ```
 
-2. Let's use the CEPESP-R API to download the voting data from the 2016 municipal elections. See [here](https://github.com/Cepesp-Fgv/cepesp-r) and the code below.
+2. Let's use the CEPESP-R API to download the prefeito candidate voting data from the 2016 municipal elections. See [here](https://github.com/Cepesp-Fgv/cepesp-r) and the code below.
 
 ```{r, echo=TRUE}
 data <- cepespdata(year=2016, position="Prefeito", regional_aggregation="Municipality",political_aggregation="Candidate")
 ```
 
-3. On average, how many people voted in a municipality in the first round of the 2016 election?
+3. On average, how many people voted in any municipality in the first round of the 2016 election?
 
 ```{r}
 data %>% filter(NUM_TURNO==1) %>% 
@@ -59,7 +61,7 @@ data %>% filter(DESC_SIT_TOT_TURNO=="ELEITO") %>%
   kable(digits=1)
 ```
 
-6. How do male candidates differ from female candidates (`DESCRICAO_SEXO`)? Compare averages on two variables: The number of votes (`QTDE_VOTOS`) and age (`IDADE_DATA_ELEICAO`). Report the averages in a simple table.
+6. How do male candidates differ from female candidates (`DESCRICAO_SEXO`)? Compare averages on two variables: The number of votes (`QTDE_VOTOS`) and age (`IDADE_DATA_ELEICAO`). Report the averages in a simple table. Hint: Remember to use `summarise_at`.
 
 ```{r}
 vars <- c("QTDE_VOTOS","IDADE_DATA_ELEICAO")
@@ -79,7 +81,7 @@ data %>% filter(NUM_TURNO==1) %>%
   kable()
 ```
 
-8. Conduct a difference-in-means t-test between men and women of both number of votes and age at the same time. Report the p-values of each t-test
+8. Conduct a difference-in-means t-test between men and women of both number of votes and age at the same time. Report the p-values of each t-test.
 
 ```{r}
 data %>% filter(NUM_TURNO==1) %>%
@@ -89,6 +91,7 @@ data %>% filter(NUM_TURNO==1) %>%
 ```
 
 9. Create a neat, well-labelled, table of the average age of elected prefeitos in each region (`NOME_MACRO`) and by gender (`DESCRICAO_SEXO`). The table should have regions in the rows and gender in the columns.
+
 ```{r}
 data %>% filter(DESC_SIT_TOT_TURNO=="ELEITO") %>%
   group_by(NOME_MACRO,DESCRICAO_SEXO) %>%
@@ -98,6 +101,7 @@ data %>% filter(DESC_SIT_TOT_TURNO=="ELEITO") %>%
 ```
 
 10. Are married candidates (`DESCRICAO_ESTADO_CIVIL`) for prefeito more likely to be elected than unmarried (all groups except married) candidates? Provide a well-formatted, labelled, table.
+
 ```{r}
 table(data$DESCRICAO_ESTADO_CIVIL)
 
