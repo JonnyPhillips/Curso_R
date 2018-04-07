@@ -16,6 +16,8 @@ navbar:
           href: class_2_slides11.html
         - text: "Class 3"
           href: class_3_slides4.html
+        - text: "Class 4"
+          href: class_4_slides5.html
     - text: "Exercises"
       menu: 
         - text: "Exercise 1"
@@ -24,6 +26,8 @@ navbar:
           href: Exercise_2_v4.html
         - text: "Exercise 3"
           href: Exercise_3_v4.html
+        - text: "Exercise 4"
+          href: Exercise_4_v1.html
 output:
   html_document:
     theme: journal

@@ -10,7 +10,7 @@ output:
 knitr::opts_chunk$set(include=TRUE, warning=FALSE, message=FALSE, eval=FALSE, echo=FALSE)
 ```
 
-1. Create a new Rmarkdown document in Rstudio. Load the 'tidyverse', 'zeligverse', 'knitr', 'stargazer' and 'cepespR' packages. 
+1. Create a new Rmarkdown document in Rstudio. Load the `tidyverse`, `zeligverse`, `knitr`, `stargazer` and `cepespR` packages. 
 ```{r, echo=TRUE}
 library(tidyverse)
 library(zeligverse)
@@ -40,7 +40,7 @@ data %>% filter(NUM_TURNO==1) %>%
   zelig(Elected ~ DESCRICAO_SEXO + DESCRICAO_COR_RACA, data=., model="logit")
 ```
 
-5. Produce a neatly formatted table of the regression in question 4.
+5. Produce a neatly formatted table of the regression in question 4 using `stargazer`.
 
 ```{r, results='asis'}
 data %>% filter(NUM_TURNO==1) %>% 
@@ -60,7 +60,7 @@ data %>% filter(NUM_TURNO==1) %>%
   stargazer(type="html",title="The Effect of Gender on Probability of being Elected",digits=2)
 ```
 
-7. Use your regression in question 3 to predict how many votes on average an indigenous man would receive in an average election for prefeito. (Remember to make both variables factors before you run the regression).
+7. Use your regression in question 3 to predict how many votes on average an indigenous man would receive in an average election for prefeito. (Remember to make both explanatory variables factors before you run the regression).
 
 ```{r}
 data %>% filter(NUM_TURNO==1) %>% 
@@ -72,7 +72,7 @@ data %>% filter(NUM_TURNO==1) %>%
   summarize(avg_votes=mean(predicted_value))
 ```
 
-8. Create a density plot (`geom_density`) of the full set of predictions from question 7. 
+8. Create a histogram (`geom_histogram`) of the full set of predictions from question 7. 
 
 ```{r}
 data %>% filter(NUM_TURNO==1) %>% 
@@ -82,16 +82,30 @@ data %>% filter(NUM_TURNO==1) %>%
   sim() %>%
   zelig_qi_to_df() %>%
   ggplot() +
-  geom_density(aes(x=predicted_value)) +
+  geom_histogram(aes(x=predicted_value)) +
   theme_classic()
 ```
 
-9. How does the number of votes received change for an indigenous woman?
+9. Can you see anything unusual or inconsistent in the predicted values shown in your histogram in Question 8? Run the same code again but change the model to a `poisson` model that only predicts non-negative integer values. Which histogram makes more sense?
 
 ```{r}
 data %>% filter(NUM_TURNO==1) %>% 
   mutate(DESCRICAO_SEXO=factor(DESCRICAO_SEXO),DESCRICAO_COR_RACA=factor(DESCRICAO_COR_RACA)) %>%
-  zelig(QTDE_VOTOS ~ DESCRICAO_SEXO + DESCRICAO_COR_RACA, data=., model="ls") %>%
+  zelig(QTDE_VOTOS ~ DESCRICAO_SEXO + DESCRICAO_COR_RACA, data=., model="poisson") %>%
+  setx(DESCRICAO_SEXO="MASCULINO") %>%
+  sim() %>%
+  zelig_qi_to_df() %>%
+  ggplot() +
+  geom_histogram(aes(x=predicted_value)) +
+  theme_classic()
+```
+
+10. How does the number of votes received change if we change our indigenous man to an indigenous woman? (Hint: Use `setx1` after `setx` to specify a second set of x values. Use either a `ls` or `poisson` model.) Report the average of the predicted values for each gender.
+
+```{r}
+data %>% filter(NUM_TURNO==1) %>% 
+  mutate(DESCRICAO_SEXO=factor(DESCRICAO_SEXO),DESCRICAO_COR_RACA=factor(DESCRICAO_COR_RACA)) %>%
+  zelig(QTDE_VOTOS ~ DESCRICAO_SEXO + DESCRICAO_COR_RACA, data=., model="poisson") %>%
   setx(DESCRICAO_SEXO="MASCULINO") %>%
   setx1(DESCRICAO_SEXO="FEMININO") %>%
   sim() %>%

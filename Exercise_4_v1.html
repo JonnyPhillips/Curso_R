@@ -243,6 +243,9 @@ $(document).ready(function () {
     <li>
       <a href="class_3_slides4.html">Class 3</a>
     </li>
+    <li>
+      <a href="class_4_slides5.html">Class 4</a>
+    </li>
   </ul>
 </li>
 <li class="dropdown">
@@ -260,6 +263,9 @@ $(document).ready(function () {
     </li>
     <li>
       <a href="Exercise_3_v4.html">Exercise 3</a>
+    </li>
+    <li>
+      <a href="Exercise_4_v1.html">Exercise 4</a>
     </li>
   </ul>
 </li>
@@ -290,7 +296,7 @@ $(document).ready(function () {
 
 
 <ol style="list-style-type: decimal">
-<li>Create a new Rmarkdown document in Rstudio. Load the ‘tidyverse’, ‘zeligverse’, ‘knitr’, ‘stargazer’ and ‘cepespR’ packages.</li>
+<li>Create a new Rmarkdown document in Rstudio. Load the <code>tidyverse</code>, <code>zeligverse</code>, <code>knitr</code>, <code>stargazer</code> and <code>cepespR</code> packages.</li>
 </ol>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyverse)
 <span class="kw">library</span>(zeligverse)
@@ -304,11 +310,12 @@ $(document).ready(function () {
 <ol start="3" style="list-style-type: decimal">
 <li><p>Run a regression to assess if men get more votes than women (<code>DESCRICAO_SEXO</code>) in the first round of the election (<code>NUM_TURNO</code>), controlling for race (<code>DESCRICAO_COR_RACA</code>).</p></li>
 <li><p>Create a dummy variable (0/1) for whether each candidate was elected (<code>COD_SIT_TOT_TURNO</code> is <code>ELEITO</code>). Run the appropriate regression to assess if men are more likely to be elected than women, controlling for race (<code>DESCRICAO_COR_RACA</code>).</p></li>
-<li><p>Produce a neatly formatted table of the regression in question 4.</p></li>
+<li><p>Produce a neatly formatted table of the regression in question 4 using <code>stargazer</code>.</p></li>
 <li><p>Does being both black <em>and</em> female make it even harder to get elected? Use an interaction term in a regression to assess this hypothesis. Show the formatted output table.</p></li>
-<li><p>Use your regression in question 3 to predict how many votes on average an indigenous man would receive in an average election for prefeito. (Remember to make both variables factors before you run the regression).</p></li>
-<li><p>Create a density plot (<code>geom_density</code>) of the full set of predictions from question 7.</p></li>
-<li><p>How does the number of votes received change for an indigenous woman?</p></li>
+<li><p>Use your regression in question 3 to predict how many votes on average an indigenous man would receive in an average election for prefeito. (Remember to make both explanatory variables factors before you run the regression).</p></li>
+<li><p>Create a histogram (<code>geom_histogram</code>) of the full set of predictions from question 7.</p></li>
+<li><p>Can you see anything unusual or inconsistent in the predicted values shown in your histogram in Question 8? Run the same code again but change the model to a <code>poisson</code> model that only predicts non-negative integer values. Which histogram makes more sense?</p></li>
+<li><p>How does the number of votes received change if we change our indigenous man to an indigenous woman? (Hint: Use <code>setx1</code> after <code>setx</code> to specify a second set of x values. Use either a <code>ls</code> or <code>poisson</code> model.) Report the average of the predicted values for each gender.</p></li>
 </ol>
 
 
