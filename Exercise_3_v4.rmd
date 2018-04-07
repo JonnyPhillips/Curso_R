@@ -1,0 +1,117 @@
+---
+title: "Analysis, Visualization and Mapping in R"
+subtitle: "Exercise 3: Descriptive Statistics"
+output: 
+  html_document:
+    code_folding: show
+---
+
+```{r setup, echo=FALSE, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(include=TRUE, warning=FALSE, message=FALSE, eval=FALSE, echo=TRUE)
+```
+
+1. Create a new Rmarkdown document in Rstudio. Load the 'tidyverse' and 'knitr' packages. Install and load the 'devtools' and then the 'CEPESP-R' package.
+```{r, echo=TRUE}
+library(tidyverse)
+library(knitr)
+
+install.packages("devtools")
+library(devtools)
+
+devtools::install_github("Cepesp-Fgv/cepesp-r")
+library(cepespR)
+```
+
+2. Let's use the CEPESP-R API to download the prefeito candidate voting data from the 2016 municipal elections. See [here](https://github.com/Cepesp-Fgv/cepesp-r) and the code below.
+
+```{r, echo=TRUE}
+data <- cepespdata(year=2016, position="Prefeito", regional_aggregation="Municipality",political_aggregation="Candidate")
+```
+
+3. On average, how many people voted in any municipality in the first round of the 2016 election?
+
+```{r}
+data %>% filter(NUM_TURNO==1) %>% 
+  group_by(COD_MUN_IBGE) %>% 
+  summarize(total_votes=sum(QTDE_VOTOS)) %>% 
+  summarize(avg_votes=mean(total_votes))
+```
+
+4. What percentage of the votes cast in each region (`NOME_MACRO`) of the country were won by PMDB prefeito candidates? 
+
+```{r}
+data %>% group_by(NOME_MACRO,SIGLA_PARTIDO) %>%
+  summarize(total_votes=sum(QTDE_VOTOS)) %>%
+  group_by(NOME_MACRO) %>%
+  mutate(pct_votes=100*(total_votes/sum(total_votes))) %>%
+  filter(SIGLA_PARTIDO=="PMDB") %>%
+  kable(digits=1)
+  
+```
+
+5. Now compare the previous result to the percentage of elected prefeitos (`DESC_SIT_TOT_TURNO`) who were from the PMDB in each region. 
+
+```{r}
+data %>% filter(DESC_SIT_TOT_TURNO=="ELEITO") %>%
+  group_by(NOME_MACRO,SIGLA_PARTIDO) %>%
+  count() %>%
+  group_by(NOME_MACRO) %>%
+  mutate(pct_votes=100*(n/sum(n))) %>%
+  filter(SIGLA_PARTIDO=="PMDB") %>%
+  kable(digits=1)
+```
+
+6. How do male candidates differ from female candidates (`DESCRICAO_SEXO`)? Compare averages on two variables: The number of votes (`QTDE_VOTOS`) and age (`IDADE_DATA_ELEICAO`). Report the averages in a simple table. Hint: Remember to use `summarise_at`.
+
+```{r}
+vars <- c("QTDE_VOTOS","IDADE_DATA_ELEICAO")
+
+data %>% filter(NUM_TURNO==1) %>%
+  group_by(DESCRICAO_SEXO) %>%
+  summarise_at(vars,mean) %>%
+  kable(digits=1)
+```
+
+7. Conduct a t-test to assess if women prefeitos receive a statistically different quantity of votes to men. Report a simple table of the results. Hint: Remember the `tidy()` action after a messy statistical test.
+
+```{r}
+data %>% filter(NUM_TURNO==1) %>%
+  t.test(QTDE_VOTOS ~ DESCRICAO_SEXO, data=.) %>%
+  tidy() %>%
+  kable()
+```
+
+8. Conduct a difference-in-means t-test between men and women of both number of votes and age at the same time. Report the p-values of each t-test.
+
+```{r}
+data %>% filter(NUM_TURNO==1) %>%
+  summarise_at(vars,funs(t.test(.[DESCRICAO_SEXO=="MASCULINO"],.[DESCRICAO_SEXO=="FEMININO"])$p.value)) %>%
+  round(3) %>%
+  kable()
+```
+
+9. Create a neat, well-labelled, table of the average age of elected prefeitos in each region (`NOME_MACRO`) and by gender (`DESCRICAO_SEXO`). The table should have regions in the rows and gender in the columns.
+
+```{r}
+data %>% filter(DESC_SIT_TOT_TURNO=="ELEITO") %>%
+  group_by(NOME_MACRO,DESCRICAO_SEXO) %>%
+  summarize(Average_Age=mean(IDADE_DATA_ELEICAO)) %>%
+  spread(key="DESCRICAO_SEXO",value="Average_Age") %>%
+  kable(caption="Average Age of Elected Prefeitos by Region and Gender", align=c("lcc"), row.names=FALSE, col.names=c("Region","Women","Men"))
+```
+
+10. Are married candidates (`DESCRICAO_ESTADO_CIVIL`) for prefeito more likely to be elected than unmarried (all groups except married) candidates? Provide a well-formatted, labelled, table.
+
+```{r}
+table(data$DESCRICAO_ESTADO_CIVIL)
+
+data %>% group_by(DESCRICAO_ESTADO_CIVIL,DESC_SIT_TOT_TURNO) %>%
+  count() %>%
+  group_by(DESCRICAO_ESTADO_CIVIL) %>%
+  mutate(Pct_Elected=round(100*(n/sum(n)),1)) %>%
+  filter(DESC_SIT_TOT_TURNO=="ELEITO") %>%
+  select(DESCRICAO_ESTADO_CIVIL,Pct_Elected) %>%
+  kable(caption="Rate of Election by Marital Status",align="lc",col.names=c("Marital Status","% Elected"))
+
+```
+

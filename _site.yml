@@ -23,7 +23,7 @@ navbar:
         - text: "Exercise 2"
           href: Exercise_2_v4.html
         - text: "Exercise 3"
-          href: Exercise_3_v3.html
+          href: Exercise_3_v4.html
 output:
   html_document:
     theme: journal
