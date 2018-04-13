@@ -296,35 +296,37 @@ $(document).ready(function () {
 
 
 <h1 class="title toc-ignore">Analysis, Visualization and Mapping in R</h1>
-<h3 class="subtitle"><em>Exercise 3: Descriptive Statistics</em></h3>
+<h3 class="subtitle"><em>Exercise 5: Graphics</em></h3>
 
 </div>
 
 
 <ol style="list-style-type: decimal">
-<li>Create a new Rmarkdown document in Rstudio. Load the ‘tidyverse’ and ‘knitr’ packages. Install and load the ‘devtools’ and then the ‘CEPESP-R’ package.</li>
+<li>Create a new Rmarkdown document in Rstudio. Load the <code>tidyverse</code>, <code>knitr</code>, <code>stargazer</code> and <code>cepespR</code> packages.</li>
 </ol>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyverse)
 <span class="kw">library</span>(knitr)
-
-<span class="kw">install.packages</span>(<span class="st">&quot;devtools&quot;</span>)
-<span class="kw">library</span>(devtools)
-
-devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">&quot;Cepesp-Fgv/cepesp-r&quot;</span>)
-<span class="kw">library</span>(cepespR)</code></pre></div>
+<span class="kw">library</span>(cepespR)
+<span class="kw">library</span>(stargazer)</code></pre></div>
 <ol start="2" style="list-style-type: decimal">
-<li>Let’s use the CEPESP-R API to download the prefeito candidate voting data from the 2016 municipal elections. See <a href="https://github.com/Cepesp-Fgv/cepesp-r">here</a> and the code below.</li>
+<li>Let’s use the CEPESP-R API to download the prefeito candidate voting data from the 2016 municipal elections for Rio Grande do Norte. See <a href="https://github.com/Cepesp-Fgv/cepesp-r">here</a> and the code below.</li>
 </ol>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">data &lt;-<span class="st"> </span><span class="kw">cepespdata</span>(<span class="dt">year=</span><span class="dv">2016</span>, <span class="dt">position=</span><span class="st">&quot;Prefeito&quot;</span>, <span class="dt">regional_aggregation=</span><span class="st">&quot;Municipality&quot;</span>,<span class="dt">political_aggregation=</span><span class="st">&quot;Candidate&quot;</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">data &lt;-<span class="st"> </span><span class="kw">cepespdata</span>(<span class="dt">year=</span><span class="dv">2016</span>, <span class="dt">position=</span><span class="st">&quot;Prefeito&quot;</span>, <span class="dt">regional_aggregation=</span><span class="st">&quot;Municipality&quot;</span>,<span class="dt">political_aggregation=</span><span class="st">&quot;Candidate&quot;</span>,<span class="dt">state=</span><span class="st">&quot;RN&quot;</span>)</code></pre></div>
 <ol start="3" style="list-style-type: decimal">
-<li><p>On average, how many people voted in any municipality in the first round of the 2016 election?</p></li>
-<li><p>What percentage of the votes cast in each region (<code>NOME_MACRO</code>) of the country were won by PMDB prefeito candidates?</p></li>
-<li><p>Now compare the previous result to the percentage of elected prefeitos (<code>DESC_SIT_TOT_TURNO</code>) who were from the PMDB in each region.</p></li>
-<li><p>How do male candidates differ from female candidates (<code>DESCRICAO_SEXO</code>)? Compare averages on two variables: The number of votes (<code>QTDE_VOTOS</code>) and age (<code>IDADE_DATA_ELEICAO</code>). Report the averages in a simple table. Hint: Remember to use <code>summarise_at</code>.</p></li>
-<li><p>Conduct a t-test to assess if women prefeitos receive a statistically different quantity of votes to men. Report a simple table of the results. Hint: Remember the <code>tidy()</code> action after a messy statistical test.</p></li>
-<li><p>Conduct a difference-in-means t-test between men and women of both number of votes and age at the same time. Report the p-values of each t-test.</p></li>
-<li><p>Create a neat, well-labelled, table of the average age of elected prefeitos in each region (<code>NOME_MACRO</code>) and by gender (<code>DESCRICAO_SEXO</code>). The table should have regions in the rows and gender in the columns.</p></li>
-<li><p>Are married candidates (<code>DESCRICAO_ESTADO_CIVIL</code>) for prefeito more likely to be elected than unmarried (all groups except married) candidates? Provide a well-formatted, labelled, table.</p></li>
+<li><p>Create a histogram showing the distribution of candidates by age (<code>IDADE_DATA_ELEICAO</code>).</p></li>
+<li><p>Produce a scatterplot of points that shows the relationship between the <code>IDADE_DATA_ELEICAO</code> (x-axis) and <code>QTDE_VOTOS</code> (y-axis) of all candidates.</p></li>
+<li><p>Repeat the chart from Question 3, but colour the points to reflect the gender of each candidate (<code>DESCRICAO_SEXO</code>).</p></li>
+<li><p>Use a scale to change the colour that indicates gender in your chart from question 5.</p></li>
+<li><p>Instead of colouring points by gender, use a scale to colour data-points to reflect the candidate’s education level (<code>COD_GRAU_INSTRUCAO</code>). Treat this as a continuous variable where yellow is the least educated and red the most educated.</p></li>
+<li><p>Add two regression lines on top of your chart - one linear (<code>lm</code>) in red and one flexible local linear (<code>loess</code>) in dark green.</p></li>
+<li><p>Draw a scatterplot of all the female candidates under the age of 30 in the first round, with their age on the x-axis and their number of votes on the y-axis. Instead of a point, your chart should write the <code>NOME_URNA_CANDIDATO</code> at the correct position on the chart.</p></li>
+<li><p>Draw a column chart of the total votes received by each of the top 5 parties across the state.</p></li>
+<li><p>Make your chart from Question 10 more professional by giving it meaningful axis titles, a chart title, and removing the background color and lines.</p></li>
+<li><p>Use the code below to download state-level data from the 2014 Governors’ elections from cepespdata. Make a line chart showing how the total votes for each party changed between the first and second round of the election.</p></li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">data_govs &lt;-<span class="st"> </span><span class="kw">cepespdata</span>(<span class="dt">year=</span><span class="dv">2014</span>, <span class="dt">position=</span><span class="st">&quot;Governor&quot;</span>, <span class="dt">regional_aggregation=</span><span class="st">&quot;State&quot;</span>,<span class="dt">political_aggregation=</span><span class="st">&quot;Party&quot;</span>)</code></pre></div>
+<ol start="13" style="list-style-type: decimal">
+<li>Improve your chart from Question 12 by filtering out any parties that did not participate in the second round (Difficult! Try a <code>spread</code>,then <code>filter</code>, then <code>gather</code>.), applying a scale colour scheme, and making a separate line chart (<code>facet_grid</code>) for each party.</li>
 </ol>
 
 

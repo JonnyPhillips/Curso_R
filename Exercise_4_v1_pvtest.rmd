@@ -1,0 +1,173 @@
+---
+title: "Analysis, Visualization and Mapping in R"
+subtitle: "Exercise 3: Descriptive Statistics"
+output: 
+  html_document:
+    code_folding: show
+---
+
+```{r setup, echo=FALSE, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(include=TRUE, warning=FALSE, message=FALSE, eval=FALSE, echo=FALSE)
+```
+
+1. Create a new Rmarkdown document in Rstudio. Load the `tidyverse`, `zeligverse`, `knitr`, `stargazer` and `cepespR` packages. 
+```{r, echo=TRUE}
+library(tidyverse)
+library(zeligverse)
+library(knitr)
+library(cepespR)
+library(stargazer)
+```
+
+2. Let's use the CEPESP-R API to download the prefeito candidate voting data from the 2016 municipal elections. See [here](https://github.com/Cepesp-Fgv/cepesp-r) and the code below.
+
+```{r, echo=TRUE}
+data <- cepespdata(year=2016, position="Prefeito", regional_aggregation="Municipality",political_aggregation="Candidate")
+```
+
+3. Run a regression to assess if men get more votes than women (`DESCRICAO_SEXO`) in the first round of the election (`NUM_TURNO`), controlling for race (`DESCRICAO_COR_RACA`).
+
+```{r}
+data %>% filter(NUM_TURNO==1) %>% 
+  zelig(QTDE_VOTOS ~ DESCRICAO_SEXO + DESCRICAO_COR_RACA, data=., model="ls")
+```
+
+4. Create a dummy variable (0/1) for whether each candidate was elected (`COD_SIT_TOT_TURNO` is `ELEITO`). Run the appropriate regression to assess if men are more likely to be elected than women, controlling for race (`DESCRICAO_COR_RACA`).
+
+```{r}
+data %>% filter(NUM_TURNO==1) %>% 
+  mutate(Elected=ifelse(DESC_SIT_TOT_TURNO=="ELEITO",1,0)) %>%
+  zelig(Elected ~ DESCRICAO_SEXO + DESCRICAO_COR_RACA, data=., model="logit")
+```
+
+5. Produce a neatly formatted table of the regression in question 4 using `stargazer`.
+
+```{r, results='asis'}
+reg_non <- data %>% filter(NUM_TURNO==1) %>% 
+  mutate(DESCRICAO_SEXO=factor(DESCRICAO_SEXO),DESCRICAO_COR_RACA=factor(DESCRICAO_COR_RACA)) %>%
+  mutate(Elected=ifelse(DESC_SIT_TOT_TURNO=="ELEITO",1,0)) %>%
+  zelig(Elected ~ DESCRICAO_SEXO + DESCRICAO_COR_RACA, data=., model="logit") 
+
+data_new <- data.frame(
+  DESCRICAO_SEXO=c("MASCULINO","MASCULINO","FEMININO","FEMININO"),
+  DESCRICAO_COR_RACA=c("PRETA","BRANCA","BRANCA","PRETA")
+)
+
+temp <- reg_non %>% setx(data_new) %>% sim() %>% zelig_qi_to_df() 
+
+
+reg_non %>%
+  from_zelig_model() %>%
+  stargazer(type="html",title="The Effect of Gender on Probability of being Elected",digits=2)
+
+
+reg_non %>% setx(DESCRICAO_SEXO="FEMININO",DESCRICAO_COR_RACA="PRETA") %>%
+  sim() %>%
+  zelig_qi_to_df() %>%
+  summarize(fem_preta=mean(predicted_value))
+ 
+reg_non %>% setx(DESCRICAO_SEXO="FEMININO",DESCRICAO_COR_RACA="BRANCA") %>%
+  sim() %>%
+  zelig_qi_to_df() %>%
+  summarize(fem_branca=mean(predicted_value))
+
+reg_non %>% setx(DESCRICAO_SEXO="MASCULINO",DESCRICAO_COR_RACA="PRETA") %>%
+  sim() %>%
+  zelig_qi_to_df() %>%
+  summarize(masc_preta=mean(predicted_value))
+
+reg_non %>% setx(DESCRICAO_SEXO="MASCULINO",DESCRICAO_COR_RACA="BRANCA") %>%
+  sim() %>%
+  zelig_qi_to_df() %>%
+  summarize(masc_branca=mean(predicted_value))
+
+```
+
+6. Does being both black *and* female make it even harder to get elected? Use an interaction term in a regression to assess this hypothesis. Show the formatted output table.
+
+```{r, results='asis'}
+reg <- data %>% filter(NUM_TURNO==1) %>% 
+  mutate(DESCRICAO_SEXO=factor(DESCRICAO_SEXO),DESCRICAO_COR_RACA=factor(DESCRICAO_COR_RACA)) %>%
+  mutate(Elected=ifelse(DESC_SIT_TOT_TURNO=="ELEITO",1,0)) %>%
+  zelig(Elected ~ DESCRICAO_SEXO*DESCRICAO_COR_RACA, data=., model="logit")
+
+reg %>% from_zelig_model() %>%
+  stargazer(type="html",title="The Effect of Gender on Probability of being Elected",digits=2)
+
+reg %>% setx(DESCRICAO_SEXO="FEMININO",DESCRICAO_COR_RACA="PRETA") %>%
+  sim() %>%
+  zelig_qi_to_df() %>%
+  summarize(fem_preta=mean(predicted_value))
+
+reg %>% setx(DESCRICAO_SEXO="FEMININO",DESCRICAO_COR_RACA="BRANCA") %>%
+  sim() %>%
+  zelig_qi_to_df() %>%
+  summarize(fem_branca=mean(predicted_value))
+
+reg %>% setx(DESCRICAO_SEXO="MASCULINO",DESCRICAO_COR_RACA="PRETA") %>%
+  sim() %>%
+  zelig_qi_to_df() %>%
+  summarize(masc_preta=mean(predicted_value))
+
+reg %>% setx(DESCRICAO_SEXO="MASCULINO",DESCRICAO_COR_RACA="BRANCA") %>%
+  sim() %>%
+  zelig_qi_to_df() %>%
+  summarize(masc_branca=mean(predicted_value))
+
+  
+```
+
+7. Use your regression in question 3 to predict how many votes on average an indigenous man would receive in an average election for prefeito. (Remember to make both explanatory variables factors before you run the regression).
+
+```{r}
+data %>% filter(NUM_TURNO==1) %>% 
+  mutate(DESCRICAO_SEXO=factor(DESCRICAO_SEXO),DESCRICAO_COR_RACA=factor(DESCRICAO_COR_RACA)) %>%
+  zelig(QTDE_VOTOS ~ DESCRICAO_SEXO + DESCRICAO_COR_RACA, data=., model="ls") %>%
+  setx(DESCRICAO_SEXO="MASCULINO") %>%
+  sim() %>%
+  zelig_qi_to_df() %>%
+  summarize(avg_votes=mean(predicted_value))
+```
+
+8. Create a histogram (`geom_histogram`) of the full set of predictions from question 7. 
+
+```{r}
+data %>% filter(NUM_TURNO==1) %>% 
+  mutate(DESCRICAO_SEXO=factor(DESCRICAO_SEXO),DESCRICAO_COR_RACA=factor(DESCRICAO_COR_RACA)) %>%
+  zelig(QTDE_VOTOS ~ DESCRICAO_SEXO + DESCRICAO_COR_RACA, data=., model="ls") %>%
+  setx(DESCRICAO_SEXO="MASCULINO") %>%
+  sim() %>%
+  zelig_qi_to_df() %>%
+  ggplot() +
+  geom_histogram(aes(x=predicted_value)) +
+  theme_classic()
+```
+
+9. Can you see anything unusual or inconsistent in the predicted values shown in your histogram in Question 8? Run the same code again but change the model to a `poisson` model that only predicts non-negative integer values. Which histogram makes more sense?
+
+```{r}
+data %>% filter(NUM_TURNO==1) %>% 
+  mutate(DESCRICAO_SEXO=factor(DESCRICAO_SEXO),DESCRICAO_COR_RACA=factor(DESCRICAO_COR_RACA)) %>%
+  zelig(QTDE_VOTOS ~ DESCRICAO_SEXO + DESCRICAO_COR_RACA, data=., model="poisson") %>%
+  setx(DESCRICAO_SEXO="MASCULINO") %>%
+  sim() %>%
+  zelig_qi_to_df() %>%
+  ggplot() +
+  geom_histogram(aes(x=predicted_value)) +
+  theme_classic()
+```
+
+10. How does the number of votes received change if we change our indigenous man to an indigenous woman? (Hint: Use `setx1` after `setx` to specify a second set of x values. Use either a `ls` or `poisson` model.) Report the average of the predicted values for each gender.
+
+```{r}
+data %>% filter(NUM_TURNO==1) %>% 
+  mutate(DESCRICAO_SEXO=factor(DESCRICAO_SEXO),DESCRICAO_COR_RACA=factor(DESCRICAO_COR_RACA)) %>%
+  zelig(QTDE_VOTOS ~ DESCRICAO_SEXO + DESCRICAO_COR_RACA, data=., model="poisson") %>%
+  setx(DESCRICAO_SEXO="MASCULINO") %>%
+  setx1(DESCRICAO_SEXO="FEMININO") %>%
+  sim() %>%
+  zelig_qi_to_df() %>%
+  group_by(DESCRICAO_SEXO) %>%
+  summarize(avg_votes=mean(predicted_value)) %>%
+  kable()
+```

@@ -18,6 +18,8 @@ navbar:
           href: class_3_slides4.html
         - text: "Class 4"
           href: class_4_slides5.html
+        - text: "Class 5"
+          href: class_5_slides2.html
     - text: "Exercises"
       menu: 
         - text: "Exercise 1"
@@ -28,6 +30,8 @@ navbar:
           href: Exercise_3_v4.html
         - text: "Exercise 4"
           href: Exercise_4_v1.html
+        - text: "Exercise 5"
+          href: Exercise_5_v1.html
 output:
   html_document:
     theme: journal

@@ -1,0 +1,138 @@
+---
+title: "Analysis, Visualization and Mapping in R"
+subtitle: "Exercise 5: Graphics"
+output: 
+  html_document:
+    code_folding: show
+---
+
+```{r setup, echo=FALSE, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(include=TRUE, warning=FALSE, message=FALSE, eval=FALSE, echo=FALSE)
+```
+
+1. Create a new Rmarkdown document in Rstudio. Load the `tidyverse`, `knitr`, `stargazer` and `cepespR` packages. 
+```{r, echo=TRUE}
+library(tidyverse)
+library(knitr)
+library(cepespR)
+library(stargazer)
+```
+
+2. Let's use the CEPESP-R API to download the prefeito candidate voting data from the 2016 municipal elections for Rio Grande do Norte. See [here](https://github.com/Cepesp-Fgv/cepesp-r) and the code below.
+
+```{r, echo=TRUE}
+data <- cepespdata(year=2016, position="Prefeito", regional_aggregation="Municipality",political_aggregation="Candidate",state="RN")
+```
+
+3. Create a histogram showing the distribution of candidates by age (`IDADE_DATA_ELEICAO`).
+
+```{r}
+data %>% ggplot() +
+  geom_histogram(aes(x=IDADE_DATA_ELEICAO))
+  
+```
+
+4. Produce a scatterplot of points that shows the relationship between the `IDADE_DATA_ELEICAO` (x-axis) and `QTDE_VOTOS` (y-axis) of all candidates.
+
+```{r}
+data %>% ggplot() +
+  geom_point(aes(x=IDADE_DATA_ELEICAO,y=QTDE_VOTOS))
+  
+```
+
+5. Repeat the chart from Question 3, but colour the points to reflect the gender of each candidate (`DESCRICAO_SEXO`).
+
+```{r}
+data %>% ggplot() +
+  geom_point(aes(x=IDADE_DATA_ELEICAO,y=QTDE_VOTOS, color=DESCRICAO_SEXO))
+```
+
+6. Use a scale to change the colour that indicates gender in your chart from question 5.
+
+```{r}
+data %>% ggplot() +
+  geom_point(aes(x=IDADE_DATA_ELEICAO,y=QTDE_VOTOS, color=DESCRICAO_SEXO)) +
+  scale_color_brewer(palette="Set2")
+```
+
+7. Instead of colouring points by gender, use a scale to colour data-points to reflect the candidate's education level (`COD_GRAU_INSTRUCAO`). Treat this as a continuous variable where yellow is the least educated and red the most educated.
+
+```{r}
+data %>% ggplot() +
+  geom_point(aes(x=IDADE_DATA_ELEICAO,y=QTDE_VOTOS, color=COD_GRAU_INSTRUCAO)) +
+  scale_color_gradient(low="yellow",high="red")
+```
+
+8. Add two regression lines on top of your chart - one linear (`lm`) in red and one flexible local linear (`loess`) in dark green.
+
+```{r}
+data %>% ggplot() +
+  geom_point(aes(x=IDADE_DATA_ELEICAO,y=QTDE_VOTOS, color=DESCRICAO_SEXO)) +
+  geom_smooth(aes(x=IDADE_DATA_ELEICAO,y=QTDE_VOTOS), method="lm",color="red") +
+  geom_smooth(aes(x=IDADE_DATA_ELEICAO,y=QTDE_VOTOS), method="loess",color="dark green")
+```
+
+9. Draw a scatterplot of all the female candidates under the age of 30 in the first round, with their age on the x-axis and their number of votes on the y-axis. Instead of a point, your chart should write the `NOME_URNA_CANDIDATO` at the correct position on the chart.
+
+```{r}
+data %>% filter(DESCRICAO_SEXO=="FEMININO" & IDADE_DATA_ELEICAO<30) %>% 
+  ggplot() +
+  geom_text(aes(x=IDADE_DATA_ELEICAO,y=QTDE_VOTOS, label=NOME_URNA_CANDIDATO))
+```
+
+10. Draw a column chart of the total votes received by each of the top 5 parties across the state.
+
+```{r}
+data %>% group_by(SIGLA_PARTIDO) %>%
+  summarize(Total_Votos=sum(QTDE_VOTOS)) %>%
+  arrange(-Total_Votos) %>%
+  ungroup() %>%
+  slice(1:5) %>%
+  ggplot() +
+  geom_col(aes(x=SIGLA_PARTIDO,y=Total_Votos))
+```
+
+11. Make your chart from Question 10 more professional by giving it meaningful axis titles, a chart title, and removing the background color and lines.
+
+```{r}
+data %>% group_by(SIGLA_PARTIDO) %>%
+  summarize(Total_Votos=sum(QTDE_VOTOS)) %>%
+  arrange(-Total_Votos) %>%
+  ungroup() %>%
+  slice(1:5) %>%
+  ggplot() +
+  geom_col(aes(x=SIGLA_PARTIDO,y=Total_Votos)) +
+  xlab("Party Abbreviation") +
+  ylab("Number of Votes") + 
+  ggtitle("Chart of Total Party Votes in 2016 Rio Grande do Norte Prefeito Elections") +
+  theme_classic()
+```
+
+12. Use the code below to download state-level data from the 2014 Governors' elections from cepespdata. Make a line chart showing how the total votes for each party changed between the first and second round of the election.
+
+```{r, echo=TRUE}
+data_govs <- cepespdata(year=2014, position="Governor", regional_aggregation="State",political_aggregation="Party")
+```
+
+```{r}
+data_govs %>% group_by(SIGLA_PARTIDO,NUM_TURNO) %>%
+  summarize(Total_Votos=sum(QTDE_VOTOS)) %>%
+  ggplot() +
+  geom_line(aes(x=NUM_TURNO,y=Total_Votos,colour=SIGLA_PARTIDO))
+
+```
+
+13. Improve your chart from Question 12 by filtering out any parties that did not participate in the second round (Difficult! Try a `spread`,then `filter`, then `gather`.), applying a scale colour scheme, and making a separate line chart (`facet_grid`) for each party. 
+
+```{r}
+data_govs %>% group_by(SIGLA_PARTIDO,NUM_TURNO) %>%
+  summarize(Total_Votos=sum(QTDE_VOTOS)) %>%
+  spread(key="NUM_TURNO",value="Total_Votos") %>%
+  filter(is.na(`2`)==FALSE) %>%
+  gather(key="NUM_TURNO",value="Total_Votos",-SIGLA_PARTIDO) %>%
+  ggplot() +
+  geom_line(aes(x=NUM_TURNO,y=Total_Votos,colour=SIGLA_PARTIDO)) +
+  scale_color_brewer(palette="Set1") +
+  facet_grid(.~SIGLA_PARTIDO)
+
+```
