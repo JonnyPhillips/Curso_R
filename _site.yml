@@ -19,7 +19,7 @@ navbar:
         - text: "Class 4"
           href: class_4_slides5.html
         - text: "Class 5"
-          href: class_5_slides2.html
+          href: class_5_slides3.html
     - text: "Exercises"
       menu: 
         - text: "Exercise 1"
