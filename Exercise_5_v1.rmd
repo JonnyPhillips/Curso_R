@@ -29,7 +29,6 @@ data <- cepespdata(year=2016, position="Prefeito", regional_aggregation="Municip
 ```{r}
 data %>% ggplot() +
   geom_histogram(aes(x=IDADE_DATA_ELEICAO))
-  
 ```
 
 4. Produce a scatterplot of points that shows the relationship between the `IDADE_DATA_ELEICAO` (x-axis) and `QTDE_VOTOS` (y-axis) of all candidates.
@@ -37,17 +36,16 @@ data %>% ggplot() +
 ```{r}
 data %>% ggplot() +
   geom_point(aes(x=IDADE_DATA_ELEICAO,y=QTDE_VOTOS))
-  
 ```
 
-5. Repeat the chart from Question 3, but colour the points to reflect the gender of each candidate (`DESCRICAO_SEXO`).
+5. Repeat the chart from Question 4, but colour the points to reflect the gender of each candidate (`DESCRICAO_SEXO`).
 
 ```{r}
 data %>% ggplot() +
   geom_point(aes(x=IDADE_DATA_ELEICAO,y=QTDE_VOTOS, color=DESCRICAO_SEXO))
 ```
 
-6. Use a scale to change the colour that indicates gender in your chart from question 5.
+6. Add a discrete scale to change the colour that indicates gender in your chart from question 5.
 
 ```{r}
 data %>% ggplot() +
@@ -55,7 +53,7 @@ data %>% ggplot() +
   scale_color_brewer(palette="Set2")
 ```
 
-7. Instead of colouring points by gender, use a scale to colour data-points to reflect the candidate's education level (`COD_GRAU_INSTRUCAO`). Treat this as a continuous variable where yellow is the least educated and red the most educated.
+7. Instead of colouring the points by gender, use a scale to colour the data points to reflect the candidate's education level (`COD_GRAU_INSTRUCAO`). Treat this as a continuous variable where yellow is the least educated and red the most educated.
 
 ```{r}
 data %>% ggplot() +

@@ -1,0 +1,111 @@
+---
+title: "Analysis, Visualization and Mapping in R"
+subtitle: "Exercise 3: Descriptive Statistics"
+output: 
+  html_document:
+    code_folding: show
+---
+
+```{r setup, echo=FALSE, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(include=TRUE, warning=FALSE, message=FALSE, eval=FALSE, echo=FALSE)
+```
+
+1. Create a new Rmarkdown document in Rstudio. Load the 'tidyverse',''zeligverse, 'knitr' and `cepespR` packages. Install and load the 'readxl' package.
+```{r, echo=TRUE}
+library(tidyverse)
+library(zeligverse)
+library(knitr)
+library(cepespR)
+library(readxl)
+```
+
+2. Let's use the CEPESP-R API to download the prefeito candidate voting data from the 2016 municipal elections. See [here](https://github.com/Cepesp-Fgv/cepesp-r) and the code below.
+
+```{r, echo=TRUE}
+data <- cepespdata(year=2016, position="Prefeito", regional_aggregation="Municipality",political_aggregation="Candidate")
+```
+
+3. Let's also get data from IBGE on municipalities:
+
+```{r, echo=TRUE}
+download.file("ftp://ftp.ibge.gov.br/Perfil_Municipios/2005/base_MUNIC_2005.zip","perfil.zip")
+unzip("perfil.zip")
+ibge <- read_excel(paste0(getwd(),"/Base 2005.xls"),"Leg e inst planej")
+```
+
+4. Now we have two tables and want to link them. First, we need a key in each table for each unit, i.e. each municipality. In the cepesp data, use `COD_MUN_IBGE` and in the IBGE data use `A1`. But `COD_MUN_IBGE` has 7 digits while `A` has 6. Use `separate` on the cepesp data to make a column with the 6 digit IBGE code.
+
+```{r}
+data <- data %>% separate(COD_MUN_IBGE,into=c("COD_MUN_IBGE_6","Ignore"),sep=6)
+```
+
+5. Now we need to make sure the key column in each table has the same name. Rename the IBGE column `A1` to also be named `COD_MUN_IBGE_6`.
+
+```{r}
+ibge <- ibge %>% rename("COD_MUN_IBGE_6"="A1")
+```
+
+6. One more problem: the two columns are now of different types. Make the cepesp data column `COD_MUN_IBGE_6` numeric.
+
+```{r}
+data <- data %>% mutate(COD_MUN_IBGE_6=as.numeric(COD_MUN_IBGE_6))
+```
+
+7. Now we can start with the cepesp electoral data and merge in the ibge dataset with a `left_join`. How many rows are there?
+
+```{r}
+data %>% left_join(ibge,by="COD_MUN_IBGE_6") %>% count()
+```
+
+8. Note that in question 6 above the IBGE information was duplicated for every candidate in each municipality. Now let's try a merge where we have only one row for each municipality in the electoral data. Using the original cepesp data, calculate the total number of votes in each municipality:
+
+```{r}
+total_mun <- data %>% group_by(COD_MUN_IBGE_6) %>% summarize(QTDE_VOTOS=sum(QTDE_VOTOS,na.rm=TRUE))
+```
+
+9. Merge this new electoral data with the IBGE data using a `left_join`. How many rows are there?
+
+```{r}
+total_mun %>% left_join(ibge,by="COD_MUN_IBGE_6") %>% count()
+```
+
+10. Merge this new electoral data with the IBGE data using a `right_join`. How many rows are there?
+
+```{r}
+total_mun %>% right_join(ibge,by="COD_MUN_IBGE_6") %>% count()
+```
+
+11. Merge this new electoral data with the IBGE data using an `inner_join`. How many rows are there?
+
+```{r}
+total_mun %>% inner_join(ibge,by="COD_MUN_IBGE_6") %>% count()
+```
+
+12. Merge this new electoral data with the IBGE data using a `full_join`. How many rows are there?
+
+```{r}
+total_mun %>% full_join(ibge,by="COD_MUN_IBGE_6") %>% count()
+```
+
+13. The row numbers above suggest that some municipalities are in each dataset that are not in the other. Can you identify which (using their `COD_MUN_IBGE_6`)?
+
+```{r}
+#In electoral data but not IBGE:
+total_mun$COD_MUN_IBGE_6[which(!(total_mun$COD_MUN_IBGE_6 %in% ibge$COD_MUN_IBGE_6))]
+
+#In IBGE but not in electoral data:
+ibge$COD_MUN_IBGE_6[which(ibge$COD_MUN_IBGE_6 %in% total_mun$COD_MUN_IBGE_6==FALSE)]
+```
+
+14. Let's estimate if municipalities with more voters are more likely to have a Conselho Municipal de Política urbana, Desenvolvimento Urbano, da Cidade ou similar, variable A64 in the IBGE data. Use `case_when` to turn this variable into a binary 0/1 numeric variable so we can use it as the outcome variable in a logit regression.
+
+```{r}
+total_mun2 <- total_mun %>% inner_join(ibge,by="COD_MUN_IBGE_6") %>% 
+  mutate(Conselho=case_when(A64=="Sim"~1,TRUE~0))
+```
+
+15. According to a quick logit regression, are municipalities with more voters more likely to have a Conselho Municipal?
+ 
+```{r}
+total_mun2 %>% zelig(Conselho~QTDE_VOTOS,data=.,model="logit")
+```
