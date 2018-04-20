@@ -338,8 +338,9 @@ ibge &lt;-<span class="st"> </span><span class="kw">read_excel</span>(<span clas
 <li><p>Now use <code>case_when</code> to recode variable <code>A67</code>, the year in which the Lei orgânica do município was passed, into a binary variable which is <code>1</code> if the year is before 1990. Also remember to recode the value <code>Ignorado</code> to <code>NA</code> - to do this you need to specify the new value <code>NA</code> as <code>NA_real</code>.</p></li>
 <li><p>According to a quick logit regresion, are municipalities with more voters more likely to have passed a Lei orgânica do município before 1990?</p></li>
 <li><p>Organize your results to the above questions in a clean R Markdown document (as PDF or HTML), using chunk parameters to block the warnings, messages and raw code itself. The document should contain only explanation text, tables and graphics.</p></li>
-<li><p>Include in your document a bibliography using the .bib file (example.bib)[example.bib] and reference this course!</p></li>
+<li><p>Download the bibliography file <code>example.bib</code> to your working directory using the code below. Reference this bibliography file in your document and reference the Fujiwara file using its key <code>@Fujiwara2011</code>.</p></li>
 </ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">download.file</span>(<span class="st">&quot;https://raw.githubusercontent.com/JonnyPhillips/Curso_R/master/Example.bib?token=AAg1ZYnoaVwdKWkwwnQbBLH2YO6b8T9Gks5a40uBwA%3D%3D&quot;</span>,<span class="dt">destfile=</span><span class="st">&quot;example.bib&quot;</span>)</code></pre></div>
 
 
 
