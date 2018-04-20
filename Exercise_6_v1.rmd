@@ -10,7 +10,7 @@ output:
 knitr::opts_chunk$set(include=TRUE, warning=FALSE, message=FALSE, eval=FALSE, echo=FALSE)
 ```
 
-1. Create a new Rmarkdown document in Rstudio. Load the 'tidyverse',''zeligverse, 'knitr' and `cepespR` packages. Install and load the 'readxl' package.
+1. Create a new Rmarkdown document in Rstudio. Load the 'tidyverse','zeligverse, 'knitr' and `cepespR` packages. Install and load the 'readxl' package.
 ```{r, echo=TRUE}
 library(tidyverse)
 library(zeligverse)
@@ -33,7 +33,7 @@ unzip("perfil.zip")
 ibge <- read_excel(paste0(getwd(),"/Base 2005.xls"),"Leg e inst planej")
 ```
 
-4. Now we have two tables and want to link them. First, we need a key in each table for each unit, i.e. each municipality. In the cepesp data, use `COD_MUN_IBGE` and in the IBGE data use `A1`. But `COD_MUN_IBGE` has 7 digits while `A` has 6. Use `separate` on the cepesp data to make a column with the 6 digit IBGE code.
+4. Now we have two tables and want to link them. First, we need a key in each table for each unit, i.e. each municipality. In the cepesp data, we can use `COD_MUN_IBGE` and in the IBGE data we can use `A1`. But `COD_MUN_IBGE` has 7 digits while `A` has 6. Use the function `separate` on the cepesp data to make a column with the 6 digit IBGE code and call it `COD_MUN_IBGE_6`.
 
 ```{r}
 data <- data %>% separate(COD_MUN_IBGE,into=c("COD_MUN_IBGE_6","Ignore"),sep=6)
@@ -45,7 +45,7 @@ data <- data %>% separate(COD_MUN_IBGE,into=c("COD_MUN_IBGE_6","Ignore"),sep=6)
 ibge <- ibge %>% rename("COD_MUN_IBGE_6"="A1")
 ```
 
-6. One more problem: the two columns are now of different types. Make the cepesp data column `COD_MUN_IBGE_6` numeric.
+6. One more problem: the two columns are now of different types. Make sure both columns `COD_MUN_IBGE_6` are numeric.
 
 ```{r}
 data <- data %>% mutate(COD_MUN_IBGE_6=as.numeric(COD_MUN_IBGE_6))
@@ -57,37 +57,22 @@ data <- data %>% mutate(COD_MUN_IBGE_6=as.numeric(COD_MUN_IBGE_6))
 data %>% left_join(ibge,by="COD_MUN_IBGE_6") %>% count()
 ```
 
-8. Note that in question 6 above the IBGE information was duplicated for every candidate in each municipality. Now let's try a merge where we have only one row for each municipality in the electoral data. Using the original cepesp data, calculate the total number of votes in each municipality:
+8. Note that in question 7 above the IBGE information was duplicated for every candidate in each municipality. There was a "many-to-one" relationship. Now let's try a one-to-one relationship between our tables, which means we need to restructure our electoral data to have only one row for each municipality. Using the original cepesp data, calculate the total number of votes in each municipality.
 
 ```{r}
 total_mun <- data %>% group_by(COD_MUN_IBGE_6) %>% summarize(QTDE_VOTOS=sum(QTDE_VOTOS,na.rm=TRUE))
 ```
 
-9. Merge this new electoral data with the IBGE data using a `left_join`. How many rows are there?
+9. Merge this new electoral data with the IBGE data using a `left_join`. How many rows are there? How many rows are there with a `right_join`? With an `inner_join`? With a `full_join`?
 
 ```{r}
 total_mun %>% left_join(ibge,by="COD_MUN_IBGE_6") %>% count()
-```
-
-10. Merge this new electoral data with the IBGE data using a `right_join`. How many rows are there?
-
-```{r}
 total_mun %>% right_join(ibge,by="COD_MUN_IBGE_6") %>% count()
-```
-
-11. Merge this new electoral data with the IBGE data using an `inner_join`. How many rows are there?
-
-```{r}
 total_mun %>% inner_join(ibge,by="COD_MUN_IBGE_6") %>% count()
-```
-
-12. Merge this new electoral data with the IBGE data using a `full_join`. How many rows are there?
-
-```{r}
 total_mun %>% full_join(ibge,by="COD_MUN_IBGE_6") %>% count()
 ```
 
-13. The row numbers above suggest that some municipalities are in each dataset that are not in the other. Can you identify which (using their `COD_MUN_IBGE_6`)?
+10. The row numbers above suggest that some municipalities are in each dataset that are not in the other. Can you identify which (using their `COD_MUN_IBGE_6`)?
 
 ```{r}
 #In electoral data but not IBGE:
@@ -97,15 +82,32 @@ total_mun$COD_MUN_IBGE_6[which(!(total_mun$COD_MUN_IBGE_6 %in% ibge$COD_MUN_IBGE
 ibge$COD_MUN_IBGE_6[which(ibge$COD_MUN_IBGE_6 %in% total_mun$COD_MUN_IBGE_6==FALSE)]
 ```
 
-14. Let's estimate if municipalities with more voters are more likely to have a Conselho Municipal de Política urbana, Desenvolvimento Urbano, da Cidade ou similar, variable A64 in the IBGE data. Use `case_when` to turn this variable into a binary 0/1 numeric variable so we can use it as the outcome variable in a logit regression.
+11. Let's estimate if municipalities with more voters are more likely to have a Conselho Municipal de Política urbana, Desenvolvimento Urbano, da Cidade ou similar, variable A64 in the IBGE data. Use `case_when` to turn this variable into a binary 0/1 numeric variable so we can use it as the outcome variable in a logit regression.
 
 ```{r}
 total_mun2 <- total_mun %>% inner_join(ibge,by="COD_MUN_IBGE_6") %>% 
   mutate(Conselho=case_when(A64=="Sim"~1,TRUE~0))
 ```
 
-15. According to a quick logit regression, are municipalities with more voters more likely to have a Conselho Municipal?
+12. According to a quick logit regression, are municipalities with more voters more likely to have a Conselho Municipal?
  
 ```{r}
 total_mun2 %>% zelig(Conselho~QTDE_VOTOS,data=.,model="logit")
 ```
+
+13. Now use `case_when` to recode variable `A67`, the year in which the Lei orgânica do município was passed, into a binary variable which is `1` if the year is before 1990. Also remember to recode the value `Ignorado` to `NA` - to do this you need to specify the new value `NA` as `NA_real`.
+
+```{r}
+total_mun3 <- total_mun %>% inner_join(ibge,by="COD_MUN_IBGE_6") %>% 
+  mutate(Lei=case_when(as.numeric(A67)>1990~0,as.numeric(A67)<=1990~1,A76=="Ignorado"~NA_real_))
+```
+
+14. According to a quick logit regresion, are municipalities with more voters more likely to have passed a Lei orgânica do município before 1990?
+
+```{r}
+total_mun3 %>% zelig(Lei~QTDE_VOTOS,data=.,model="logit")
+```
+
+15. Organize your results to the above questions in a clean R Markdown document (as PDF or HTML), using chunk parameters to block the warnings, messages and raw code itself. The document should contain only explanation text, tables and graphics.
+
+16. Include in your document a bibliography using the .bib file (example.bib)[example.bib] and reference this course!

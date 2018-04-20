@@ -249,6 +249,9 @@ $(document).ready(function () {
     <li>
       <a href="class_5_slides3.html">Class 5</a>
     </li>
+    <li>
+      <a href="class_6_slides2.html">Class 6</a>
+    </li>
   </ul>
 </li>
 <li class="dropdown">
@@ -272,6 +275,9 @@ $(document).ready(function () {
     </li>
     <li>
       <a href="Exercise_5_v1.html">Exercise 5</a>
+    </li>
+    <li>
+      <a href="Exercise_6_v1.html">Exercise 6</a>
     </li>
   </ul>
 </li>
@@ -302,7 +308,7 @@ $(document).ready(function () {
 
 
 <ol style="list-style-type: decimal">
-<li>Create a new Rmarkdown document in Rstudio. Load the ‘tidyverse’,‘’zeligverse, ’knitr’ and <code>cepespR</code> packages. Install and load the ‘readxl’ package.</li>
+<li>Create a new Rmarkdown document in Rstudio. Load the ‘tidyverse’,‘zeligverse, ’knitr’ and <code>cepespR</code> packages. Install and load the ‘readxl’ package.</li>
 </ol>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyverse)
 <span class="kw">library</span>(zeligverse)
@@ -320,18 +326,19 @@ $(document).ready(function () {
 <span class="kw">unzip</span>(<span class="st">&quot;perfil.zip&quot;</span>)
 ibge &lt;-<span class="st"> </span><span class="kw">read_excel</span>(<span class="kw">paste0</span>(<span class="kw">getwd</span>(),<span class="st">&quot;/Base 2005.xls&quot;</span>),<span class="st">&quot;Leg e inst planej&quot;</span>)</code></pre></div>
 <ol start="4" style="list-style-type: decimal">
-<li><p>Now we have two tables and want to link them. First, we need a key in each table for each unit, i.e. each municipality. In the cepesp data, use <code>COD_MUN_IBGE</code> and in the IBGE data use <code>A1</code>. But <code>COD_MUN_IBGE</code> has 7 digits while <code>A</code> has 6. Use <code>separate</code> on the cepesp data to make a column with the 6 digit IBGE code.</p></li>
+<li><p>Now we have two tables and want to link them. First, we need a key in each table for each unit, i.e. each municipality. In the cepesp data, we can use <code>COD_MUN_IBGE</code> and in the IBGE data we can use <code>A1</code>. But <code>COD_MUN_IBGE</code> has 7 digits while <code>A</code> has 6. Use the function <code>separate</code> on the cepesp data to make a column with the 6 digit IBGE code and call it <code>COD_MUN_IBGE_6</code>.</p></li>
 <li><p>Now we need to make sure the key column in each table has the same name. Rename the IBGE column <code>A1</code> to also be named <code>COD_MUN_IBGE_6</code>.</p></li>
-<li><p>One more problem: the two columns are now of different types. Make the cepesp data column <code>COD_MUN_IBGE_6</code> numeric.</p></li>
+<li><p>One more problem: the two columns are now of different types. Make sure both columns <code>COD_MUN_IBGE_6</code> are numeric.</p></li>
 <li><p>Now we can start with the cepesp electoral data and merge in the ibge dataset with a <code>left_join</code>. How many rows are there?</p></li>
-<li><p>Note that in question 6 above the IBGE information was duplicated for every candidate in each municipality. Now let’s try a merge where we have only one row for each municipality in the electoral data. Using the original cepesp data, calculate the total number of votes in each municipality:</p></li>
-<li><p>Merge this new electoral data with the IBGE data using a <code>left_join</code>. How many rows are there?</p></li>
-<li><p>Merge this new electoral data with the IBGE data using a <code>right_join</code>. How many rows are there?</p></li>
-<li><p>Merge this new electoral data with the IBGE data using an <code>inner_join</code>. How many rows are there?</p></li>
-<li><p>Merge this new electoral data with the IBGE data using a <code>full_join</code>. How many rows are there?</p></li>
+<li><p>Note that in question 7 above the IBGE information was duplicated for every candidate in each municipality. There was a “many-to-one” relationship. Now let’s try a one-to-one relationship between our tables, which means we need to restructure our electoral data to have only one row for each municipality. Using the original cepesp data, calculate the total number of votes in each municipality.</p></li>
+<li><p>Merge this new electoral data with the IBGE data using a <code>left_join</code>. How many rows are there? How many rows are there with a <code>right_join</code>? With an <code>inner_join</code>? With a <code>full_join</code>?</p></li>
 <li><p>The row numbers above suggest that some municipalities are in each dataset that are not in the other. Can you identify which (using their <code>COD_MUN_IBGE_6</code>)?</p></li>
 <li><p>Let’s estimate if municipalities with more voters are more likely to have a Conselho Municipal de Política urbana, Desenvolvimento Urbano, da Cidade ou similar, variable A64 in the IBGE data. Use <code>case_when</code> to turn this variable into a binary 0/1 numeric variable so we can use it as the outcome variable in a logit regression.</p></li>
 <li><p>According to a quick logit regression, are municipalities with more voters more likely to have a Conselho Municipal?</p></li>
+<li><p>Now use <code>case_when</code> to recode variable <code>A67</code>, the year in which the Lei orgânica do município was passed, into a binary variable which is <code>1</code> if the year is before 1990. Also remember to recode the value <code>Ignorado</code> to <code>NA</code> - to do this you need to specify the new value <code>NA</code> as <code>NA_real</code>.</p></li>
+<li><p>According to a quick logit regresion, are municipalities with more voters more likely to have passed a Lei orgânica do município before 1990?</p></li>
+<li><p>Organize your results to the above questions in a clean R Markdown document (as PDF or HTML), using chunk parameters to block the warnings, messages and raw code itself. The document should contain only explanation text, tables and graphics.</p></li>
+<li><p>Include in your document a bibliography using the .bib file (example.bib)[example.bib] and reference this course!</p></li>
 </ol>
 
 
