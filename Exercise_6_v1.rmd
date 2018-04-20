@@ -110,7 +110,7 @@ total_mun3 %>% zelig(Lei~QTDE_VOTOS,data=.,model="logit")
 
 15. Organize your results to the above questions in a clean R Markdown document (as PDF or HTML), using chunk parameters to block the warnings, messages and raw code itself. The document should contain only explanation text, tables and graphics.
 
-16. Download the bibliography file `example.bib` to your working directory using the code below. Reference this bibliography file in your document and reference the Fujiwara file using its key `@Fujiwara2011`.
+16. Download the bibliography file `example.bib` to your working directory using the code below. Reference this bibliography file in your document and reference the Fujiwara paper in your document using its key `@Fujiwara2011`.
 
 ```{r, echo=TRUE}
 download.file("https://raw.githubusercontent.com/JonnyPhillips/Curso_R/master/Example.bib?token=AAg1ZYnoaVwdKWkwwnQbBLH2YO6b8T9Gks5a40uBwA%3D%3D",destfile="example.bib")
