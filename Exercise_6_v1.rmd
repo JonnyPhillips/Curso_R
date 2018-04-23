@@ -10,7 +10,7 @@ output:
 knitr::opts_chunk$set(include=TRUE, warning=FALSE, message=FALSE, eval=FALSE, echo=FALSE)
 ```
 
-1. Create a new Rmarkdown document in Rstudio. Load the 'tidyverse','zeligverse, 'knitr' and `cepespR` packages. Install and load the 'readxl' package.
+1. Create a new Rmarkdown document in Rstudio. Load the `tidyverse`,`zeligverse`, `knitr` and `cepespR` packages. Install and load the `readxl` package.
 ```{r, echo=TRUE}
 library(tidyverse)
 library(zeligverse)
@@ -33,7 +33,7 @@ unzip("perfil.zip")
 ibge <- read_excel(paste0(getwd(),"/Base 2005.xls"),"Leg e inst planej")
 ```
 
-4. Now we have two tables and want to link them. First, we need a key in each table for each unit, i.e. each municipality. In the cepesp data, we can use `COD_MUN_IBGE` and in the IBGE data we can use `A1`. But `COD_MUN_IBGE` has 7 digits while `A` has 6. Use the function `separate` on the cepesp data to make a column with the 6 digit IBGE code and call it `COD_MUN_IBGE_6`.
+4. Now we have two tables and want to link them. First, we need a key in each table for each unit, and luckily here we can use each municipality's IBGE code. In the cepesp data, this is called `COD_MUN_IBGE` and in the IBGE data it is called `A1`. But `COD_MUN_IBGE` has 7 digits while `A` has 6. Use the function `separate` on the cepesp data to make a column with the 6 digit IBGE code and call it `COD_MUN_IBGE_6` (the seventh digit is a 'check' digit so it doesn't matter if we drop it).
 
 ```{r}
 data <- data %>% separate(COD_MUN_IBGE,into=c("COD_MUN_IBGE_6","Ignore"),sep=6)
@@ -57,7 +57,7 @@ data <- data %>% mutate(COD_MUN_IBGE_6=as.numeric(COD_MUN_IBGE_6))
 data %>% left_join(ibge,by="COD_MUN_IBGE_6") %>% count()
 ```
 
-8. Note that in question 7 above the IBGE information was duplicated for every candidate in each municipality. There was a "many-to-one" relationship. Now let's try a one-to-one relationship between our tables, which means we need to restructure our electoral data to have only one row for each municipality. Using the original cepesp data, calculate the total number of votes in each municipality.
+8. Note that in question 7 above the IBGE information was duplicated for every candidate in each municipality. There was a "many-to-one" relationship. Now let's try a merge with a one-to-one relationship between our tables, which means we need to restructure our electoral data to have only one row for each municipality. Using the original cepesp data, calculate the total number of votes in each municipality and save this as a new data.frame.
 
 ```{r}
 total_mun <- data %>% group_by(COD_MUN_IBGE_6) %>% summarize(QTDE_VOTOS=sum(QTDE_VOTOS,na.rm=TRUE))
@@ -82,20 +82,20 @@ total_mun$COD_MUN_IBGE_6[which(!(total_mun$COD_MUN_IBGE_6 %in% ibge$COD_MUN_IBGE
 ibge$COD_MUN_IBGE_6[which(ibge$COD_MUN_IBGE_6 %in% total_mun$COD_MUN_IBGE_6==FALSE)]
 ```
 
-11. Let's estimate if municipalities with more voters are more likely to have a Conselho Municipal de Política urbana, Desenvolvimento Urbano, da Cidade ou similar, variable A64 in the IBGE data. Use `case_when` to turn this variable into a binary 0/1 numeric variable so we can use it as the outcome variable in a logit regression.
+11. Let's estimate if municipalities with more voters are more likely to have a Conselho Municipal de Política urbana, variable A64 in the IBGE data. Use `case_when` to turn this variable into a binary 0/1 variable so we can use it as the outcome variable in a logit regression.
 
 ```{r}
 total_mun2 <- total_mun %>% inner_join(ibge,by="COD_MUN_IBGE_6") %>% 
   mutate(Conselho=case_when(A64=="Sim"~1,TRUE~0))
 ```
 
-12. According to a quick logit regression, are municipalities with more voters more likely to have a Conselho Municipal?
+12. According to a quick logit regression in Zelig, are municipalities with more voters more likely to have a Conselho Municipal?
  
 ```{r}
 total_mun2 %>% zelig(Conselho~QTDE_VOTOS,data=.,model="logit")
 ```
 
-13. Now use `case_when` to recode variable `A67`, the year in which the Lei orgânica do município was passed, into a binary variable which is `1` if the year is before 1990. Also remember to recode the value `Ignorado` to `NA` - to do this you need to specify the new value `NA` as `NA_real`.
+13. Now use `case_when` to recode variable `A67`, the year in which the Lei orgânica do município was passed, into a binary variable which is `1` if the law was passed before 1990. Also remember to recode the value `Ignorado` to `NA` - to do this you need to specify the new value as `NA_real` within `case_when`.
 
 ```{r}
 total_mun3 <- total_mun %>% inner_join(ibge,by="COD_MUN_IBGE_6") %>% 
@@ -108,7 +108,7 @@ total_mun3 <- total_mun %>% inner_join(ibge,by="COD_MUN_IBGE_6") %>%
 total_mun3 %>% zelig(Lei~QTDE_VOTOS,data=.,model="logit")
 ```
 
-15. Organize your results to the above questions in a clean R Markdown document (as PDF or HTML), using chunk parameters to block the warnings, messages and raw code itself. The document should contain only explanation text, tables and graphics.
+15. Organize your results to the above questions in a clean R Markdown document (as PDF or HTML), using chunk parameters to block the warnings, messages and raw code itself. The final document should contain only explanation text, tables and graphics.
 
 16. Download the bibliography file `example.bib` to your working directory using the code below. Reference this bibliography file in your document and reference the Fujiwara paper in your document using its key `@Fujiwara2011`.
 

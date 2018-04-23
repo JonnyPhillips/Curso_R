@@ -39,4 +39,4 @@ Participants will be asked to prepare their laptops before the first class (inst
 
 9. **Interactive Data** (22/05) - Interactive applications - shiny. 
 
-10. **Integrated Project** (29/05) - Create your own app for cepespdata!
+10. **Integrated Project** (TBC) - Create your own app for cepespdata!
