@@ -1,0 +1,126 @@
+---
+title: "Analysis, Visualization and Mapping in R"
+subtitle: "Exercise 7: Mapping"
+output: 
+  html_document:
+    code_folding: show
+---
+
+```{r setup, echo=FALSE, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(include=TRUE, warning=FALSE, message=FALSE, eval=FALSE, echo=FALSE)
+```
+
+1. Create a new Rmarkdown document in Rstudio. Load the `tidyverse`,`zeligverse`, `knitr`, `cepespR`, `sf` and `mapview` packages.
+```{r, echo=TRUE}
+library(tidyverse)
+library(zeligverse)
+library(knitr)
+library(cepespR)
+library(sf)
+library(mapview)
+```
+
+2. Using the simple features package (`st_read`), open the shapefile of Brazil using the code below.
+
+```{r, echo=TRUE}
+download.file("https://github.com/JonnyPhillips/Curso_R/raw/master/Brazil_s.zip",destfile="Brazil_s.zip")
+unzip("Brazil_s.zip")
+shapefile <- st_read("Brazil_s.shp",stringsAsFactors=F)
+```
+
+3. Use `separate` to create a new variable for the state IBGE code using the first two digits of `CD_GEOCODM`,and filter the shapefile to include only Mato Grosso (state `51`). 
+
+```{r}
+shapefile <- shapefile %>% 
+  separate(CD_GEOCODM,into=c("State","Mun"),sep=2, remove=FALSE) %>% 
+  filter(State==51)
+```
+
+4. Create a map in `ggplot` that displays the municipal polygons. Fill the colour of the polygons by the area of each municipality (`Shape_Area`).
+
+```{r}
+map_1 <- shapefile %>% ggplot() +
+  geom_sf(aes(fill=Shape_Area)) + 
+  theme_classic() +
+  coord_sf(datum=NA)
+```
+
+5. Calculate the centroids of each municipality in Mato Grosso and add this to your map from the previous question. 
+
+```{r}
+centroids <- shapefile %>% st_centroid()
+
+map_1 + geom_sf(data=centroids,col="white") + 
+  theme_classic() +
+  coord_sf(datum=NA)
+```
+
+6. Let's create a new shapefile with a different projection for the centroids data. Using `st_transform` we can specify a numerical code for an appropriate projection. Search on [this](http://spatialreference.org/ref/epsg/) site for Brazil and use the appropriate numeric code.
+
+```{r}
+centroids2 <- centroids %>% st_transform(29101)
+```
+
+7. For each of the two projections for the centroids, calculate the distance between the centroid of each municipality and the state capital (`CUIABÁ`). What is the distance between the capital and the municipality that is furthest away? Compare these two distances for both projections.
+
+```{r}
+capital <- centroids %>% filter(NM_MUNICIP=="CUIABÁ")
+capital2 <- centroids2 %>% filter(NM_MUNICIP=="CUIABÁ")
+
+st_distance(centroids,capital) %>% max()
+st_distance(centroids2,capital2) %>% max()
+```
+
+8. Now download from CEPESPdata candidate data on the governorship election in Mato Grosso in 2014. Calculate the vote share for each candidate. To merge this with our shapefile we need one row for each municipality in our data. But currently we have one row for each candidate in each municipality. So let's filter for the winner of the election using `DESC_SIT_TOT_TURNO`. 
+
+```{r, echo=TRUE, eval=FALSE}
+data <- cepespdata(year=2014, position="Governor", regional_aggregation="Municipality",political_aggregation="Candidate",state="MT")
+```
+
+```{r}
+data <- cepespdata(year=2014, position="Governor",  regional_aggregation="Municipality", political_aggregation="Candidate", state="MT") 
+
+data <- data %>% group_by(COD_MUN_IBGE) %>%
+  mutate(Voto_pct=(QTDE_VOTOS/sum(QTDE_VOTOS))*100) %>% 
+  filter(DESC_SIT_TOT_TURNO=="ELEITO")
+```
+
+9. Merge the electoral data for the winner into the shapefile using the municipality code (`COD_MUN_IBGE`). Remember we need the column names, types and values to match for this to work.
+
+```{r}
+merged <- shapefile %>% rename("COD_MUN_IBGE"="CD_GEOCODM") %>% mutate(COD_MUN_IBGE=as.numeric(COD_MUN_IBGE)) %>%
+  left_join(data,by="COD_MUN_IBGE")
+```
+
+10. Plot a map showing the number of votes won by the winner in each municipality in Mato Grosso. Change the colour scale to use a colour scheme that goes from yelow to red.
+
+```{r}
+map2 <- merged %>% ggplot() +
+  geom_sf(aes(fill=Voto_pct)) +
+  scale_fill_gradient(low="yellow",high="red") +
+  theme_classic() +
+  coord_sf(datum=NA)
+
+map2
+```
+
+11. Make your map in Question 10 more professional by adding a title, changing the title of the legend (by renaming the variable you are plotting) and using a diverging colour scale around the median vote share.
+
+```{r}
+map2 <- merged %>% rename("Vote Share %"="Voto_pct") %>%
+  ggplot() +
+  geom_sf(aes(fill=`Vote Share %`)) +
+  scale_fill_gradient2(low="purple",mid="white",high="dark green",midpoint=median(merged$Voto_pct,na.rm=T)) +
+  theme_classic() +
+  coord_sf(datum=NA) +
+  ggtitle("Percentage Vote Share of Winning Gubernatorial Candidate in Mato Grosso in 2014")
+
+map2
+```
+
+12. Create an interactive map using `mapview` to display the same map as in Question 10.
+
+```{r}
+merged %>% mapview(zcol="Voto_pct",legend=TRUE)
+```
+

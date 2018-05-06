@@ -308,32 +308,40 @@ $(document).ready(function () {
 
 
 <h1 class="title toc-ignore">Analysis, Visualization and Mapping in R</h1>
-<h3 class="subtitle"><em>Exercise 3: Descriptive Statistics</em></h3>
+<h3 class="subtitle"><em>Exercise 7: Mapping</em></h3>
 
 </div>
 
 
 <ol style="list-style-type: decimal">
-<li>Create a new Rmarkdown document in Rstudio. Load the <code>tidyverse</code>, <code>zeligverse</code>, <code>knitr</code>, <code>stargazer</code> and <code>cepespR</code> packages.</li>
+<li>Create a new Rmarkdown document in Rstudio. Load the <code>tidyverse</code>,<code>zeligverse</code>, <code>knitr</code>, <code>cepespR</code>, <code>sf</code> and <code>mapview</code> packages.</li>
 </ol>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyverse)
 <span class="kw">library</span>(zeligverse)
 <span class="kw">library</span>(knitr)
 <span class="kw">library</span>(cepespR)
-<span class="kw">library</span>(stargazer)</code></pre></div>
+<span class="kw">library</span>(sf)
+<span class="kw">library</span>(mapview)</code></pre></div>
 <ol start="2" style="list-style-type: decimal">
-<li>Let’s use the CEPESP-R API to download the prefeito candidate voting data from the 2016 municipal elections. See <a href="https://github.com/Cepesp-Fgv/cepesp-r">here</a> and the code below.</li>
+<li>Using the simple features package (<code>st_read</code>), open the shapefile of Brazil using the code below.</li>
 </ol>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">data &lt;-<span class="st"> </span><span class="kw">cepespdata</span>(<span class="dt">year=</span><span class="dv">2016</span>, <span class="dt">position=</span><span class="st">&quot;Prefeito&quot;</span>, <span class="dt">regional_aggregation=</span><span class="st">&quot;Municipality&quot;</span>,<span class="dt">political_aggregation=</span><span class="st">&quot;Candidate&quot;</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">download.file</span>(<span class="st">&quot;https://github.com/JonnyPhillips/Curso_R/raw/master/Brazil_s.zip&quot;</span>,<span class="dt">destfile=</span><span class="st">&quot;Brazil_s.zip&quot;</span>)
+<span class="kw">unzip</span>(<span class="st">&quot;Brazil_s.zip&quot;</span>)
+shapefile &lt;-<span class="st"> </span><span class="kw">st_read</span>(<span class="st">&quot;Brazil_s.shp&quot;</span>,<span class="dt">stringsAsFactors=</span>F)</code></pre></div>
 <ol start="3" style="list-style-type: decimal">
-<li><p>Run a regression to assess if men get more votes than women (<code>DESCRICAO_SEXO</code>) in the first round of the election (<code>NUM_TURNO</code>), controlling for race (<code>DESCRICAO_COR_RACA</code>).</p></li>
-<li><p>Create a dummy variable (0/1) for whether each candidate was elected (<code>COD_SIT_TOT_TURNO</code> is <code>ELEITO</code>). Run the appropriate regression to assess if men are more likely to be elected than women, controlling for race (<code>DESCRICAO_COR_RACA</code>).</p></li>
-<li><p>Produce a neatly formatted table of the regression in question 4 using <code>stargazer</code>.</p></li>
-<li><p>Does being both black <em>and</em> female make it even harder to get elected? Use an interaction term in a regression to assess this hypothesis. Show the formatted output table.</p></li>
-<li><p>Use your regression in question 3 to predict how many votes on average an indigenous man would receive in an average election for prefeito. (Remember to make both explanatory variables factors before you run the regression).</p></li>
-<li><p>Create a histogram (<code>geom_histogram</code>) of the full set of predictions from question 7.</p></li>
-<li><p>Can you see anything unusual or inconsistent in the predicted values shown in your histogram in Question 8? Run the same code again but change the model to a <code>poisson</code> model that only predicts non-negative integer values. Which histogram makes more sense?</p></li>
-<li><p>How does the number of votes received change if we change our indigenous man to an indigenous woman? (Hint: Use <code>setx1</code> after <code>setx</code> to specify a second set of x values. Use either a <code>ls</code> or <code>poisson</code> model.) Report the average of the predicted values for each gender.</p></li>
+<li><p>Use <code>separate</code> to create a new variable for the state IBGE code using the first two digits of <code>CD_GEOCODM</code>,and filter the shapefile to include only Mato Grosso (state <code>51</code>).</p></li>
+<li><p>Create a map in <code>ggplot</code> that displays the municipal polygons. Fill the colour of the polygons by the area of each municipality (<code>Shape_Area</code>).</p></li>
+<li><p>Calculate the centroids of each municipality in Mato Grosso and add this to your map from the previous question.</p></li>
+<li><p>Let’s create a new shapefile with a different projection for the centroids data. Using <code>st_transform</code> we can specify a numerical code for an appropriate projection. Search on <a href="http://spatialreference.org/ref/epsg/">this</a> site for Brazil and use the appropriate numeric code.</p></li>
+<li><p>For each of the two projections for the centroids, calculate the distance between the centroid of each municipality and the state capital (<code>CUIABÁ</code>). What is the distance between the capital and the municipality that is furthest away? Compare these two distances for both projections.</p></li>
+<li><p>Now download from CEPESPdata candidate data on the governorship election in Mato Grosso in 2014. Calculate the vote share for each candidate. To merge this with our shapefile we need one row for each municipality in our data. But currently we have one row for each candidate in each municipality. So let’s filter for the winner of the election using <code>DESC_SIT_TOT_TURNO</code>.</p></li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">data &lt;-<span class="st"> </span><span class="kw">cepespdata</span>(<span class="dt">year=</span><span class="dv">2014</span>, <span class="dt">position=</span><span class="st">&quot;Governor&quot;</span>, <span class="dt">regional_aggregation=</span><span class="st">&quot;Municipality&quot;</span>,<span class="dt">political_aggregation=</span><span class="st">&quot;Candidate&quot;</span>,<span class="dt">state=</span><span class="st">&quot;MT&quot;</span>)</code></pre></div>
+<ol start="9" style="list-style-type: decimal">
+<li><p>Merge the electoral data for the winner into the shapefile using the municipality code (<code>COD_MUN_IBGE</code>). Remember we need the column names, types and values to match for this to work.</p></li>
+<li><p>Plot a map showing the number of votes won by the winner in each municipality in Mato Grosso. Change the colour scale to use a colour scheme that goes from yelow to red.</p></li>
+<li><p>Make your map in Question 10 more professional by adding a title, changing the title of the legend (by renaming the variable you are plotting) and using a diverging colour scale around the median vote share.</p></li>
+<li><p>Create an interactive map using <code>mapview</code> to display the same map as in Question 10.</p></li>
 </ol>
 
 

@@ -24,6 +24,52 @@
 <link href="site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
 
 
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; background-color: #f8f8f8; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+pre, code { background-color: #f8f8f8; }
+code > span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code > span.dt { color: #204a87; } /* DataType */
+code > span.dv { color: #0000cf; } /* DecVal */
+code > span.bn { color: #0000cf; } /* BaseN */
+code > span.fl { color: #0000cf; } /* Float */
+code > span.ch { color: #4e9a06; } /* Char */
+code > span.st { color: #4e9a06; } /* String */
+code > span.co { color: #8f5902; font-style: italic; } /* Comment */
+code > span.ot { color: #8f5902; } /* Other */
+code > span.al { color: #ef2929; } /* Alert */
+code > span.fu { color: #000000; } /* Function */
+code > span.er { color: #a40000; font-weight: bold; } /* Error */
+code > span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #000000; } /* Constant */
+code > span.sc { color: #000000; } /* SpecialChar */
+code > span.vs { color: #4e9a06; } /* VerbatimString */
+code > span.ss { color: #4e9a06; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #000000; } /* Variable */
+code > span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code > span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code > span.ex { } /* Extension */
+code > span.at { color: #c4a000; } /* Attribute */
+code > span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code > span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+div.sourceCode {
+  overflow-x: visible;
+}
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
 
 
 <style type="text/css">
@@ -150,7 +196,7 @@ $(document).ready(function () {
 </style>
 <script>
 $(document).ready(function () {
-  window.initializeCodeFolding("hide" === "show");
+  window.initializeCodeFolding("show" === "show");
 });
 </script>
 
@@ -262,22 +308,37 @@ $(document).ready(function () {
 
 
 <h1 class="title toc-ignore">Analysis, Visualization and Mapping in R</h1>
-<h3 class="subtitle"><em>Exercise 3: Descriptive Statistics</em></h3>
+<h3 class="subtitle"><em>Exercise 7: Mapping</em></h3>
 
 </div>
 
 
 <ol style="list-style-type: decimal">
-<li><p>Create a new Rmarkdown document in Rstudio. Load the ‘tidyverse’ and ‘knitr’ packages. Install and load the ‘devtools’ and then the ‘CEPESP-R’ package.</p></li>
-<li><p>Let’s use the CEPESP-R API to download the voting data from the 2016 municipal elections. See <a href="https://github.com/Cepesp-Fgv/cepesp-r">here</a> and the code below.</p></li>
-<li><p>On average, how many people voted in a municipality in the first round of the 2016 election?</p></li>
-<li><p>What percentage of the votes cast in each region (<code>NOME_MACRO</code>) of the country were won by PMDB prefeito candidates?</p></li>
-<li><p>Now compare the previous result to the percentage of elected prefeitos (<code>DESC_SIT_TOT_TURNO</code>) who were from the PMDB in each region.</p></li>
-<li><p>How do male candidates differ from female candidates (<code>DESCRICAO_SEXO</code>)? Compare averages on two variables: The number of votes (<code>QTDE_VOTOS</code>) and age (<code>IDADE_DATA_ELEICAO</code>). Report the averages in a simple table.</p></li>
-<li><p>Conduct a t-test to assess if women prefeitos receive a statistically different quantity of votes to men. Report a simple table of the results. Hint: Remember the <code>tidy()</code> action after a messy statistical test.</p></li>
-<li><p>Conduct a difference-in-means t-test between men and women of both number of votes and age at the same time. Report the p-values of each t-test</p></li>
-<li><p>Create a neat, well-labelled, table of the average age of elected prefeitos in each region (<code>NOME_MACRO</code>) and by gender (<code>DESCRICAO_SEXO</code>). The table should have regions in the rows and gender in the columns.</p></li>
-<li><p>Are married candidates (<code>DESCRICAO_ESTADO_CIVIL</code>) for prefeito more likely to be elected than unmarried (all groups except married) candidates? Provide a well-formatted, labelled, table.</p></li>
+<li>Create a new Rmarkdown document in Rstudio. Load the <code>tidyverse</code>,<code>zeligverse</code>, <code>knitr</code>, <code>cepespR</code> and <code>sf</code> packages.</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyverse)
+<span class="kw">library</span>(zeligverse)
+<span class="kw">library</span>(knitr)
+<span class="kw">library</span>(cepespR)
+<span class="kw">library</span>(sf)</code></pre></div>
+<ol start="2" style="list-style-type: decimal">
+<li>Using the simple features package (<code>st_read</code>), open the shapefile of Brazil using the code below.</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">download.file</span>(<span class="st">&quot;https://github.com/JonnyPhillips/Curso_R/raw/master/Brazil_s.zip&quot;</span>,<span class="dt">destfile=</span><span class="st">&quot;Brazil_s.zip&quot;</span>)
+<span class="kw">unzip</span>(<span class="st">&quot;Brazil_s.zip&quot;</span>)
+shapefile &lt;-<span class="st"> </span><span class="kw">st_read</span>(<span class="st">&quot;Brazil_s.shp&quot;</span>)</code></pre></div>
+<ol start="3" style="list-style-type: decimal">
+<li><p>Use <code>separate</code> to create a new variable for the state IBGE code using the first two digits of <code>CD_GEOCODM</code>,and filter the shapefile to include only Mato Grosso (state <code>51</code>).</p></li>
+<li><p>Create a map in <code>ggplot</code> that displays the municipal polygons. Fill the colour of the polygons by the area of each municipality (<code>Shape_Area</code>) and label each municipality with its name (<code>NM_MUNICIP</code>) in a visible colour.</p></li>
+<li><p>Calculate the centroids of each municipality in Mato Grosso and add this to your map from the previous question.</p></li>
+<li><p>Let’s change the projection of the shapefile (polygon) data. Using <code>st_transform</code> we can specify a numerical code for an appropriate projection. Search on <a href="http://spatialreference.org/ref/epsg/">this</a> site for Brazil and use the appropriate numeric code.</p></li>
+<li><p>Calculate the distance between the centroid of each municipality and the state capital (<code>CUIABÁ</code>) as a new column. What is the distance between the capital and the municipality furthest away?</p></li>
+<li><p>Now download from CEPESPdata candidate data on the governorship election in Mato Grosso in 2014. Calculate the vote share for each candidate. To merge this with our shapefile we need one row for each municipality in our data. But currently we have one row for each candidate in each municipality. So let’s filter for the winner of the election using <code>DESC_SIT_TOT_TURNO</code>.</p></li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">data &lt;-<span class="st"> </span><span class="kw">cepespdata</span>(<span class="dt">year=</span><span class="dv">2014</span>, <span class="dt">position=</span><span class="st">&quot;Governor&quot;</span>, <span class="dt">regional_aggregation=</span><span class="st">&quot;Municipality&quot;</span>,<span class="dt">political_aggregation=</span><span class="st">&quot;Candidate&quot;</span>,<span class="dt">state=</span><span class="st">&quot;MT&quot;</span>)</code></pre></div>
+<ol start="8" style="list-style-type: decimal">
+<li><p>Merge the electoral data for the winner into the shapefile using the municipality code (<code>COD_MUN_IBGE</code>). Remember we need the column names, types and values to match for this to work. Hint: Be super-careful as the shapefile municipality code is a factor.</p></li>
+<li><p>Plot a map showing the number of votes won by the winner in each municipality in Mato Grosso. Change the colour scale to use a colour scheme that goes from yelow to red.</p></li>
 </ol>
 
 
