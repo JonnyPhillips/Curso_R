@@ -323,16 +323,16 @@ $(document).ready(function () {
 <span class="kw">library</span>(sf)
 <span class="kw">library</span>(mapview)</code></pre></div>
 <ol start="2" style="list-style-type: decimal">
-<li>Using the simple features package (<code>st_read</code>), open the shapefile of Brazil using the code below.</li>
+<li>Using the simple features package (<code>read_sf</code>), open the shapefile of Brazil using the code below.</li>
 </ol>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">download.file</span>(<span class="st">&quot;https://github.com/JonnyPhillips/Curso_R/raw/master/Brazil_s.zip&quot;</span>,<span class="dt">destfile=</span><span class="st">&quot;Brazil_s.zip&quot;</span>)
 <span class="kw">unzip</span>(<span class="st">&quot;Brazil_s.zip&quot;</span>)
-shapefile &lt;-<span class="st"> </span><span class="kw">st_read</span>(<span class="st">&quot;Brazil_s.shp&quot;</span>,<span class="dt">stringsAsFactors=</span>F)</code></pre></div>
+shapefile &lt;-<span class="st"> </span><span class="kw">read_sf</span>(<span class="st">&quot;Brazil_s.shp&quot;</span>)</code></pre></div>
 <ol start="3" style="list-style-type: decimal">
 <li><p>Use <code>separate</code> to create a new variable for the state IBGE code using the first two digits of <code>CD_GEOCODM</code>,and filter the shapefile to include only Mato Grosso (state <code>51</code>).</p></li>
 <li><p>Create a map in <code>ggplot</code> that displays the municipal polygons. Fill the colour of the polygons by the area of each municipality (<code>Shape_Area</code>).</p></li>
 <li><p>Calculate the centroids of each municipality in Mato Grosso and add this to your map from the previous question.</p></li>
-<li><p>Let’s create a new shapefile with a different projection for the centroids data. Using <code>st_transform</code> we can specify a numerical code for an appropriate projection. Search on <a href="http://spatialreference.org/ref/epsg/">this</a> site for Brazil and use the appropriate numeric code.</p></li>
+<li><p>Let’s create a new shapefile with a different projection for the centroids data. Using <code>st_transform</code> we can specify a numerical code for an appropriate projection. Search on <a href="http://epsg.io">epsg.io</a> for Brazil and use the appropriate numeric code.</p></li>
 <li><p>For each of the two projections for the centroids, calculate the distance between the centroid of each municipality and the state capital (<code>CUIABÁ</code>). What is the distance between the capital and the municipality that is furthest away? Compare these two distances for both projections.</p></li>
 <li><p>Now download from CEPESPdata candidate data on the governorship election in Mato Grosso in 2014. Calculate the vote share for each candidate. To merge this with our shapefile we need one row for each municipality in our data. But currently we have one row for each candidate in each municipality. So let’s filter for the winner of the election using <code>DESC_SIT_TOT_TURNO</code>.</p></li>
 </ol>

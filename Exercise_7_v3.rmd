@@ -20,12 +20,12 @@ library(sf)
 library(mapview)
 ```
 
-2. Using the simple features package (`st_read`), open the shapefile of Brazil using the code below.
+2. Using the simple features package (`read_sf`), open the shapefile of Brazil using the code below.
 
 ```{r, echo=TRUE}
 download.file("https://github.com/JonnyPhillips/Curso_R/raw/master/Brazil_s.zip",destfile="Brazil_s.zip")
 unzip("Brazil_s.zip")
-shapefile <- st_read("Brazil_s.shp",stringsAsFactors=F)
+shapefile <- read_sf("Brazil_s.shp")
 ```
 
 3. Use `separate` to create a new variable for the state IBGE code using the first two digits of `CD_GEOCODM`,and filter the shapefile to include only Mato Grosso (state `51`). 
@@ -55,7 +55,7 @@ map_1 + geom_sf(data=centroids,col="white") +
   coord_sf(datum=NA)
 ```
 
-6. Let's create a new shapefile with a different projection for the centroids data. Using `st_transform` we can specify a numerical code for an appropriate projection. Search on [this](http://spatialreference.org/ref/epsg/) site for Brazil and use the appropriate numeric code.
+6. Let's create a new shapefile with a different projection for the centroids data. Using `st_transform` we can specify a numerical code for an appropriate projection. Search on [epsg.io](http://epsg.io) for Brazil and use the appropriate numeric code.
 
 ```{r}
 centroids2 <- centroids %>% st_transform(29101)
