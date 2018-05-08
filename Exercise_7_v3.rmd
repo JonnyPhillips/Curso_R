@@ -10,7 +10,7 @@ output:
 knitr::opts_chunk$set(include=TRUE, warning=FALSE, message=FALSE, eval=FALSE, echo=FALSE)
 ```
 
-1. Create a new Rmarkdown document in Rstudio. Load the `tidyverse`,`zeligverse`, `knitr`, `cepespR`, `sf` and `mapview` packages.
+1. Create a new Rmarkdown document in Rstudio. Load the `tidyverse`,`zeligverse`, `knitr`, `cepespR`, `sf` and `mapview` packages. Install and load the development version of `ggplot2`.
 ```{r, echo=TRUE}
 library(tidyverse)
 library(zeligverse)
@@ -18,6 +18,8 @@ library(knitr)
 library(cepespR)
 library(sf)
 library(mapview)
+devtools::install_github("tidyverse/ggplot2")
+library(ggplot2)
 ```
 
 2. Using the simple features package (`read_sf`), open the shapefile of Brazil using the code below.
@@ -45,7 +47,7 @@ map_1 <- shapefile %>% ggplot() +
   coord_sf(datum=NA)
 ```
 
-5. Calculate the centroids of each municipality in Mato Grosso and add this to your map from the previous question. 
+5. Calculate the centroids (`st_centroid()`) of each municipality in Mato Grosso and add this to your map from the previous question. 
 
 ```{r}
 centroids <- shapefile %>% st_centroid()
@@ -61,7 +63,7 @@ map_1 + geom_sf(data=centroids,col="white") +
 centroids2 <- centroids %>% st_transform(29101)
 ```
 
-7. For each of the two projections for the centroids, calculate the distance between the centroid of each municipality and the state capital (`CUIABÁ`). What is the distance between the capital and the municipality that is furthest away? Compare these two distances for both projections.
+7. For each of the two projections for the centroids, calculate the distance (`st_distance(a,b)`) between the centroid of each municipality and the state capital (`CUIABÁ`). What is the distance between the capital and the municipality that is furthest away? Compare these two distances for both projections.
 
 ```{r}
 capital <- centroids %>% filter(NM_MUNICIP=="CUIABÁ")
@@ -88,7 +90,8 @@ data <- data %>% group_by(COD_MUN_IBGE) %>%
 9. Merge the electoral data for the winner into the shapefile using the municipality code (`COD_MUN_IBGE`). Remember we need the column names, types and values to match for this to work.
 
 ```{r}
-merged <- shapefile %>% rename("COD_MUN_IBGE"="CD_GEOCODM") %>% mutate(COD_MUN_IBGE=as.numeric(COD_MUN_IBGE)) %>%
+merged <- shapefile %>% rename("COD_MUN_IBGE"="CD_GEOCODM") %>% 
+  mutate(COD_MUN_IBGE=as.numeric(COD_MUN_IBGE)) %>%
   left_join(data,by="COD_MUN_IBGE")
 ```
 
