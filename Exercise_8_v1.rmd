@@ -1,0 +1,35 @@
+---
+title: "Analysis, Visualization and Mapping in R"
+subtitle: "Exercise 7: Mapping"
+output: 
+  html_document:
+    code_folding: show
+---
+
+```{r setup, echo=FALSE, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(include=TRUE, warning=FALSE, message=FALSE, eval=FALSE, echo=FALSE)
+```
+
+1. Create a new Rmarkdown document in Rstudio. Load the `tidyverse`,`zeligverse`, `knitr`, `cepespR`, `sf` and `mapview` packages. Install and load the development version of `ggplot2`.
+```{r, echo=TRUE}
+library(tidyverse)
+library(zeligverse)
+library(knitr)
+library(cepespR)
+library(sf)
+library(mapview)
+devtools::install_github("tidyverse/ggplot2")
+library(ggplot2)
+```
+
+2. Using the simple features package (`read_sf`), open the two shapefiles using the code below - one of Brazil, and one of (some) schools in Rio Grande do Sul
+
+```{r, echo=TRUE}
+download.file("https://github.com/JonnyPhillips/Curso_R/raw/master/Brazil_s.zip",destfile="Brazil_s.zip")
+unzip("Brazil_s.zip")
+shapefile <- read_sf("Brazil_s.shp")
+
+
+```
+
+3. How many [] are there in each municipality
