@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html  lang="en" dir="ltr" prefix="content: http://purl.org/rss/1.0/modules/content/  dc: http://purl.org/dc/terms/  foaf: http://xmlns.com/foaf/0.1/  og: http://ogp.me/ns#  rdfs: http://www.w3.org/2000/01/rdf-schema#  schema: http://schema.org/  sioc: http://rdfs.org/sioc/ns#  sioct: http://rdfs.org/sioc/types#  skos: http://www.w3.org/2004/02/skos/core#  xsd: http://www.w3.org/2001/XMLSchema# ">
+  <head>
+    <meta charset="utf-8" />
+<meta name="Generator" content="Drupal 8 (https://www.drupal.org)" />
+<meta name="MobileOptimized" content="width" />
+<meta name="HandheldFriendly" content="true" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="shortcut icon" href="/themes/custom/landscan_bootstrap/favicon.ico" type="image/vnd.microsoft.icon" />
+<link rel="canonical" href="/about" />
+<link rel="shortlink" href="/node/157" />
+<link rel="revision" href="/about" />
+
+    <title>Home | LandScan™</title>
+    <link rel="stylesheet" href="/sites/default/files/css/css_i4OiQ83YcW2Ki0yMYPQRLrQCRhN8AOrZJg_9_mH3clc.css?p8f0i7" media="all" />
+<link rel="stylesheet" href="/sites/default/files/css/css_BJA2Q4kz5scFFalwBlSXHymc7kwLIdKUEYGNc0qGua8.css?p8f0i7" media="all" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab:300,400,700|Roboto:300,400,700" media="all" />
+
+    
+<!--[if lte IE 8]>
+<script src="/sites/default/files/js/js_VtafjXmRvoUgAzqzYTA3Wrjkx9wcWhjP0G4ZnnqRamA.js"></script>
+<![endif]-->
+
+  </head>
+  <body class="path-frontpage page-node-type-page navbar-is-fixed-top has-glyphicons">
+    <a href="#main-content" class="visually-hidden focusable skip-link">
+      Skip to main content
+    </a>
+    
+      <div class="dialog-off-canvas-main-canvas" data-off-canvas-main-canvas>
+          
+    <header class="header">
+      <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+          <div class="navbar-header">
+              <div class="region region-navigation">
+          <a class="logo navbar-brand pull-left" href="/" title="Home" rel="home">
+      <img src="/themes/custom/landscan_bootstrap/logo.png" alt="Home" />
+    </a>
+  
+  </div>
+
+                                      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+                      </div>
+
+                                <div id="navbar-collapse" class="navbar-collapse collapse">
+                <div class="region region-navigation-collapsible">
+    <nav role="navigation" aria-labelledby="block-landscan-bootstrap-main-menu-menu" id="block-landscan-bootstrap-main-menu">
+            <h2 class="sr-only" id="block-landscan-bootstrap-main-menu-menu">Main navigation</h2>
+
+      
+      <ul class="navbar-right menu menu--main nav navbar-nav">
+                        <li>
+        <a href="/" data-drupal-link-system-path="&lt;front&gt;" class="is-active">Home</a>
+                  </li>
+                        <li>
+        <a href="/frequently-asked-questions" data-drupal-link-system-path="node/17">FAQ</a>
+                  </li>
+                        <li>
+        <a href="/documentation" data-drupal-link-system-path="node/18">Documentation</a>
+                  </li>
+                        <li>
+        <a href="/landscan-data-availability" data-drupal-link-system-path="node/1">Availability</a>
+                  </li>
+                        <li>
+        <a href="/publications" data-drupal-link-system-path="publications">Publications</a>
+                  </li>
+                        <li class="expanded dropdown">
+        <a href="/download" class="dropdown-toggle" data-toggle="dropdown">Download <span class="caret"></span></a>
+                          <ul class="navbar-right dropdown-menu">
+                        <li>
+        <a href="/download" data-drupal-link-system-path="node/21">Latest LandScan Dataset</a>
+                  </li>
+                        <li>
+        <a href="/sample-data" data-drupal-link-system-path="node/19">Sample Data</a>
+                  </li>
+        </ul>
+  
+            </li>
+                        <li>
+        <a href="/user/apply" data-drupal-link-system-path="user/register/applicant">Register</a>
+                  </li>
+        </ul>
+  
+
+  </nav>
+
+  </div>
+
+            </div>
+                  </div>
+      </nav>
+                              <div id="primary" class="boxed-layout-header page-header header-small">
+            <div class="container">
+              <div class="row">
+                <div class="col-md-10 col-md-offset-1 text-center">
+                                                            <h1 class="landscan-title">LandScan™</h1>
+                                                              <span class="sub-title">Geographic Information Science &amp; Technology</span>
+                                                      </div>
+              </div>
+            </div>
+            <div data-parallax="active" class="header-filter" style="background-image: url('/themes/custom/landscan_bootstrap/images/landscan_background.jpg'); transform: translate3d(0px, 0px, 0px);"></div>
+          </div>
+              
+    </header>
+  
+  <div role="main" class="main main-container js-quickedit-main-content main-raised">
+    <div class="row">
+
+                  <section class="col-sm-12">
+
+                
+                                      
+                  
+                          <a id="main-content"></a>
+            <div class="region region-content">
+    
+  <article data-history-node-id="157" role="article" about="/about" typeof="schema:WebPage" class="page full clearfix">
+
+  
+      <span property="schema:name" content="Home" class="hidden"></span>
+
+
+  
+  <div class="content">
+    
+      <div>
+
+
+    
+
+
+  
+
+<div class="paragraph paragraph--type--bp-simple paragraph--view-mode--default paragraph--width--medium">
+  <div class="paragraph__column">
+    
+          <h2>
+            <div class="field field--name-field-header field--type-string field--label-hidden field--item">About</div>
+      </h2>
+        
+            <div class="field field--name-bp-text field--type-text-long field--label-hidden field--item"><p>Using an innovative approach with Geographic Information System and Remote Sensing, ORNL’s LandScan™ is the community standard for global population distribution. At approximately 1 km resolution (30″ X 30″), LandScan is the finest resolution global population distribution data available and represents an ambient population (average over 24 hours). The LandScan algorithm, an R&amp;D 100 Award Winner, uses spatial data and imagery analysis technologies and a multi-variable dasymetric modeling approach to disaggregate census counts within an administrative boundary. Since no single population distribution model can account for the differences in spatial data availability, quality, scale, and accuracy as well as the differences in cultural settlement practices, LandScan population distribution models are tailored to match the data conditions and geographical nature of each individual country and region.</p>
+
+<p>The latest LandScan™ dataset available is LandScan Global 2016.  </p></div>
+      
+  </div>
+</div>
+</div>
+  
+  </div>
+
+</article>
+
+
+  </div>
+
+              </section>
+    </div>
+  </div>
+
+      <footer class="footer footer-black footer-big" role="contentinfo">
+      <div class="container">
+        <div class="pull-left">
+            <div class="region region-footer">
+    <nav role="navigation" aria-labelledby="block-landscan-bootstrap-footer-menu" id="block-landscan-bootstrap-footer">
+            
+  <h2 class="visually-hidden" id="block-landscan-bootstrap-footer-menu">Footer menu</h2>
+  
+
+        
+      <ul class="menu menu--footer nav">
+                        <li>
+        <a href="/landscan-data-availability" data-drupal-link-system-path="node/1">Availability</a>
+                  </li>
+                        <li>
+        <a href="/contact" data-drupal-link-system-path="contact">Contact</a>
+                  </li>
+                        <li>
+        <a href="/landscan-credits" data-drupal-link-system-path="node/16">Credits</a>
+                  </li>
+                        <li>
+        <a href="/download" data-drupal-link-system-path="node/21">Download</a>
+                  </li>
+                        <li>
+        <a href="/sample-data" data-drupal-link-system-path="node/19">Sample Data</a>
+                  </li>
+                        <li>
+        <a href="/user/login" data-drupal-link-system-path="user/login">Log in</a>
+                  </li>
+        </ul>
+  
+
+  </nav>
+
+  </div>
+
+        </div>
+        <div class="copyright pull-right">
+          ORNL is managed by UT-Battelle for the Department of Energy
+          <div class="policy">
+            <a href="http://www.ornl.gov/ornl/contact-us/Security--Privacy-Notice" title="Privacy Policy" target="_blank">Privacy</a>
+            ·
+            <a href="https://www.ornl.gov/content/accessibility" title="Accessibility Policy" target="_blank">Accessibility</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  
+  </div>
+
+    
+    <script type="application/json" data-drupal-selector="drupal-settings-json">{"path":{"baseUrl":"\/","scriptPath":null,"pathPrefix":"","currentPath":"node\/157","currentPathIsAdmin":false,"isFront":true,"currentLanguage":"en"},"pluralDelimiter":"\u0003","bootstrap":{"forms_has_error_value_toggle":1,"modal_animation":1,"modal_backdrop":"true","modal_keyboard":1,"modal_show":1,"modal_size":"","popover_enabled":1,"popover_animation":1,"popover_container":"body","popover_content":"","popover_delay":"0","popover_html":0,"popover_placement":"right","popover_selector":"","popover_title":"","popover_trigger":"click","popover_trigger_autoclose":1,"tooltip_enabled":1,"tooltip_animation":1,"tooltip_container":"body","tooltip_delay":"0","tooltip_html":0,"tooltip_placement":"auto left","tooltip_selector":"","tooltip_trigger":"hover"},"user":{"uid":0,"permissionsHash":"8db09f34060be2bbde517b4c62bb95a7316ca13969bed2a78741f43e3782274f"}}</script>
+<script src="/sites/default/files/js/js_MPLJfed9r6iTWM-F6ZZnZkkIRuU7GHNbqXnfWsBqdXI.js"></script>
+
+  </body>
+</html>

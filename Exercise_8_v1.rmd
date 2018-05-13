@@ -10,26 +10,118 @@ output:
 knitr::opts_chunk$set(include=TRUE, warning=FALSE, message=FALSE, eval=FALSE, echo=FALSE)
 ```
 
-1. Create a new Rmarkdown document in Rstudio. Load the `tidyverse`,`zeligverse`, `knitr`, `cepespR`, `sf` and `mapview` packages. Install and load the development version of `ggplot2`.
+1. Create a new Rmarkdown document in Rstudio. Load the `tidyverse`,`zeligverse`, `knitr`, `cepespR`, `sf` and `spdep` packages. Install and load the development versions of `ggplot2` and `geogrid`.
 ```{r, echo=TRUE}
 library(tidyverse)
 library(zeligverse)
 library(knitr)
 library(cepespR)
 library(sf)
-library(mapview)
-devtools::install_github("tidyverse/ggplot2")
+library(spdep)
+#devtools::install_github("jbaileyh/geogrid")
+library(geogrid)
+#devtools::install_github("tidyverse/ggplot2")
 library(ggplot2)
 ```
 
-2. Using the simple features package (`read_sf`), open the two shapefiles using the code below - one of Brazil, and one of (some) schools in Rio Grande do Sul
+2. Using the simple features package (`read_sf`), open the two shapefiles using the code below - one of Brazilian municipalities, and one of schools in SP.
 
 ```{r, echo=TRUE}
 download.file("https://github.com/JonnyPhillips/Curso_R/raw/master/Brazil_s.zip",destfile="Brazil_s.zip")
 unzip("Brazil_s.zip")
-shapefile <- read_sf("Brazil_s.shp")
+Brazil <- read_sf("Brazil_s.shp")
 
+download.file("https://github.com/JonnyPhillips/Curso_R/raw/master/Esc2013_RMSP_CEM.zip", destfile="Esc2013_RMSP_CEM.zip")
+unzip("Esc2013_RMSP_CEM.zip")
+Escolas <- read_sf("Esc2013_RMSP_CEM.shp")
+```
+
+3. Using a spatial join, how many schools are there in each municipality?
+
+```{r}
+Brazil <- Brazil %>% st_transform(4326)
+Escolas_per_mun <- Escolas %>% st_join(Brazil,st_intersects) %>% group_by(NM_MUNICIP) %>% count()
+```
+
+4. Using a spatial join, what is the average Prova Brasil maths score at age 13 (`MAT13_AF`) in each municipality? Note you need to filter out all schools with missing (`999.99`) values on the score variable before averaging.
+
+```{r}
+Escolas_avg_prova_per_mun <- Brazil %>% st_join(Escolas,st_intersects) %>% filter(MAT13_AF!=999.99) %>% group_by(NM_MUNICIP) %>% summarize(mean_prova=mean(MAT13_AF,na.rm=T))
 
 ```
 
-3. How many [] are there in each municipality
+5. Create a map to display the pattern of average test results per municipality from Question 4.
+
+```{r}
+Escolas_avg_prova_per_mun %>% ggplot() +
+  geom_sf(aes(fill=mean_prova))
+```
+
+6. To provide a statistical measure of the pattern of clustering in the map, calculate the Moran's I measure of clustering for the test score. 
+
+```{r}
+library(spdep)
+neighbours1 <- Escolas_avg_prova_per_mun %>% as("Spatial") %>% poly2nb(queen=TRUE)
+
+Escolas_avg_prova_per_mun_contig <- Escolas_avg_prova_per_mun %>% filter(card(neighbours1)!=0)
+
+neighbours2 <- Escolas_avg_prova_per_mun_contig %>% as("Spatial") %>% poly2nb(queen=TRUE)
+
+neighbours_weights <- neighbours2 %>% nb2listw(style="W")
+
+Escolas_avg_prova_per_mun_contig %>% pull(mean_prova) %>% 
+  moran(neighbours_weights,length(neighbours2),Szero(neighbours_weights)) %>% 
+  with(I)
+```
+
+7. Create a hexagonal equal-area map to display the patterns in spatial clustering more clearly. 
+
+```{r}
+sf_hex_grid <- Escolas_avg_prova_per_mun %>% calculate_grid(grid_type="hexagonal")
+sf_hex_grid <- Escolas_avg_prova_per_mun %>% assign_polygons(sf_hex_grid)
+
+hex_map <- sf_hex_grid %>% st_as_sf() %>% ggplot() +
+  geom_sf(aes(fill=mean_prova)) + 
+  geom_text(aes(x=V1,y=V2,label=substr(NM_MUNICIP,1,2)),size=2,col="white") +
+  theme_classic() + 
+  coord_sf(datum=NA) + 
+  xlab("") +
+  ylab("")
+```
+
+8. Find the two schools in the municipality (`NOMEMUN`) of Juquitiba that are closest to each other. How far apart are they (in metres)?
+
+```{r}
+library(units)
+Escolas_dist <- Escolas %>% dplyr::filter(NOMEMUN=="JUQUITIBA") %>% st_distance() %>% set_units(NULL)
+min(Escolas_dist[Escolas_dist>0])
+```
+
+9. Use the code below to open a raster file of population density in Cambodia. Transform the population density data to the logarithmic scale and create a map.
+
+```{r, echo=T}
+library(raster)
+download.file("https://github.com/JonnyPhillips/Curso_R/raw/master/khm_popdenr_landscan_2011.tif",destfile="khm_popdenr_landscan_2011.tif")
+cambodia <- raster("khm_popdenr_landscan_2011.tif")
+```
+
+```{r}
+cambodia %>% as("SpatialPixelsDataFrame") %>% 
+  as.data.frame() %>% 
+  ggplot() + 
+  geom_tile(aes(x=x,y=y,fill=log(khm_popdenr_landscan_2011))) +
+  coord_equal() +
+  theme_void()
+```
+
+10. Change the colour scale of the map in Question 9 so that the least densely populated areas are coloured white, the most densely populated are coloured red and `NA` values show up as white also.
+
+```{r}
+cambodia %>% as("SpatialPixelsDataFrame") %>% 
+  as.data.frame() %>% 
+  ggplot() + 
+  geom_tile(aes(x=x,y=y,fill=log(khm_popdenr_landscan_2011))) +
+  coord_equal() +
+  theme_void() +
+  scale_fill_gradient(low="white",high="red",na.value="white")
+```

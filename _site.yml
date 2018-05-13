@@ -24,6 +24,8 @@ navbar:
       href: class_6_slides3.html
     - text: Class 7
       href: class_7_slides2.html
+    - text: Class 8
+      href: class_8_slides3.html
   - text: Exercises
     menu:
     - text: Exercise 1
@@ -40,6 +42,9 @@ navbar:
       href: Exercise_6_v1.html
     - text: Exercise 7
       href: Exercise_7_v3.html
+    - text: Exercise 8
+      href: Exercise_8_v1.html
+
 output:
   html_document:
     theme: journal

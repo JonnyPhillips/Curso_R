@@ -1,0 +1,1 @@
+http://www.geoservicos.inde.gov.br:80/geoserver/wms?service=WFS&version=1.0.0&request=GetFeature&typeName=MPOG:RS_Escolas_Reforma2012&outputFormat=SHAPE-ZIP
