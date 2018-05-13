@@ -1,13 +1,13 @@
 ---
 title: "Analysis, Visualization and Mapping in R"
-subtitle: "Exercise 3: Descriptive Statistics"
+subtitle: "Exercise 6: Combining Data"
 output: 
   html_document:
     code_folding: show
 ---
 
 ```{r setup, echo=FALSE, warning=FALSE, message=FALSE}
-knitr::opts_chunk$set(include=TRUE, warning=FALSE, message=FALSE, eval=FALSE, echo=FALSE)
+knitr::opts_chunk$set(include=TRUE, warning=FALSE, message=FALSE, eval=FALSE, echo=TRUE)
 ```
 
 1. Create a new Rmarkdown document in Rstudio. Load the `tidyverse`,`zeligverse`, `knitr` and `cepespR` packages. Install and load the `readxl` package.
@@ -86,7 +86,8 @@ ibge$COD_MUN_IBGE_6[which(ibge$COD_MUN_IBGE_6 %in% total_mun$COD_MUN_IBGE_6==FAL
 
 ```{r}
 total_mun2 <- total_mun %>% inner_join(ibge,by="COD_MUN_IBGE_6") %>% 
-  mutate(Conselho=case_when(A64=="Sim"~1,TRUE~0))
+  mutate(Conselho=case_when(A64=="Sim"~1,
+                            TRUE~0))
 ```
 
 12. According to a quick logit regression in Zelig, are municipalities with more voters more likely to have a Conselho Municipal?
@@ -99,7 +100,9 @@ total_mun2 %>% zelig(Conselho~QTDE_VOTOS,data=.,model="logit")
 
 ```{r}
 total_mun3 <- total_mun %>% inner_join(ibge,by="COD_MUN_IBGE_6") %>% 
-  mutate(Lei=case_when(as.numeric(A67)>1990~0,as.numeric(A67)<=1990~1,A76=="Ignorado"~NA_real_))
+  mutate(Lei=case_when(as.numeric(A67)>1990~0,
+                       as.numeric(A67)<=1990~1,
+                       A76=="Ignorado"~NA_real_))
 ```
 
 14. According to a quick logit regresion, are municipalities with more voters more likely to have passed a Lei orgânica do município before 1990?

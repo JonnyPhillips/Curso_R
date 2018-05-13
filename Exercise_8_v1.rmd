@@ -1,6 +1,6 @@
 ---
 title: "Analysis, Visualization and Mapping in R"
-subtitle: "Exercise 7: Mapping"
+subtitle: "Exercise 8: Mapping II"
 output: 
   html_document:
     code_folding: show
@@ -31,8 +31,8 @@ download.file("https://github.com/JonnyPhillips/Curso_R/raw/master/Brazil_s.zip"
 unzip("Brazil_s.zip")
 Brazil <- read_sf("Brazil_s.shp")
 
-download.file("https://github.com/JonnyPhillips/Curso_R/raw/master/Esc2013_RMSP_CEM.zip", destfile="Esc2013_RMSP_CEM.zip")
-unzip("Esc2013_RMSP_CEM.zip")
+download.file("https://github.com/JonnyPhillips/Curso_R/raw/master/ESC2013_RMSP_CEM.zip", destfile="ESC2013_RMSP_CEM.zip")
+unzip("ESC2013_RMSP_CEM.zip")
 Escolas <- read_sf("Esc2013_RMSP_CEM.shp")
 ```
 
@@ -47,7 +47,6 @@ Escolas_per_mun <- Escolas %>% st_join(Brazil,st_intersects) %>% group_by(NM_MUN
 
 ```{r}
 Escolas_avg_prova_per_mun <- Brazil %>% st_join(Escolas,st_intersects) %>% filter(MAT13_AF!=999.99) %>% group_by(NM_MUNICIP) %>% summarize(mean_prova=mean(MAT13_AF,na.rm=T))
-
 ```
 
 5. Create a map to display the pattern of average test results per municipality from Question 4.

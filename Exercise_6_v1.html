@@ -314,7 +314,7 @@ $(document).ready(function () {
 
 
 <h1 class="title toc-ignore">Analysis, Visualization and Mapping in R</h1>
-<h3 class="subtitle"><em>Exercise 3: Descriptive Statistics</em></h3>
+<h3 class="subtitle"><em>Exercise 6: Combining Data</em></h3>
 
 </div>
 
@@ -338,17 +338,62 @@ $(document).ready(function () {
 <span class="kw">unzip</span>(<span class="st">&quot;perfil.zip&quot;</span>)
 ibge &lt;-<span class="st"> </span><span class="kw">read_excel</span>(<span class="kw">paste0</span>(<span class="kw">getwd</span>(),<span class="st">&quot;/Base 2005.xls&quot;</span>),<span class="st">&quot;Leg e inst planej&quot;</span>)</code></pre></div>
 <ol start="4" style="list-style-type: decimal">
-<li><p>Now we have two tables and want to link them. First, we need a key in each table for each unit, and luckily here we can use each municipality’s IBGE code. In the cepesp data, this is called <code>COD_MUN_IBGE</code> and in the IBGE data it is called <code>A1</code>. But <code>COD_MUN_IBGE</code> has 7 digits while <code>A</code> has 6. Use the function <code>separate</code> on the cepesp data to make a column with the 6 digit IBGE code and call it <code>COD_MUN_IBGE_6</code> (the seventh digit is a ‘check’ digit so it doesn’t matter if we drop it).</p></li>
-<li><p>Now we need to make sure the key column in each table has the same name. Rename the IBGE column <code>A1</code> to also be named <code>COD_MUN_IBGE_6</code>.</p></li>
-<li><p>One more problem: the two columns are now of different types. Make sure both columns <code>COD_MUN_IBGE_6</code> are numeric.</p></li>
-<li><p>Now we can start with the cepesp electoral data and merge in the ibge dataset with a <code>left_join</code>. How many rows are there?</p></li>
-<li><p>Note that in question 7 above the IBGE information was duplicated for every candidate in each municipality. There was a “many-to-one” relationship. Now let’s try a merge with a one-to-one relationship between our tables, which means we need to restructure our electoral data to have only one row for each municipality. Using the original cepesp data, calculate the total number of votes in each municipality and save this as a new data.frame.</p></li>
-<li><p>Merge this new electoral data with the IBGE data using a <code>left_join</code>. How many rows are there? How many rows are there with a <code>right_join</code>? With an <code>inner_join</code>? With a <code>full_join</code>?</p></li>
-<li><p>The row numbers above suggest that some municipalities are in each dataset that are not in the other. Can you identify which (using their <code>COD_MUN_IBGE_6</code>)?</p></li>
-<li><p>Let’s estimate if municipalities with more voters are more likely to have a Conselho Municipal de Política urbana, variable A64 in the IBGE data. Use <code>case_when</code> to turn this variable into a binary 0/1 variable so we can use it as the outcome variable in a logit regression.</p></li>
-<li><p>According to a quick logit regression in Zelig, are municipalities with more voters more likely to have a Conselho Municipal?</p></li>
-<li><p>Now use <code>case_when</code> to recode variable <code>A67</code>, the year in which the Lei orgânica do município was passed, into a binary variable which is <code>1</code> if the law was passed before 1990. Also remember to recode the value <code>Ignorado</code> to <code>NA</code> - to do this you need to specify the new value as <code>NA_real</code> within <code>case_when</code>.</p></li>
-<li><p>According to a quick logit regresion, are municipalities with more voters more likely to have passed a Lei orgânica do município before 1990?</p></li>
+<li>Now we have two tables and want to link them. First, we need a key in each table for each unit, and luckily here we can use each municipality’s IBGE code. In the cepesp data, this is called <code>COD_MUN_IBGE</code> and in the IBGE data it is called <code>A1</code>. But <code>COD_MUN_IBGE</code> has 7 digits while <code>A</code> has 6. Use the function <code>separate</code> on the cepesp data to make a column with the 6 digit IBGE code and call it <code>COD_MUN_IBGE_6</code> (the seventh digit is a ‘check’ digit so it doesn’t matter if we drop it).</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">data &lt;-<span class="st"> </span>data <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">separate</span>(COD_MUN_IBGE,<span class="dt">into=</span><span class="kw">c</span>(<span class="st">&quot;COD_MUN_IBGE_6&quot;</span>,<span class="st">&quot;Ignore&quot;</span>),<span class="dt">sep=</span><span class="dv">6</span>)</code></pre></div>
+<ol start="5" style="list-style-type: decimal">
+<li>Now we need to make sure the key column in each table has the same name. Rename the IBGE column <code>A1</code> to also be named <code>COD_MUN_IBGE_6</code>.</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ibge &lt;-<span class="st"> </span>ibge <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">rename</span>(<span class="st">&quot;COD_MUN_IBGE_6&quot;</span>=<span class="st">&quot;A1&quot;</span>)</code></pre></div>
+<ol start="6" style="list-style-type: decimal">
+<li>One more problem: the two columns are now of different types. Make sure both columns <code>COD_MUN_IBGE_6</code> are numeric.</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">data &lt;-<span class="st"> </span>data <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">COD_MUN_IBGE_6=</span><span class="kw">as.numeric</span>(COD_MUN_IBGE_<span class="dv">6</span>))</code></pre></div>
+<ol start="7" style="list-style-type: decimal">
+<li>Now we can start with the cepesp electoral data and merge in the ibge dataset with a <code>left_join</code>. How many rows are there?</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">data <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">left_join</span>(ibge,<span class="dt">by=</span><span class="st">&quot;COD_MUN_IBGE_6&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">count</span>()</code></pre></div>
+<ol start="8" style="list-style-type: decimal">
+<li>Note that in question 7 above the IBGE information was duplicated for every candidate in each municipality. There was a “many-to-one” relationship. Now let’s try a merge with a one-to-one relationship between our tables, which means we need to restructure our electoral data to have only one row for each municipality. Using the original cepesp data, calculate the total number of votes in each municipality and save this as a new data.frame.</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">total_mun &lt;-<span class="st"> </span>data <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">group_by</span>(COD_MUN_IBGE_<span class="dv">6</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">summarize</span>(<span class="dt">QTDE_VOTOS=</span><span class="kw">sum</span>(QTDE_VOTOS,<span class="dt">na.rm=</span><span class="ot">TRUE</span>))</code></pre></div>
+<ol start="9" style="list-style-type: decimal">
+<li>Merge this new electoral data with the IBGE data using a <code>left_join</code>. How many rows are there? How many rows are there with a <code>right_join</code>? With an <code>inner_join</code>? With a <code>full_join</code>?</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">total_mun <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">left_join</span>(ibge,<span class="dt">by=</span><span class="st">&quot;COD_MUN_IBGE_6&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">count</span>()
+total_mun <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">right_join</span>(ibge,<span class="dt">by=</span><span class="st">&quot;COD_MUN_IBGE_6&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">count</span>()
+total_mun <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">inner_join</span>(ibge,<span class="dt">by=</span><span class="st">&quot;COD_MUN_IBGE_6&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">count</span>()
+total_mun <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">full_join</span>(ibge,<span class="dt">by=</span><span class="st">&quot;COD_MUN_IBGE_6&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">count</span>()</code></pre></div>
+<ol start="10" style="list-style-type: decimal">
+<li>The row numbers above suggest that some municipalities are in each dataset that are not in the other. Can you identify which (using their <code>COD_MUN_IBGE_6</code>)?</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#In electoral data but not IBGE:</span>
+total_mun<span class="op">$</span>COD_MUN_IBGE_<span class="dv">6</span>[<span class="kw">which</span>(<span class="op">!</span>(total_mun<span class="op">$</span>COD_MUN_IBGE_<span class="dv">6</span> <span class="op">%in%</span><span class="st"> </span>ibge<span class="op">$</span>COD_MUN_IBGE_<span class="dv">6</span>))]
+
+<span class="co">#In IBGE but not in electoral data:</span>
+ibge<span class="op">$</span>COD_MUN_IBGE_<span class="dv">6</span>[<span class="kw">which</span>(ibge<span class="op">$</span>COD_MUN_IBGE_<span class="dv">6</span> <span class="op">%in%</span><span class="st"> </span>total_mun<span class="op">$</span>COD_MUN_IBGE_<span class="dv">6</span><span class="op">==</span><span class="ot">FALSE</span>)]</code></pre></div>
+<ol start="11" style="list-style-type: decimal">
+<li>Let’s estimate if municipalities with more voters are more likely to have a Conselho Municipal de Política urbana, variable A64 in the IBGE data. Use <code>case_when</code> to turn this variable into a binary 0/1 variable so we can use it as the outcome variable in a logit regression.</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">total_mun2 &lt;-<span class="st"> </span>total_mun <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">inner_join</span>(ibge,<span class="dt">by=</span><span class="st">&quot;COD_MUN_IBGE_6&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">Conselho=</span><span class="kw">case_when</span>(A64<span class="op">==</span><span class="st">&quot;Sim&quot;</span><span class="op">~</span><span class="dv">1</span>,
+                            <span class="ot">TRUE</span><span class="op">~</span><span class="dv">0</span>))</code></pre></div>
+<ol start="12" style="list-style-type: decimal">
+<li>According to a quick logit regression in Zelig, are municipalities with more voters more likely to have a Conselho Municipal?</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">total_mun2 <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">zelig</span>(Conselho<span class="op">~</span>QTDE_VOTOS,<span class="dt">data=</span>.,<span class="dt">model=</span><span class="st">&quot;logit&quot;</span>)</code></pre></div>
+<ol start="13" style="list-style-type: decimal">
+<li>Now use <code>case_when</code> to recode variable <code>A67</code>, the year in which the Lei orgânica do município was passed, into a binary variable which is <code>1</code> if the law was passed before 1990. Also remember to recode the value <code>Ignorado</code> to <code>NA</code> - to do this you need to specify the new value as <code>NA_real</code> within <code>case_when</code>.</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">total_mun3 &lt;-<span class="st"> </span>total_mun <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">inner_join</span>(ibge,<span class="dt">by=</span><span class="st">&quot;COD_MUN_IBGE_6&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">Lei=</span><span class="kw">case_when</span>(<span class="kw">as.numeric</span>(A67)<span class="op">&gt;</span><span class="dv">1990</span><span class="op">~</span><span class="dv">0</span>,
+                       <span class="kw">as.numeric</span>(A67)<span class="op">&lt;=</span><span class="dv">1990</span><span class="op">~</span><span class="dv">1</span>,
+                       A76<span class="op">==</span><span class="st">&quot;Ignorado&quot;</span><span class="op">~</span><span class="ot">NA_real_</span>))</code></pre></div>
+<ol start="14" style="list-style-type: decimal">
+<li>According to a quick logit regresion, are municipalities with more voters more likely to have passed a Lei orgânica do município before 1990?</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">total_mun3 <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">zelig</span>(Lei<span class="op">~</span>QTDE_VOTOS,<span class="dt">data=</span>.,<span class="dt">model=</span><span class="st">&quot;logit&quot;</span>)</code></pre></div>
+<ol start="15" style="list-style-type: decimal">
 <li><p>Organize your results to the above questions in a clean R Markdown document (as PDF or HTML), using chunk parameters to block the warnings, messages and raw code itself. The final document should contain only explanation text, tables and graphics.</p></li>
 <li><p>Download the bibliography file <code>example.bib</code> to your working directory using the code below. Reference this bibliography file in your document and reference the Fujiwara paper in your document using its key <code>@Fujiwara2011</code>.</p></li>
 </ol>
