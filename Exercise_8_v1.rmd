@@ -101,7 +101,8 @@ min(Escolas_dist[Escolas_dist>0])
 
 ```{r, echo=T}
 library(raster)
-download.file("https://github.com/JonnyPhillips/Curso_R/raw/master/khm_popdenr_landscan_2011.tif",destfile="khm_popdenr_landscan_2011.tif")
+download.file("https://github.com/JonnyPhillips/Curso_R/raw/master/khm_popdenr_landscan_2011.zip",destfile="khm_popdenr_landscan_2011.zip")
+unzip("khm_popdenr_landscan_2011.zip")
 cambodia <- raster("khm_popdenr_landscan_2011.tif")
 ```
 

@@ -255,6 +255,9 @@ $(document).ready(function () {
     <li>
       <a href="class_7_slides2.html">Class 7</a>
     </li>
+    <li>
+      <a href="class_8_slides3.html">Class 8</a>
+    </li>
   </ul>
 </li>
 <li class="dropdown">
@@ -284,6 +287,9 @@ $(document).ready(function () {
     </li>
     <li>
       <a href="Exercise_7_v3.html">Exercise 7</a>
+    </li>
+    <li>
+      <a href="Exercise_8_v1.html">Exercise 8</a>
     </li>
   </ul>
 </li>
@@ -346,7 +352,8 @@ Escolas &lt;-<span class="st"> </span><span class="kw">read_sf</span>(<span clas
 <li><p>Use the code below to open a raster file of population density in Cambodia. Transform the population density data to the logarithmic scale and create a map.</p></li>
 </ol>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(raster)
-<span class="kw">download.file</span>(<span class="st">&quot;https://github.com/JonnyPhillips/Curso_R/raw/master/khm_popdenr_landscan_2011.tif&quot;</span>,<span class="dt">destfile=</span><span class="st">&quot;khm_popdenr_landscan_2011.tif&quot;</span>)
+<span class="kw">download.file</span>(<span class="st">&quot;https://github.com/JonnyPhillips/Curso_R/raw/master/khm_popdenr_landscan_2011.zip&quot;</span>,<span class="dt">destfile=</span><span class="st">&quot;khm_popdenr_landscan_2011.zip&quot;</span>)
+<span class="kw">unzip</span>(<span class="st">&quot;khm_popdenr_landscan_2011.zip&quot;</span>)
 cambodia &lt;-<span class="st"> </span><span class="kw">raster</span>(<span class="st">&quot;khm_popdenr_landscan_2011.tif&quot;</span>)</code></pre></div>
 <ol start="10" style="list-style-type: decimal">
 <li>Change the colour scale of the map in Question 9 so that the least densely populated areas are coloured white, the most densely populated are coloured red and <code>NA</code> values show up as white also.</li>
