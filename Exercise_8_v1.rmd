@@ -46,7 +46,7 @@ Escolas_per_mun <- Escolas %>% st_join(Brazil,st_intersects) %>% group_by(NM_MUN
 4. Using a spatial join, what is the average Prova Brasil maths score at age 13 (`MAT13_AF`) in each municipality? Note you need to filter out all schools with missing (`999.99`) values on the score variable before averaging.
 
 ```{r}
-Escolas_avg_prova_per_mun <- Brazil %>% st_join(Escolas,st_intersects) %>% filter(MAT13_AF!=999.99) %>% group_by(NM_MUNICIP) %>% summarize(mean_prova=mean(MAT13_AF,na.rm=T))
+Escolas_avg_prova_per_mun <- Brazil %>% st_transform(4326) %>% st_join(Escolas,st_intersects) %>% filter(MAT13_AF!=999.99) %>% group_by(NM_MUNICIP) %>% summarize(mean_prova=mean(MAT13_AF,na.rm=T))
 ```
 
 5. Create a map to display the pattern of average test results per municipality from Question 4.

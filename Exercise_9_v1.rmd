@@ -1,0 +1,42 @@
+---
+title: "Analysis, Visualization and Mapping in R"
+subtitle: "Exercise 9: Shiny"
+output: 
+  html_document:
+    code_folding: show
+---
+
+```{r setup, echo=FALSE, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(include=TRUE, warning=FALSE, message=FALSE, eval=FALSE, echo=FALSE)
+```
+
+1. Create a new Shiny App in Rstudio. Load the `shiny`, `tidyverse` and `cepespR` packages.
+
+```{r, echo=T}
+library(shiny)
+library(tidyverse)
+library(cepespR)
+```
+
+2. Download the electoral data file ONCE using `cepespR`, save the data as a ".csv" and then include a line opening the ".csv". (Remove the `cepespR` code after).
+
+```{r, echo=T}
+data <- get_elections(year=2014, position="President",regional_aggregation="State",political_aggregation="Candidate")
+
+write.csv(data,"data.csv")
+data <- read.csv("data.csv")
+```
+
+3. Create a User Interface with appropriate inputs to select the round of the election (`NUM_TURNO`) and Party (`SIGLA_PARTIDO`). 
+
+4. Create a `reactive` function within the `server` function that filters the dataset according to the two inputs in your UI.
+
+5. Create a ggplot2 graphic output (`renderPlot`) within the `server` function that depends on the `reactive` function and displays a bar chart of the number of votes the party received in each state.
+
+6. Create a place for this graphic to appear in your `ui` function using `plotOutput`. 
+
+7. Make the scale of your graph fixed so it shows all the values but is easier to compare vote quantities when selecting between parties. (Hint: The maximum number of votes is for the PSDB in SP in the second round).
+
+8. Create another `reactive` output that calculates the total percentage of the vote the selected party received in the selected round of the election. 
+
+9. Create a text output (`renderText`) in the `server` function and a `plotOutput` in the `ui` function to display the result of the calculation in Question 7.
