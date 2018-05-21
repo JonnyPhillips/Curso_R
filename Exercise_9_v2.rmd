@@ -1,0 +1,47 @@
+---
+title: "Analysis, Visualization and Mapping in R"
+subtitle: "Exercise 9: Shiny"
+output: 
+  html_document:
+    code_folding: show
+---
+
+```{r setup, echo=FALSE, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(include=TRUE, warning=FALSE, message=FALSE, eval=FALSE, echo=FALSE)
+```
+
+1. Create a new Shiny App in Rstudio. Load the `shiny`, `tidyverse` and `cepespR` packages.
+
+```{r, echo=T}
+library(shiny)
+library(tidyverse)
+library(cepespR)
+```
+
+2. Using the code below, download the electoral data file ONCE using `cepespR`, save the data as a ".csv" and then include a line opening the ".csv". (Remove the `cepespR` and `write.csv` code after).
+
+```{r, echo=T}
+data <- get_elections(year=2014, position="President",regional_aggregation="State",political_aggregation="Candidate") %>%
+  mutate(NOME_PARTIDO=iconv(NOME_PARTIDO, "ASCII", "UTF-8", sub=""))
+
+write.csv(data,"data.csv")
+data <- read.csv("data.csv")
+```
+
+3. Before creating the Shiny app, create an example analysis first: Filter the election for the second round (`NUM_TURNO`) and the PSDB (`SIGLA_PARTIDO`). In a separate line of code, create a `ggplot` output that displays a column chart (`geom_col`) of the number of votes the party received in each state.
+
+4. Now, let's put this analysis within a Shiny app. Create a User Interface with appropriate inputs to allow the user to select the round of the election (`NUM_TURNO`) and the Party (`SIGLA_PARTIDO`). 
+
+5. Turn your code for filtering the dataset by round and party into a `reactive` function within the `server` function that responds to the two inputs in your UI.
+
+6. Turn your ggplot2 graphic output into a `renderPlot` function within the `server` function so that it depends on the `reactive` function you created in the previous question.
+
+7. Create a place for this `renderPlot` graphic to appear in your `ui` function using `plotOutput`. 
+
+8. Test your Shiny App and see if it works!
+
+9. Make the scale of your graph fixed (`ylim`) so it shows all the values but is easier to compare vote quantities when selecting between parties. (Hint: The maximum number of votes is for the PSDB in SP in the second round).
+
+10. Create another `reactive` output that calculates the total percentage of the vote the selected party received in the selected round of the election. 
+
+11. Create a text output (`renderText`) in the `server` function and a `textOutput` in the `ui` function to display the result of the calculation in Question 7.

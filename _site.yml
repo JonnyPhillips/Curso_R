@@ -47,7 +47,7 @@ navbar:
     - text: Exercise 8
       href: Exercise_8_v1.html
     - text: Exercise 9
-      href: Exercise_9_v1.html
+      href: Exercise_9_v2.html
 
 output:
   html_document:

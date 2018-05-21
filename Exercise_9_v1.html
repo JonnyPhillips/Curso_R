@@ -295,7 +295,7 @@ $(document).ready(function () {
       <a href="Exercise_8_v1.html">Exercise 8</a>
     </li>
     <li>
-      <a href="Exercise_9_v1.html">Exercise 9</a>
+      <a href="Exercise_9_v2.html">Exercise 9</a>
     </li>
   </ul>
 </li>
@@ -332,9 +332,10 @@ $(document).ready(function () {
 <span class="kw">library</span>(tidyverse)
 <span class="kw">library</span>(cepespR)</code></pre></div>
 <ol start="2" style="list-style-type: decimal">
-<li>Download the electoral data file ONCE using <code>cepespR</code>, save the data as a “.csv” and then include a line opening the “.csv”. (Remove the <code>cepespR</code> code after).</li>
+<li>Using the code below, download the electoral data file ONCE using <code>cepespR</code>, save the data as a “.csv” and then include a line opening the “.csv”. (Remove the <code>cepespR</code> and <code>write.csv</code> code after).</li>
 </ol>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">data &lt;-<span class="st"> </span><span class="kw">get_elections</span>(<span class="dt">year=</span><span class="dv">2014</span>, <span class="dt">position=</span><span class="st">&quot;President&quot;</span>,<span class="dt">regional_aggregation=</span><span class="st">&quot;State&quot;</span>,<span class="dt">political_aggregation=</span><span class="st">&quot;Candidate&quot;</span>)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">data &lt;-<span class="st"> </span><span class="kw">get_elections</span>(<span class="dt">year=</span><span class="dv">2014</span>, <span class="dt">position=</span><span class="st">&quot;President&quot;</span>,<span class="dt">regional_aggregation=</span><span class="st">&quot;State&quot;</span>,<span class="dt">political_aggregation=</span><span class="st">&quot;Candidate&quot;</span>) <span class="op">%&gt;%</span>
+<span class="st">      </span><span class="kw">mutate</span>(<span class="dt">NOME_PARTIDO=</span><span class="kw">iconv</span>(NOME_PARTIDO, <span class="st">&quot;ASCII&quot;</span>, <span class="st">&quot;UTF-8&quot;</span>, <span class="dt">sub=</span><span class="st">&quot;&quot;</span>))
 
 <span class="kw">write.csv</span>(data,<span class="st">&quot;data.csv&quot;</span>)
 data &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;data.csv&quot;</span>)</code></pre></div>

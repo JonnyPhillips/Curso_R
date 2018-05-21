@@ -320,49 +320,35 @@ $(document).ready(function () {
 
 
 <h1 class="title toc-ignore">Analysis, Visualization and Mapping in R</h1>
-<h3 class="subtitle"><em>Exercise 8: Mapping II</em></h3>
+<h3 class="subtitle"><em>Exercise 9: Shiny</em></h3>
 
 </div>
 
 
 <ol style="list-style-type: decimal">
-<li>Create a new Rmarkdown document in Rstudio. Load the <code>tidyverse</code>,<code>zeligverse</code>, <code>knitr</code>, <code>cepespR</code>, <code>sf</code> and <code>spdep</code> packages. Install and load the development versions of <code>ggplot2</code> and <code>geogrid</code>.</li>
+<li>Create a new Shiny App in Rstudio. Load the <code>shiny</code>, <code>tidyverse</code> and <code>cepespR</code> packages.</li>
 </ol>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyverse)
-<span class="kw">library</span>(zeligverse)
-<span class="kw">library</span>(knitr)
-<span class="kw">library</span>(cepespR)
-<span class="kw">library</span>(sf)
-<span class="kw">library</span>(spdep)
-<span class="co">#devtools::install_github(&quot;jbaileyh/geogrid&quot;)</span>
-<span class="kw">library</span>(geogrid)
-<span class="co">#devtools::install_github(&quot;tidyverse/ggplot2&quot;)</span>
-<span class="kw">library</span>(ggplot2)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(shiny)
+<span class="kw">library</span>(tidyverse)
+<span class="kw">library</span>(cepespR)</code></pre></div>
 <ol start="2" style="list-style-type: decimal">
-<li>Using the simple features package (<code>read_sf</code>), open the two shapefiles using the code below - one of Brazilian municipalities, and one of schools in SP.</li>
+<li>Using the code below, download the electoral data file ONCE using <code>cepespR</code>, save the data as a “.csv” and then include a line opening the “.csv”. (Remove the <code>cepespR</code> and <code>write.csv</code> code after).</li>
 </ol>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">download.file</span>(<span class="st">&quot;https://github.com/JonnyPhillips/Curso_R/raw/master/Brazil_s.zip&quot;</span>,<span class="dt">destfile=</span><span class="st">&quot;Brazil_s.zip&quot;</span>)
-<span class="kw">unzip</span>(<span class="st">&quot;Brazil_s.zip&quot;</span>)
-Brazil &lt;-<span class="st"> </span><span class="kw">read_sf</span>(<span class="st">&quot;Brazil_s.shp&quot;</span>)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">data &lt;-<span class="st"> </span><span class="kw">get_elections</span>(<span class="dt">year=</span><span class="dv">2014</span>, <span class="dt">position=</span><span class="st">&quot;President&quot;</span>,<span class="dt">regional_aggregation=</span><span class="st">&quot;State&quot;</span>,<span class="dt">political_aggregation=</span><span class="st">&quot;Candidate&quot;</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">NOME_PARTIDO=</span><span class="kw">iconv</span>(NOME_PARTIDO, <span class="st">&quot;ASCII&quot;</span>, <span class="st">&quot;UTF-8&quot;</span>, <span class="dt">sub=</span><span class="st">&quot;&quot;</span>))
 
-<span class="kw">download.file</span>(<span class="st">&quot;https://github.com/JonnyPhillips/Curso_R/raw/master/ESC2013_RMSP_CEM.zip&quot;</span>, <span class="dt">destfile=</span><span class="st">&quot;ESC2013_RMSP_CEM.zip&quot;</span>)
-<span class="kw">unzip</span>(<span class="st">&quot;ESC2013_RMSP_CEM.zip&quot;</span>)
-Escolas &lt;-<span class="st"> </span><span class="kw">read_sf</span>(<span class="st">&quot;Esc2013_RMSP_CEM.shp&quot;</span>)</code></pre></div>
+<span class="kw">write.csv</span>(data,<span class="st">&quot;data.csv&quot;</span>)
+data &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;data.csv&quot;</span>)</code></pre></div>
 <ol start="3" style="list-style-type: decimal">
-<li><p>Using a spatial join, how many schools are there in each municipality?</p></li>
-<li><p>Using a spatial join, what is the average Prova Brasil maths score at age 13 (<code>MAT13_AF</code>) in each municipality? Note you need to filter out all schools with missing (<code>999.99</code>) values on the score variable before averaging.</p></li>
-<li><p>Create a map to display the pattern of average test results per municipality from Question 4.</p></li>
-<li><p>To provide a statistical measure of the pattern of clustering in the map, calculate the Moran’s I measure of clustering for the test score.</p></li>
-<li><p>Create a hexagonal equal-area map to display the patterns in spatial clustering more clearly.</p></li>
-<li><p>Find the two schools in the municipality (<code>NOMEMUN</code>) of Juquitiba that are closest to each other. How far apart are they (in metres)?</p></li>
-<li><p>Use the code below to open a raster file of population density in Cambodia. Transform the population density data to the logarithmic scale and create a map.</p></li>
-</ol>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(raster)
-<span class="kw">download.file</span>(<span class="st">&quot;https://github.com/JonnyPhillips/Curso_R/raw/master/khm_popdenr_landscan_2011.zip&quot;</span>,<span class="dt">destfile=</span><span class="st">&quot;khm_popdenr_landscan_2011.zip&quot;</span>)
-<span class="kw">unzip</span>(<span class="st">&quot;khm_popdenr_landscan_2011.zip&quot;</span>)
-cambodia &lt;-<span class="st"> </span><span class="kw">raster</span>(<span class="st">&quot;khm_popdenr_landscan_2011.tif&quot;</span>)</code></pre></div>
-<ol start="10" style="list-style-type: decimal">
-<li>Change the colour scale of the map in Question 9 so that the least densely populated areas are coloured white, the most densely populated are coloured red and <code>NA</code> values show up as white also.</li>
+<li><p>Before creating the Shiny app, create an example analysis first: Filter the election for the second round (<code>NUM_TURNO</code>) and the PSDB (<code>SIGLA_PARTIDO</code>). In a separate line of code, create a <code>ggplot</code> output that displays a column chart (<code>geom_col</code>) of the number of votes the party received in each state.</p></li>
+<li><p>Now, let’s put this analysis within a Shiny app. Create a User Interface with appropriate inputs to allow the user to select the round of the election (<code>NUM_TURNO</code>) and the Party (<code>SIGLA_PARTIDO</code>).</p></li>
+<li><p>Turn your code for filtering the dataset by round and party into a <code>reactive</code> function within the <code>server</code> function that responds to the two inputs in your UI.</p></li>
+<li><p>Turn your ggplot2 graphic output into a <code>renderPlot</code> function within the <code>server</code> function so that it depends on the <code>reactive</code> function you created in the previous question.</p></li>
+<li><p>Create a place for this <code>renderPlot</code> graphic to appear in your <code>ui</code> function using <code>plotOutput</code>.</p></li>
+<li><p>Test your Shiny App and see if it works!</p></li>
+<li><p>Make the scale of your graph fixed (<code>ylim</code>) so it shows all the values but is easier to compare vote quantities when selecting between parties. (Hint: The maximum number of votes is for the PSDB in SP in the second round).</p></li>
+<li><p>Create another <code>reactive</code> output that calculates the total percentage of the vote the selected party received in the selected round of the election.</p></li>
+<li><p>Create a text output (<code>renderText</code>) in the <code>server</code> function and a <code>textOutput</code> in the <code>ui</code> function to display the result of the calculation in Question 7.</p></li>
 </ol>
 
 

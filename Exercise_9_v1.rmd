@@ -18,10 +18,11 @@ library(tidyverse)
 library(cepespR)
 ```
 
-2. Download the electoral data file ONCE using `cepespR`, save the data as a ".csv" and then include a line opening the ".csv". (Remove the `cepespR` code after).
+2. Using the code below, download the electoral data file ONCE using `cepespR`, save the data as a ".csv" and then include a line opening the ".csv". (Remove the `cepespR` and `write.csv` code after).
 
 ```{r, echo=T}
-data <- get_elections(year=2014, position="President",regional_aggregation="State",political_aggregation="Candidate")
+data <- get_elections(year=2014, position="President",regional_aggregation="State",political_aggregation="Candidate") %>%
+      mutate(NOME_PARTIDO=iconv(NOME_PARTIDO, "ASCII", "UTF-8", sub=""))
 
 write.csv(data,"data.csv")
 data <- read.csv("data.csv")
