@@ -121,6 +121,15 @@
 <li>Coloque os outputs no <strong>User Interface</strong></li>
 </ol>
 
+</article></slide><slide class=""><hgroup><h2>Exemplo Analise</h2></hgroup><article  id="exemplo-analise">
+
+<pre class = 'prettyprint lang-r'>data &lt;- read.csv(&quot;data.csv&quot;)
+
+new_data &lt;- data %&gt;% filter(UF==&quot;SP&quot;)
+  
+Graph &lt;- new_data() %&gt;% ggplot() +
+      geom_col(aes(x=NOME_PARTIDO,y=QTDE_VOTOS))</pre>
+
 </article></slide><slide class=""><hgroup><h2>Shiny Arquitetura (1)</h2></hgroup><article  id="shiny-arquitetura-1">
 
 <pre class = 'prettyprint lang-r'>ui &lt;- fluidPage( 
