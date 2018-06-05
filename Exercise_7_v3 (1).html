@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Analysis, Visualization and Mapping in R</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/journal.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; background-color: #f8f8f8; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+pre, code { background-color: #f8f8f8; }
+code > span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code > span.dt { color: #204a87; } /* DataType */
+code > span.dv { color: #0000cf; } /* DecVal */
+code > span.bn { color: #0000cf; } /* BaseN */
+code > span.fl { color: #0000cf; } /* Float */
+code > span.ch { color: #4e9a06; } /* Char */
+code > span.st { color: #4e9a06; } /* String */
+code > span.co { color: #8f5902; font-style: italic; } /* Comment */
+code > span.ot { color: #8f5902; } /* Other */
+code > span.al { color: #ef2929; } /* Alert */
+code > span.fu { color: #000000; } /* Function */
+code > span.er { color: #a40000; font-weight: bold; } /* Error */
+code > span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #000000; } /* Constant */
+code > span.sc { color: #000000; } /* SpecialChar */
+code > span.vs { color: #4e9a06; } /* VerbatimString */
+code > span.ss { color: #4e9a06; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #000000; } /* Variable */
+code > span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code > span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code > span.ex { } /* Extension */
+code > span.at { color: #c4a000; } /* Attribute */
+code > span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code > span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+div.sourceCode {
+  overflow-x: visible;
+}
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 61px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+
+.section h2 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+.section h3 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+.section h4 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+.section h5 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+.section h6 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("show" === "show");
+});
+</script>
+
+
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Analysis, Visualization and Mapping in R</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+    Home
+  </a>
+</li>
+<li>
+  <a href="Prior-setup_2.html">Preparation</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Classes
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="class_1_slides15.html">Class 1</a>
+    </li>
+    <li>
+      <a href="class_2_slides11.html">Class 2</a>
+    </li>
+    <li>
+      <a href="class_3_slides4.html">Class 3</a>
+    </li>
+    <li>
+      <a href="class_4_slides5.html">Class 4</a>
+    </li>
+    <li>
+      <a href="class_5_slides3.html">Class 5</a>
+    </li>
+    <li>
+      <a href="class_6_slides3.html">Class 6</a>
+    </li>
+    <li>
+      <a href="class_7_slides2.html">Class 7</a>
+    </li>
+    <li>
+      <a href="class_8_slides3.html">Class 8</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Exercises
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Exercise_1a_v3.html">Exercise 1</a>
+    </li>
+    <li>
+      <a href="Exercise_2_v4.html">Exercise 2</a>
+    </li>
+    <li>
+      <a href="Exercise_3_v4.html">Exercise 3</a>
+    </li>
+    <li>
+      <a href="Exercise_4_v1.html">Exercise 4</a>
+    </li>
+    <li>
+      <a href="Exercise_5_v1.html">Exercise 5</a>
+    </li>
+    <li>
+      <a href="Exercise_6_v1.html">Exercise 6</a>
+    </li>
+    <li>
+      <a href="Exercise_7_v3.html">Exercise 7</a>
+    </li>
+    <li>
+      <a href="Exercise_8_v1.html">Exercise 8</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+<div class="btn-group pull-right">
+<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Analysis, Visualization and Mapping in R</h1>
+<h3 class="subtitle"><em>Exercise 7: Mapping</em></h3>
+
+</div>
+
+
+<ol style="list-style-type: decimal">
+<li>Create a new Rmarkdown document in Rstudio. Load the <code>tidyverse</code>,<code>zeligverse</code>, <code>knitr</code>, <code>cepespR</code>, <code>sf</code> and <code>mapview</code> packages. Install and load the development version of <code>ggplot2</code>.</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyverse)
+<span class="kw">library</span>(zeligverse)
+<span class="kw">library</span>(knitr)
+<span class="kw">library</span>(cepespR)
+<span class="kw">library</span>(sf)
+<span class="kw">library</span>(mapview)
+<span class="co">#devtools::install_github(&quot;tidyverse/ggplot2&quot;)</span>
+<span class="kw">library</span>(ggplot2)</code></pre></div>
+<ol start="2" style="list-style-type: decimal">
+<li>Using the simple features package (<code>read_sf</code>), open the shapefile of Brazil using the code below.</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">download.file</span>(<span class="st">&quot;https://github.com/JonnyPhillips/Curso_R/raw/master/Brazil_s.zip&quot;</span>,<span class="dt">destfile=</span><span class="st">&quot;Brazil_s.zip&quot;</span>)
+<span class="kw">unzip</span>(<span class="st">&quot;Brazil_s.zip&quot;</span>)
+shapefile &lt;-<span class="st"> </span><span class="kw">read_sf</span>(<span class="st">&quot;Brazil_s.shp&quot;</span>)</code></pre></div>
+<ol start="3" style="list-style-type: decimal">
+<li>Use <code>separate</code> to create a new variable for the state IBGE code using the first two digits of <code>CD_GEOCODM</code>,and filter the shapefile to include only Mato Grosso (state <code>51</code>).</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">shapefile &lt;-<span class="st"> </span>shapefile <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">separate</span>(CD_GEOCODM,<span class="dt">into=</span><span class="kw">c</span>(<span class="st">&quot;State&quot;</span>,<span class="st">&quot;Mun&quot;</span>),<span class="dt">sep=</span><span class="dv">2</span>, <span class="dt">remove=</span><span class="ot">FALSE</span>) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">filter</span>(State<span class="op">==</span><span class="dv">51</span>)</code></pre></div>
+<ol start="4" style="list-style-type: decimal">
+<li>Create a map in <code>ggplot</code> that displays the municipal polygons. Fill the colour of the polygons by the area of each municipality (<code>Shape_Area</code>).</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">map_<span class="dv">1</span> &lt;-<span class="st"> </span>shapefile <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">ggplot</span>() <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_sf</span>(<span class="kw">aes</span>(<span class="dt">fill=</span>Shape_Area)) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">theme_classic</span>() <span class="op">+</span>
+<span class="st">  </span><span class="kw">coord_sf</span>(<span class="dt">datum=</span><span class="ot">NA</span>)</code></pre></div>
+<ol start="5" style="list-style-type: decimal">
+<li>Calculate the centroids (<code>st_centroid()</code>) of each municipality in Mato Grosso and add this to your map from the previous question.</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">centroids &lt;-<span class="st"> </span>shapefile <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">st_centroid</span>()
+
+map_<span class="dv">1</span> <span class="op">+</span><span class="st"> </span><span class="kw">geom_sf</span>(<span class="dt">data=</span>centroids,<span class="dt">col=</span><span class="st">&quot;white&quot;</span>) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">theme_classic</span>() <span class="op">+</span>
+<span class="st">  </span><span class="kw">coord_sf</span>(<span class="dt">datum=</span><span class="ot">NA</span>)</code></pre></div>
+<ol start="6" style="list-style-type: decimal">
+<li>Let’s create a new shapefile with a different projection for the centroids data. Using <code>st_transform</code> we can specify a numerical code for an appropriate projection. Search on <a href="http://epsg.io">epsg.io</a> for Brazil and use the appropriate numeric code.</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">centroids2 &lt;-<span class="st"> </span>centroids <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">st_transform</span>(<span class="dv">29101</span>)</code></pre></div>
+<ol start="7" style="list-style-type: decimal">
+<li>For each of the two projections for the centroids, calculate the distance (<code>st_distance(a,b)</code>) between the centroid of each municipality and the state capital (<code>CUIABÁ</code>). What is the distance between the capital and the municipality that is furthest away? Compare these two distances for both projections.</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">capital &lt;-<span class="st"> </span>centroids <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(NM_MUNICIP<span class="op">==</span><span class="st">&quot;CUIABÁ&quot;</span>)
+capital2 &lt;-<span class="st"> </span>centroids2 <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(NM_MUNICIP<span class="op">==</span><span class="st">&quot;CUIABÁ&quot;</span>)
+
+<span class="kw">st_distance</span>(centroids,capital) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">max</span>()
+<span class="kw">st_distance</span>(centroids2,capital2) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">max</span>()</code></pre></div>
+<ol start="8" style="list-style-type: decimal">
+<li>Now download from CEPESPdata candidate data on the governorship election in Mato Grosso in 2014. Calculate the vote share for each candidate. To merge this with our shapefile we need one row for each municipality in our data. But currently we have one row for each candidate in each municipality. So let’s filter for the winner of the election using <code>DESC_SIT_TOT_TURNO</code>.</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">data &lt;-<span class="st"> </span><span class="kw">cepespdata</span>(<span class="dt">year=</span><span class="dv">2014</span>, <span class="dt">position=</span><span class="st">&quot;Governor&quot;</span>, <span class="dt">regional_aggregation=</span><span class="st">&quot;Municipality&quot;</span>,<span class="dt">political_aggregation=</span><span class="st">&quot;Candidate&quot;</span>,<span class="dt">state=</span><span class="st">&quot;MT&quot;</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">data &lt;-<span class="st"> </span><span class="kw">cepespdata</span>(<span class="dt">year=</span><span class="dv">2014</span>, <span class="dt">position=</span><span class="st">&quot;Governor&quot;</span>,  <span class="dt">regional_aggregation=</span><span class="st">&quot;Municipality&quot;</span>, <span class="dt">political_aggregation=</span><span class="st">&quot;Candidate&quot;</span>, <span class="dt">state=</span><span class="st">&quot;MT&quot;</span>) 
+
+data &lt;-<span class="st"> </span>data <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">group_by</span>(COD_MUN_IBGE) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">Voto_pct=</span>(QTDE_VOTOS<span class="op">/</span><span class="kw">sum</span>(QTDE_VOTOS))<span class="op">*</span><span class="dv">100</span>) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">filter</span>(DESC_SIT_TOT_TURNO<span class="op">==</span><span class="st">&quot;ELEITO&quot;</span>)</code></pre></div>
+<ol start="9" style="list-style-type: decimal">
+<li>Merge the electoral data for the winner into the shapefile using the municipality code (<code>COD_MUN_IBGE</code>). Remember we need the column names, types and values to match for this to work.</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">merged &lt;-<span class="st"> </span>shapefile <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">rename</span>(<span class="st">&quot;COD_MUN_IBGE&quot;</span>=<span class="st">&quot;CD_GEOCODM&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">COD_MUN_IBGE=</span><span class="kw">as.numeric</span>(COD_MUN_IBGE)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">left_join</span>(data,<span class="dt">by=</span><span class="st">&quot;COD_MUN_IBGE&quot;</span>)</code></pre></div>
+<ol start="10" style="list-style-type: decimal">
+<li>Plot a map showing the number of votes won by the winner in each municipality in Mato Grosso. Change the colour scale to use a colour scheme that goes from yelow to red.</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">map2 &lt;-<span class="st"> </span>merged <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">ggplot</span>() <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_sf</span>(<span class="kw">aes</span>(<span class="dt">fill=</span>Voto_pct)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">scale_fill_gradient</span>(<span class="dt">low=</span><span class="st">&quot;yellow&quot;</span>,<span class="dt">high=</span><span class="st">&quot;red&quot;</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">theme_classic</span>() <span class="op">+</span>
+<span class="st">  </span><span class="kw">coord_sf</span>(<span class="dt">datum=</span><span class="ot">NA</span>)
+
+map2</code></pre></div>
+<ol start="11" style="list-style-type: decimal">
+<li>Make your map in Question 10 more professional by adding a title, changing the title of the legend (by renaming the variable you are plotting) and using a diverging colour scale around the median vote share.</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">map2 &lt;-<span class="st"> </span>merged <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">rename</span>(<span class="st">&quot;Vote Share %&quot;</span>=<span class="st">&quot;Voto_pct&quot;</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">ggplot</span>() <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_sf</span>(<span class="kw">aes</span>(<span class="dt">fill=</span><span class="st">`</span><span class="dt">Vote Share %</span><span class="st">`</span>)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">scale_fill_gradient2</span>(<span class="dt">low=</span><span class="st">&quot;purple&quot;</span>,<span class="dt">mid=</span><span class="st">&quot;white&quot;</span>,<span class="dt">high=</span><span class="st">&quot;dark green&quot;</span>,<span class="dt">midpoint=</span><span class="kw">median</span>(merged<span class="op">$</span>Voto_pct,<span class="dt">na.rm=</span>T)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">theme_classic</span>() <span class="op">+</span>
+<span class="st">  </span><span class="kw">coord_sf</span>(<span class="dt">datum=</span><span class="ot">NA</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Percentage Vote Share of Winning Gubernatorial Candidate in Mato Grosso in 2014&quot;</span>)
+
+map2</code></pre></div>
+<ol start="12" style="list-style-type: decimal">
+<li>Create an interactive map using <code>mapview</code> to display the same map as in Question 10.</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">merged <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mapview</span>(<span class="dt">zcol=</span><span class="st">&quot;Voto_pct&quot;</span>,<span class="dt">legend=</span><span class="ot">TRUE</span>)</code></pre></div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

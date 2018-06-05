@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="JP" />
+
+
+<title>Exercise_1</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/journal.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 61px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+
+.section h2 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+.section h3 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+.section h4 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+.section h5 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+.section h6 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Analysis, Visualization and Mapping in R</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+    Home
+  </a>
+</li>
+<li>
+  <a href="Prior-setup_2.html">Preparation</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Classes
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="class_1_slides15.html">Class 1</a>
+    </li>
+    <li>
+      <a href="class_2_slides11.html">Class 2</a>
+    </li>
+    <li>
+      <a href="class_3_slides4.html">Class 3</a>
+    </li>
+    <li>
+      <a href="class_4_slides5.html">Class 4</a>
+    </li>
+    <li>
+      <a href="class_5_slides3.html">Class 5</a>
+    </li>
+    <li>
+      <a href="class_6_slides3.html">Class 6</a>
+    </li>
+    <li>
+      <a href="class_7_slides2.html">Class 7</a>
+    </li>
+    <li>
+      <a href="class_8_slides3.html">Class 8</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Exercises
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Exercise_1a_v3.html">Exercise 1</a>
+    </li>
+    <li>
+      <a href="Exercise_2_v4.html">Exercise 2</a>
+    </li>
+    <li>
+      <a href="Exercise_3_v4.html">Exercise 3</a>
+    </li>
+    <li>
+      <a href="Exercise_4_v1.html">Exercise 4</a>
+    </li>
+    <li>
+      <a href="Exercise_5_v1.html">Exercise 5</a>
+    </li>
+    <li>
+      <a href="Exercise_6_v1.html">Exercise 6</a>
+    </li>
+    <li>
+      <a href="Exercise_7_v3.html">Exercise 7</a>
+    </li>
+    <li>
+      <a href="Exercise_8_v1.html">Exercise 8</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Exercise_1</h1>
+<h4 class="author"><em>JP</em></h4>
+<h4 class="date"><em>December 6, 2017</em></h4>
+
+</div>
+
+
+<p>The winner of the election was DILMA VANA ROUSSEFF, with 51.6%.</p>
+<p>Table showing first-round results:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="right">CODIGO_CARGO</th>
+<th align="left">SIGLA_PARTIDO</th>
+<th align="right">NUM_TURNO</th>
+<th align="left">DESCRICAO_CARGO</th>
+<th align="right">ANO_ELEICAO</th>
+<th align="right">NUMERO_PARTIDO</th>
+<th align="right">NUMERO_CANDIDATO</th>
+<th align="left">NOME_CANDIDATO</th>
+<th align="right">QTDE_VOTOS</th>
+<th align="right">Vote_Share</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">PCB</td>
+<td align="right">1</td>
+<td align="left">PRESIDENTE</td>
+<td align="right">2014</td>
+<td align="right">21</td>
+<td align="right">21</td>
+<td align="left">MAURO LUÍS IASI</td>
+<td align="right">47845</td>
+<td align="right">0.0459943</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="left">PCO</td>
+<td align="right">1</td>
+<td align="left">PRESIDENTE</td>
+<td align="right">2014</td>
+<td align="right">29</td>
+<td align="right">29</td>
+<td align="left">RUI COSTA PIMENTA</td>
+<td align="right">12324</td>
+<td align="right">0.0118473</td>
+</tr>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">PRTB</td>
+<td align="right">1</td>
+<td align="left">PRESIDENTE</td>
+<td align="right">2014</td>
+<td align="right">28</td>
+<td align="right">28</td>
+<td align="left">JOSÉ LEVY FIDELIX DA CRUZ</td>
+<td align="right">446878</td>
+<td align="right">0.4295921</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="left">PSB</td>
+<td align="right">1</td>
+<td align="left">PRESIDENTE</td>
+<td align="right">2014</td>
+<td align="right">40</td>
+<td align="right">40</td>
+<td align="left">MARIA OSMARINA MARINA DA SILVA VAZ DE LIMA</td>
+<td align="right">22176619</td>
+<td align="right">21.3187930</td>
+</tr>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">PSC</td>
+<td align="right">1</td>
+<td align="left">PRESIDENTE</td>
+<td align="right">2014</td>
+<td align="right">20</td>
+<td align="right">20</td>
+<td align="left">EVERALDO DIAS PEREIRA</td>
+<td align="right">780513</td>
+<td align="right">0.7503215</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="left">PSDB</td>
+<td align="right">1</td>
+<td align="left">PRESIDENTE</td>
+<td align="right">2014</td>
+<td align="right">45</td>
+<td align="right">45</td>
+<td align="left">AÉCIO NEVES DA CUNHA</td>
+<td align="right">34897211</td>
+<td align="right">33.5473328</td>
+</tr>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">PSDC</td>
+<td align="right">1</td>
+<td align="left">PRESIDENTE</td>
+<td align="right">2014</td>
+<td align="right">27</td>
+<td align="right">27</td>
+<td align="left">JOSE MARIA EYMAEL</td>
+<td align="right">61250</td>
+<td align="right">0.0588808</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="left">PSOL</td>
+<td align="right">1</td>
+<td align="left">PRESIDENTE</td>
+<td align="right">2014</td>
+<td align="right">50</td>
+<td align="right">50</td>
+<td align="left">LUCIANA KREBS GENRO</td>
+<td align="right">1612186</td>
+<td align="right">1.5498241</td>
+</tr>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">PSTU</td>
+<td align="right">1</td>
+<td align="left">PRESIDENTE</td>
+<td align="right">2014</td>
+<td align="right">16</td>
+<td align="right">16</td>
+<td align="left">JOSÉ MARIA DE ALMEIDA</td>
+<td align="right">91209</td>
+<td align="right">0.0876809</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="left">PT</td>
+<td align="right">1</td>
+<td align="left">PRESIDENTE</td>
+<td align="right">2014</td>
+<td align="right">13</td>
+<td align="right">13</td>
+<td align="left">DILMA VANA ROUSSEFF</td>
+<td align="right">43267668</td>
+<td align="right">41.5940075</td>
+</tr>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">PV</td>
+<td align="right">1</td>
+<td align="left">PRESIDENTE</td>
+<td align="right">2014</td>
+<td align="right">43</td>
+<td align="right">43</td>
+<td align="left">EDUARDO JORGE MARTINS ALVES SOBRINHO</td>
+<td align="right">630099</td>
+<td align="right">0.6057258</td>
+</tr>
+</tbody>
+</table>
+<p>Chart showing second-round results: <img src="Exercise_1_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

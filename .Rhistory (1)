@@ -1,0 +1,512 @@
+idw %>% as.data.frame() %>%
+ggplot() +
+geom_tile(aes(x=long,y=lat,fill=var1.pred))
+names(idw)
+?idw
+idw_out <- idw(Shape_Area~1,locations=sf_points_sp,newdata=grid)
+class(idw_out)
+names(idw_out)
+head(idw)
+idw %>% st_as_sf() %>%
+ggplot() +
+geom_tile(aes(x=long,y=lat,fill=var1.pred))
+idw %>% st_as_sf()
+idw %>% st_as_sf() %>%
+bind_cols(st_coordinates(idw)) %>%
+ggplot() +
+geom_tile(aes(x=long,y=lat,fill=var1.pred))
+st_coordinates(idw)
+idw_sf %>%
+bind_cols(st_coordinates(idw)) %>%
+ggplot() +
+geom_tile(aes(x=long,y=lat,fill=var1.pred))
+idw_sf <- idw %>% st_as_sf()
+idw_sf %>%
+bind_cols(st_coordinates(idw_sf)) %>%
+ggplot() +
+geom_tile(aes(x=long,y=lat,fill=var1.pred))
+st_coordinates(idw_sf)
+idw_sf %>%
+bind_cols(st_coordinates(idw_sf))
+idw_sf
+idw_sf %>%
+bind_cols(st_coordinates(idw_sf))
+idw_sf %>%
+cbind(st_coordinates(idw_sf)) %>%
+ggplot() +
+geom_tile(aes(x=long,y=lat,fill=var1.pred))
+idw_sf %>%
+cbind(st_coordinates(idw_sf))
+idw_sf %>%
+cbind(st_coordinates(idw_sf)) %>%
+ggplot() +
+geom_tile(aes(x=X,y=Y,fill=var1.pred))
+?st_make_grid
+c(diff(st_bbox(sf_points)[c(1, 3)]), diff(st_bbox(sf_points)[c(2,
+4)]))/n, offset = st_bbox(sf_points)[1:2], n = c(10, 10)
+c(diff(st_bbox(sf_points)[c(1, 3)]), diff(st_bbox(sf_points)[c(2,4)]))/n, offset = st_bbox(sf_points)[1:2], n = c(10, 10)
+c(diff(st_bbox(sf_points)[c(1, 3)]), diff(st_bbox(sf_points)[c(2,4)]))/n, offset = st_bbox(sf_points)[1:2]
+c(diff(st_bbox(sf_points)[c(1, 3)]), diff(st_bbox(sf_points)[c(2,4)]))/n
+st_bbox(sf_points)
+st_bbox(sf_points)[c(1, 3)]
+diff(st_bbox(sf_points)[c(1, 3)])
+diff(st_bbox(sf_points)[c(2,4)])
+c(diff(st_bbox(sf_points)[c(1, 3)]), diff(st_bbox(sf_points)[c(2,4)]))/c(10,10)
+sf_points_sp <- sf_points %>% as("Spatial")
+grid <- st_make_grid(sf_points,n=200,what="corners") %>% as("Spatial")
+idw_sf <- idw(Shape_Area~1,locations=sf_points_sp,newdata=grid) %>% st_as_sf()
+idw_sf %>%
+cbind(st_coordinates(idw_sf)) %>%
+ggplot() +
+geom_tile(aes(x=X,y=Y,fill=var1.pred))
+sf_SP %>% ggplot() +
+geom_sf()
+?rasterize
+rm(list=ls())
+#Opening a shapefile
+sf <- st_read("Brazil_s.shp",stringsAsFactors = FALSE)
+#Normal tidyverse data manipulation works with sf
+sf <- sf %>% mutate(Double_Area=Shape_Area*2)
+sf <- sf %>% separate(CD_GEOCODM,into=c("State","Mun"),sep=2, remove=FALSE) %>% filter(State==35)
+#Plotting with ggplot2
+sf %>% ggplot() +
+geom_sf()
+sf %>% ggplot() +
+geom_sf(aes(fill=Shape_Area)) +
+theme_classic() +
+coord_sf(datum=NA)
+#Opening a shapefile
+sf <- st_read("Brazil_s.shp",stringsAsFactors = FALSE)
+#Changing the projection
+sf <- sf %>% st_transform(4326) #Works with epsg codes
+sf <- sf %>% st_transform("+proj=longlat +datum=WGS84")
+sf <- sf %>% st_transform("+proj=utm +datum=WGS84 +zone=45")
+#Plotting with ggplot2
+sf %>% ggplot() +
+geom_sf()
+sf <- sf %>% st_transform("+proj=longlat +ellps=GRS80 +no_defs")
+#Plotting with ggplot2
+sf %>% ggplot() +
+geom_sf()
+#Normal tidyverse data manipulation works with sf
+sf <- sf %>% mutate(Double_Area=Shape_Area*2)
+sf <- sf %>% separate(CD_GEOCODM,into=c("State","Mun"),sep=2, remove=FALSE) %>% filter(State==35)
+#Plotting with ggplot2
+sf %>% ggplot() +
+geom_sf()
+knitr::opts_chunk$set(include=TRUE, warning=FALSE, message=FALSE, eval=FALSE, echo=FALSE)
+download.file("https://github.com/JonnyPhillips/Curso_R/raw/master/Brazil_s.zip",destfile="Brazil_s.zip")
+shapefile <- st_read("Brazil_s.shp",stringsAsFactors=F)
+library(tidyverse)
+library(zeligverse)
+library(knitr)
+library(cepespR)
+library(sf)
+library(mapview)
+shapefile <- st_read("Brazil_s.shp",stringsAsFactors=F)
+shapefile <- shapefile %>%
+separate(CD_GEOCODM,into=c("State","Mun"),sep=2, remove=FALSE) %>%
+filter(State==51)
+map_1 <- shapefile %>% ggplot() +
+geom_sf(aes(fill=Shape_Area)) +
+theme_classic() +
+coord_sf(datum=NA)
+map_1
+centroids <- shapefile %>% st_centroid()
+map_1 + geom_sf(data=centroids) +
+theme_classic() +
+coord_sf(datum=NA)
+map_1 + geom_sf(data=centroids,col="white") +
+theme_classic() +
+coord_sf(datum=NA)
+centroids2 <- centroids %>% st_transform(29101)
+capital <- centroids %>% filter(NM_MUNICIP=="CUIABÁ")
+capital2 <- centroids2 %>% filter(NM_MUNICIP=="CUIABÁ")
+st_distance(centroids,capital) %>% max()
+st_distance(centroids2,capital2) %>% max()
+data <- cepespdata(year=2014, position="Governor", regional_aggregation="Municipality",political_aggregation="Candidate",state="MT")
+data <- data %>% group_by(COD_MUN_IBGE) %>%
+mutate(Voto_pct=(QTDE_VOTOS/sum(QTDE_VOTOS))*100) %>%
+filter(DESC_SIT_TOT_TURNO=="ELEITO")
+shapefile %>% rename("COD_MUN_IBGE"="CD_GEOCODM") %>%
+left_join(data,by="COD_MUN_IBGE")
+shapefile %>% rename("COD_MUN_IBGE"="CD_GEOCODM") %>% mutate(COD_MUN_IBGE=as.numeric(COD_MUN_IBGE)) %>%
+left_join(data,by="COD_MUN_IBGE")
+merged <- shapefile %>% rename("COD_MUN_IBGE"="CD_GEOCODM") %>% mutate(COD_MUN_IBGE=as.numeric(COD_MUN_IBGE)) %>%
+left_join(data,by="COD_MUN_IBGE")
+map2 <- merged %>% ggplot() +
+geom_sf(aes(fill=Voto_pct)) +
+scale_fill_gradient(low="yellow",high="red") +
+theme_classic() +
+coord_sf(datum=NA)
+map2
+map2 <- merged %>% ggplot() +
+geom_sf(aes(fill=Voto_pct)) +
+scale_fill_gradient(low="yellow",high="red") +
+theme_classic() +
+coord_sf(datum=NA) +
+ggtitle("Percentage Vote Share of Winning Gubernatorial Candidate in Mato Grosso in 2014")
+map2
+map2 <- merged %>% rename("Vote Share %"="Voto_pct") %>%
+ggplot() +
+geom_sf(aes(fill=`Vote Share %`)) +
+scale_fill_gradient2(low="red",mid="white",high="green",midpoint=median(merged$`Vote Share %`,na.rm=T)) +
+theme_classic() +
+coord_sf(datum=NA) +
+ggtitle("Percentage Vote Share of Winning Gubernatorial Candidate in Mato Grosso in 2014")
+map2
+map2
+map2 <- merged %>% rename("Vote Share %"="Voto_pct") %>%
+ggplot() +
+geom_sf(aes(fill=`Vote Share %`)) +
+scale_fill_gradient2(low="red",mid="white",high="green",midpoint=median(merged$`Vote Share %`,na.rm=T)) +
+theme_classic() +
+coord_sf(datum=NA) +
+ggtitle("Percentage Vote Share of Winning Gubernatorial Candidate in Mato Grosso in 2014")
+map2
+median(merged$`Vote Share %`,na.rm=T)
+merged$`Vote Share %`
+merged %>% mutate(`Vote Share %`=Voto_pct) %>%
+ggplot() +
+geom_sf(aes(fill=`Vote Shaer %`))
+merged %>% mutate(`Vote Share %`=Voto_pct) %>%
+ggplot() +
+geom_sf(aes(fill=`Vote Share %`))
+merged %>% rename("Vote Share %"="Voto_pct") %>%
+ggplot() +
+geom_sf(aes(fill=`Vote Share %`))
+map2 <- merged %>% rename("Vote Share %"="Voto_pct") %>%
+ggplot() +
+geom_sf(aes(fill=`Vote Share %`)) +
+scale_fill_gradient2(low="red",mid="white",high="green",midpoint=median(merged %>% pull(`Vote Share %`),na.rm=T)) +
+theme_classic() +
+coord_sf(datum=NA) +
+ggtitle("Percentage Vote Share of Winning Gubernatorial Candidate in Mato Grosso in 2014")
+map2
+map2 <- merged %>% rename("Vote Share %"="Voto_pct") %>%
+ggplot() +
+geom_sf(aes(fill=`Vote Share %`)) +
+scale_fill_gradient2(low="red",mid="white",high="green",midpoint=median(merged[,"Vote Share %"]),na.rm=T)) +
+map2 <- merged %>% rename("Vote Share %"="Voto_pct") %>%
+ggplot() +
+geom_sf(aes(fill=`Vote Share %`)) +
+scale_fill_gradient2(low="red",mid="white",high="green",midpoint=median(merged[,"Vote Share %"],na.rm=T)) +
+theme_classic() +
+coord_sf(datum=NA) +
+ggtitle("Percentage Vote Share of Winning Gubernatorial Candidate in Mato Grosso in 2014")
+map2
+map2 <- merged %>% rename("Vote Share %"="Voto_pct") %>%
+ggplot() +
+geom_sf(aes(fill=`Vote Share %`)) +
+scale_fill_gradient2(low="red",mid="white",high="green",midpoint=median(merged$Voto_pct,na.rm=T)) +
+theme_classic() +
+coord_sf(datum=NA) +
+ggtitle("Percentage Vote Share of Winning Gubernatorial Candidate in Mato Grosso in 2014")
+map2
+map2 <- merged %>% rename("Vote Share %"="Voto_pct") %>%
+ggplot() +
+geom_sf(aes(fill=`Vote Share %`)) +
+scale_fill_gradient2(low="yellow",mid="white",high="red",midpoint=median(merged$Voto_pct,na.rm=T)) +
+theme_classic() +
+coord_sf(datum=NA) +
+ggtitle("Percentage Vote Share of Winning Gubernatorial Candidate in Mato Grosso in 2014")
+map2
+map2 <- merged %>% rename("Vote Share %"="Voto_pct") %>%
+ggplot() +
+geom_sf(aes(fill=`Vote Share %`)) +
+scale_fill_gradient2(low="purple",mid="white",high="dark green",midpoint=median(merged$Voto_pct,na.rm=T)) +
+theme_classic() +
+coord_sf(datum=NA) +
+ggtitle("Percentage Vote Share of Winning Gubernatorial Candidate in Mato Grosso in 2014")
+map2
+knitr::opts_chunk$set(echo = FALSE, warning=FALSE, message=FALSE)
+library(tidyverse)
+library(knitr)
+library(sf)
+library(cepespR)
+select <- dplyr::select
+merged %>% rename("Vote %"="Vote_Pct") %>%
+ggplot() +
+geom_sf(aes(fill=`Vote %`), color="white") +
+theme_classic() +
+coord_sf(datum=NA)
+knitr::opts_chunk$set(include=TRUE, warning=FALSE, message=FALSE, eval=FALSE, echo=FALSE)
+library(tidyverse)
+library(zeligverse)
+library(knitr)
+library(cepespR)
+library(sf)
+library(mapview)
+download.file("https://github.com/JonnyPhillips/Curso_R/raw/master/Brazil_s.zip",destfile="Brazil_s.zip")
+unzip("Brazil_s.zip")
+shapefile <- read_sf("Brazil_s.shp")
+shapefile
+shapefile <- shapefile %>%
+separate(CD_GEOCODM,into=c("State","Mun"),sep=2, remove=FALSE) %>%
+filter(State==51)
+map_1 <- shapefile %>% ggplot() +
+geom_sf(aes(fill=Shape_Area)) +
+theme_classic() +
+coord_sf(datum=NA)
+devtools::install_github("tidyverse/ggplot2")
+devtools::install_github("tidyverse/ggplot2", build_vignettes = TRUE)
+devtools::install_github("tidyverse/rlang", build_vignettes = TRUE)
+install.packages("githubinstall")
+library(githubinstall)
+githubinstall("r-lib/rlang")
+install.packages(c("BH", "bindr", "bindrcpp", "blob", "callr", "chron", "DBI", "descr", "devtools", "DiagrammeR", "DT", "ellipse", "future", "git2r", "globals", "gmm", "hexbin", "Hmisc", "htmlTable", "htmlwidgets", "httpuv", "igraph", "irlba", "knitr", "LearnBayes", "listenv", "lme4", "lubridate", "mapproj", "mapview", "MatchIt", "MCMCpack", "msm", "mvtnorm", "openssl", "optmatch", "plogr", "psych", "quantreg", "Rcpp", "RcppArmadillo", "RcppEigen", "RCurl", "rdrobust", "relaimpo", "rgdal", "rmarkdown", "rms", "RMySQL", "rprojroot", "RSQLite", "selectr", "sf", "sp", "spData", "stargazer", "stringdist", "stringi", "survey", "tidyselect", "units", "VGAM", "viridis", "visNetwork", "XML", "xts", "yaml", "Zelig", "zoo"))
+install.packages(c("BH", "bindr", "bindrcpp", "blob", "callr", "chron", "DBI", "descr", "devtools", "DiagrammeR", "DT", "ellipse", "future", "git2r", "globals", "gmm", "hexbin", "Hmisc", "htmlTable", "htmlwidgets", "httpuv", "igraph", "irlba", "knitr", "LearnBayes", "listenv", "lme4", "lubridate", "mapproj", "mapview", "MatchIt", "MCMCpack", "msm", "mvtnorm", "openssl", "optmatch", "plogr", "psych", "quantreg", "Rcpp", "RcppArmadillo", "RcppEigen", "RCurl", "rdrobust", "relaimpo", "rgdal", "rmarkdown", "rms", "RMySQL", "rprojroot", "RSQLite", "selectr", "sf", "sp", "spData", "stargazer", "stringdist", "stringi", "survey", "tidyselect", "units", "VGAM", "viridis", "visNetwork", "XML", "xts", "yaml", "Zelig", "zoo"))
+install.packages(c("BH", "bindr", "bindrcpp", "blob", "callr", "chron", "DBI", "descr", "devtools", "DiagrammeR", "DT", "ellipse", "future", "git2r", "globals", "gmm", "hexbin", "Hmisc", "htmlTable", "htmlwidgets", "httpuv", "igraph", "irlba", "knitr", "LearnBayes", "listenv", "lme4", "lubridate", "mapproj", "mapview", "MatchIt", "MCMCpack", "msm", "mvtnorm", "openssl", "optmatch", "plogr", "psych", "quantreg", "Rcpp", "RcppArmadillo", "RcppEigen", "RCurl", "rdrobust", "relaimpo", "rgdal", "rmarkdown", "rms", "RMySQL", "rprojroot", "RSQLite", "selectr", "sf", "sp", "spData", "stargazer", "stringdist", "stringi", "survey", "tidyselect", "units", "VGAM", "viridis", "visNetwork", "XML", "xts", "yaml", "Zelig", "zoo"))
+install.packages(c("BH", "bindr", "bindrcpp", "blob", "callr", "chron", "DBI", "descr", "devtools", "DiagrammeR", "DT", "ellipse", "future", "git2r", "globals", "gmm", "hexbin", "Hmisc", "htmlTable", "htmlwidgets", "httpuv", "igraph", "irlba", "knitr", "LearnBayes", "listenv", "lme4", "lubridate", "mapproj", "mapview", "MatchIt", "MCMCpack", "msm", "mvtnorm", "openssl", "optmatch", "plogr", "psych", "quantreg", "Rcpp", "RcppArmadillo", "RcppEigen", "RCurl", "rdrobust", "relaimpo", "rgdal", "rmarkdown", "rms", "RMySQL", "rprojroot", "RSQLite", "selectr", "sf", "sp", "spData", "stargazer", "stringdist", "stringi", "survey", "tidyselect", "units", "VGAM", "viridis", "visNetwork", "XML", "xts", "yaml", "Zelig", "zoo"))
+remove.packages("openssl")
+install.packages(c("lubridate", "optmatch", "plogr", "psych", "quantreg", "Rcpp", "RcppArmadillo", "RcppEigen", "RCurl", "rdrobust", "relaimpo", "rgdal", "rmarkdown", "rms", "RMySQL", "rprojroot", "RSQLite", "selectr", "sf", "sp", "spData", "stargazer", "stringdist", "stringi", "survey", "tidyselect", "units", "VGAM", "viridis", "visNetwork", "XML", "xts", "yaml", "Zelig", "zoo"))
+install.packages("yaml")
+install.packages("Rcpp")
+library(tidyverse)
+install.packages("stringi")
+library(tidyverse)
+library(knitr)
+library(sf)
+library(cepespR)
+select <- dplyr::select
+knitr::opts_chunk$set(echo = FALSE, warning=FALSE, message=FALSE)
+library(tidyverse)
+library(knitr)
+library(sf)
+library(cepespR)
+select <- dplyr::select
+shapefile <- read_sf("Brazil_s.shp")
+devtools::install_github("hadley/ggplot2")
+devtools::install_github("r-lib/rlang")
+knitr::opts_chunk$set(include=TRUE, warning=FALSE, message=FALSE, eval=FALSE, echo=FALSE)
+library(tidyverse)
+library(zeligverse)
+library(knitr)
+library(cepespR)
+library(sf)
+library(mapview)
+library(ggplot2)
+download.file("https://github.com/JonnyPhillips/Curso_R/raw/master/Brazil_s.zip",destfile="Brazil_s.zip")
+unzip("Brazil_s.zip")
+shapefile <- read_sf("Brazil_s.shp")
+shapefile <- shapefile %>%
+separate(CD_GEOCODM,into=c("State","Mun"),sep=2, remove=FALSE) %>%
+filter(State==51)
+map_1 <- shapefile %>% ggplot() +
+geom_sf(aes(fill=Shape_Area)) +
+theme_classic() +
+coord_sf(datum=NA)
+centroids <- shapefile %>% st_centroid()
+map_1 + geom_sf(data=centroids,col="white") +
+theme_classic() +
+coord_sf(datum=NA)
+capital <- centroids %>% filter(NM_MUNICIP=="CUIABÁ")
+capital2 <- centroids2 %>% filter(NM_MUNICIP=="CUIABÁ")
+st_distance(centroids,capital) %>% max()
+install.packages("lwgeom")
+capital <- centroids %>% filter(NM_MUNICIP=="CUIABÁ")
+capital2 <- centroids2 %>% filter(NM_MUNICIP=="CUIABÁ")
+centroids2 <- centroids %>% st_transform(29101)
+capital2 <- centroids2 %>% filter(NM_MUNICIP=="CUIABÁ")
+st_distance(centroids,capital) %>% max()
+st_distance(centroids2,capital2) %>% max()
+data <- cepespdata(year=2014, position="Governor", regional_aggregation="Municipality",political_aggregation="Candidate",state="MT")
+data <- data %>% group_by(COD_MUN_IBGE) %>%
+mutate(Voto_pct=(QTDE_VOTOS/sum(QTDE_VOTOS))*100) %>%
+filter(DESC_SIT_TOT_TURNO=="ELEITO")
+merged <- shapefile %>% rename("COD_MUN_IBGE"="CD_GEOCODM") %>%
+mutate(COD_MUN_IBGE=as.numeric(COD_MUN_IBGE)) %>%
+left_join(data,by="COD_MUN_IBGE")
+map2 <- merged %>% ggplot() +
+geom_sf(aes(fill=Voto_pct)) +
+scale_fill_gradient(low="yellow",high="red") +
+theme_classic() +
+coord_sf(datum=NA)
+map2
+map2 <- merged %>% rename("Vote Share %"="Voto_pct") %>%
+ggplot() +
+geom_sf(aes(fill=`Vote Share %`)) +
+scale_fill_gradient2(low="purple",mid="white",high="dark green",midpoint=median(merged$Voto_pct,na.rm=T)) +
+theme_classic() +
+coord_sf(datum=NA) +
+ggtitle("Percentage Vote Share of Winning Gubernatorial Candidate in Mato Grosso in 2014")
+map2
+merged %>% mapview(zcol="Voto_pct",legend=TRUE)
+library(tidyverse)
+library(knitr)
+library(sf)
+library(cepespR)
+library(dismo)
+library(ggmap)
+library(sp)
+shapefile <- read_sf("Brazil_s.shp") %>%
+separate(CD_GEOCODM,into=c("State","Mun"),sep=2, remove=FALSE) %>%
+filter(State==26 & !(CD_GEOCODM %in% c(2605459,2607604))) %>%
+mutate(COD_MUN_IBGE=as.numeric(CD_GEOCODM))
+data <- cepespdata(year=2014,
+position="Governor",
+regional_aggregation="Municipality",
+political_aggregation="Candidate",
+state="PE")
+data <- data %>%
+group_by(COD_MUN_IBGE) %>%
+mutate(Vote_Pct=(QTDE_VOTOS/sum(QTDE_VOTOS))*100) %>%
+ungroup() %>%
+filter(NOME_URNA_CANDIDATO=="PAULO CÂMARA")
+merged <- shapefile %>% left_join(data,by="COD_MUN_IBGE")
+addresses <- c("Prefeitura, Recife, Brazil",
+"Museu da Cidade do Recife, Recife, Brazil",
+"Caruara, Pernambuco, Brazil",
+"Prefeitura, Salgueiro, Pernambuco, Brazil")
+df <- geocode(addresses)
+df <- geocode(addresses)
+sf_points <- df %>% st_as_sf(coords = c("longitude", "latitude"), crs = 4326)
+df <- geocode(addresses)
+df
+library(dismo)
+df <- dismo::geocode(addresses)
+df <- dismo::geocode(addresses)
+df
+knitr::opts_chunk$set(echo = FALSE, warning=FALSE, message=FALSE)
+library(tidyverse)
+library(knitr)
+library(sf)
+library(cepespR)
+library(dismo)
+library(sp)
+merged <- merged %>% st_transform(4326)
+intersects <- merged %>% st_join(sf_points,st_intersects)
+sf_points <- df %>% st_as_sf(coords = c("longitude", "latitude"), crs = 4326)
+sf_points
+intersects <- merged %>% st_join(sf_points,st_intersects)
+intersects %>% dplyr::select(OBJECTID,NM_MUNICIP,Shape_Area,COD_MUN_IBGE)
+intersects %>% group_by(NOME_MUNICIPIO) %>% count()
+intersects <- sf_points %>% st_join(merged,st_intersects)
+intersects %>% dplyr::select(OBJECTID,NM_MUNICIP,Shape_Area,COD_MUN_IBGE)
+intersects %>% group_by(NOME_MUNICIPIO) %>% count()
+intersects %>% group_by(NOME_MUNICIPIO) %>% count() %>% st_set_geometry(NULL) %>% kable()
+intersects %>% group_by(NOME_MUNICIPIO) %>% count() %>% st_set_geometry(NULL) %>% kable()
+neighbours1 <- merged %>% as("Spatial") %>% poly2nb(queen=TRUE)
+library(spdep)
+neighbours1 <- merged %>% as("Spatial") %>% poly2nb(queen=TRUE)
+neighbours1
+summary(neighbours1)
+neighbours2 <- merged_contig %>% as("Spatial") %>% poly2nb(queen=TRUE)
+merged_contig <- merged %>% filter(card(neighbours1)!=0)
+neighbours2 <- merged_contig %>% as("Spatial") %>% poly2nb(queen=TRUE)
+summary(neighbours2)
+neighbours_weights <- neighbours2 %>% nb2listw(style="W")
+neighbours_weights
+summary(neighbours_weights)
+neighbours_weights
+merged_contig %>% pull(Vote_Pct) %>%
+moran(neighbours_weights,length(neighbours2),Szero(neighbours_weights)) %>%
+with(I)
+satellite <- gmap("Recife, Brazil",zoom=16,type="satellite")
+satellite %>% as("SpatialPixelsDataFrame") %>%
+as.data.frame() %>%
+ggplot() +
+geom_tile(aes(x=x,y=y,fill=get(names(satellite)))) +
+coord_equal()
+knitr::opts_chunk$set(include=TRUE, warning=FALSE, message=FALSE, eval=FALSE, echo=FALSE)
+cambodia <- raster("khm_popdenr_landscan_2011.tif")
+cambodia %>% as("SpatialPixelsDataFrame") %>%
+as.data.frame() %>%
+ggplot() +
+geom_tile(aes(x=x,y=y,fill=get(names(cambodia)))) +
+coord_equal()
+cambodia %>% as("SpatialPixelsDataFrame") %>%
+as.data.frame()
+cambodia %>% as("SpatialPixelsDataFrame") %>%
+as.data.frame() %>%
+ggplot() +
+geom_tile(aes(x=x,y=y,fill=log(khm_popdenr_landscan_2011))) +
+coord_equal()
+cambodia %>% as("SpatialPixelsDataFrame") %>%
+as.data.frame() %>%
+ggplot() +
+geom_tile(aes(x=x,y=y,fill=log(khm_popdenr_landscan_2011))) +
+coord_equal() +
+theme_void()
+?scale_fill_gradient
+cambodia %>% as("SpatialPixelsDataFrame") %>%
+as.data.frame() %>%
+ggplot() +
+geom_tile(aes(x=x,y=y,fill=log(khm_popdenr_landscan_2011))) +
+coord_equal() +
+theme_void() +
+scale_fill_gradient(low="white",high="red",na.value="white")
+combined <- satellite+(5*terrain)
+terrain
+terrain <- gmap("Recife, Brazil",zoom=16,type="terrain")
+combined <- satellite+(5*terrain)
+combined %>% as("SpatialPixelsDataFrame") %>%
+as.data.frame() %>%
+ggplot() +
+geom_tile(aes(x=x,y=y,fill=get(names(combined)))) +
+coord_equal()
+terrain <- gmap("Recife, Brazil",zoom=16,type="terrain")
+?gmap
+combined <- satellite+(5*terrain)
+combined %>% as("SpatialPixelsDataFrame") %>%
+as.data.frame() %>%
+ggplot() +
+geom_tile(aes(x=x,y=y,fill=get(names(combined)))) +
+coord_equal()
+knitr::opts_chunk$set(include=TRUE, warning=FALSE, message=FALSE, eval=FALSE, echo=FALSE)
+download.file("https://github.com/JonnyPhillips/Curso_R/raw/master/Brazil_s.zip",destfile="Brazil_s.zip")
+download.file("https://github.com/JonnyPhillips/Curso_R/raw/master/Esc2013_RMSP_CEM.zip", destfile="Esc2013_RMSP_CEM.zip")
+download.file("https://github.com/JonnyPhillips/Curso_R/raw/master/ESC2013_RMSP_CEM.zip", destfile="Esc2013_RMSP_CEM.zip")
+unzip("Esc2013_RMSP_CEM.zip")
+unzip("ESC2013_RMSP_CEM.zip")
+download.file("https://github.com/JonnyPhillips/Curso_R/raw/master/ESC2013_RMSP_CEM.zip", destfile="ESC2013_RMSP_CEM.zip")
+unzip("ESC2013_RMSP_CEM.zip")
+Escolas <- read_sf("Esc2013_RMSP_CEM.shp")
+Escolas <- read_sf("Esc2013_RMSP_CEM.shp")
+getwd()
+library(sf)
+Escolas <- read_sf("Esc2013_RMSP_CEM.shp")
+download.file("https://github.com/JonnyPhillips/Curso_R/raw/master/khm_popdenr_landscan_2011.zip",destfile="khm_popdenr_landscan_2011.zip")
+unzip("khm_popdenr_landscan_2011.zip")
+cambodia <- raster("khm_popdenr_landscan_2011.tif")
+library(raster)
+cambodia <- raster("khm_popdenr_landscan_2011.tif")
+knitr::opts_chunk$set(include=TRUE, warning=FALSE, message=FALSE, eval=FALSE, echo=FALSE)
+library(tidyverse)
+library(zeligverse)
+library(knitr)
+library(cepespR)
+library(sf)
+library(spdep)
+#devtools::install_github("jbaileyh/geogrid")
+library(geogrid)
+#devtools::install_github("tidyverse/ggplot2")
+library(ggplot2)
+download.file("https://github.com/JonnyPhillips/Curso_R/raw/master/Brazil_s.zip",destfile="Brazil_s.zip")
+unzip("Brazil_s.zip")
+Brazil <- read_sf("Brazil_s.shp")
+download.file("https://github.com/JonnyPhillips/Curso_R/raw/master/ESC2013_RMSP_CEM.zip", destfile="ESC2013_RMSP_CEM.zip")
+unzip("ESC2013_RMSP_CEM.zip")
+Escolas <- read_sf("Esc2013_RMSP_CEM.shp")
+Escolas_avg_prova_per_mun <- Brazil %>% st_join(Escolas,st_intersects) %>% filter(MAT13_AF!=999.99) %>% group_by(NM_MUNICIP) %>% summarize(mean_prova=mean(MAT13_AF,na.rm=T))
+Brazil
+Escolas_avg_prova_per_mun <- Brazil %>% st_transform(4326) %>% st_join(Escolas,st_intersects) %>% filter(MAT13_AF!=999.99) %>% group_by(NM_MUNICIP) %>% summarize(mean_prova=mean(MAT13_AF,na.rm=T))
+Escolas_avg_prova_per_mun %>% ggplot() +
+geom_sf(aes(fill=mean_prova))
+library(raster)
+download.file("https://github.com/JonnyPhillips/Curso_R/raw/master/khm_popdenr_landscan_2011.zip",destfile="khm_popdenr_landscan_2011.zip")
+unzip("khm_popdenr_landscan_2011.zip")
+cambodia <- raster("khm_popdenr_landscan_2011.tif")
+cambodia %>% as("SpatialPixelsDataFrame") %>%
+as.data.frame() %>%
+ggplot() +
+geom_tile(aes(x=x,y=y,fill=log(khm_popdenr_landscan_2011))) +
+coord_equal() +
+theme_void()
+cambodia %>% as("SpatialPixelsDataFrame") %>%
+as.data.frame() %>%
+ggplot() +
+geom_tile(aes(x=x,y=y,fill=log(khm_popdenr_landscan_2011))) +
+coord_equal() +
+theme_void() +
+scale_fill_gradient(low="white",high="red",na.value="white")

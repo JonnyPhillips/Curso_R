@@ -196,7 +196,7 @@ $(document).ready(function () {
 </style>
 <script>
 $(document).ready(function () {
-  window.initializeCodeFolding("show" === "show");
+  window.initializeCodeFolding("hide" === "show");
 });
 </script>
 
@@ -258,9 +258,6 @@ $(document).ready(function () {
     <li>
       <a href="class_8_slides3.html">Class 8</a>
     </li>
-    <li>
-      <a href="class_9_slides1.html">Class 9</a>
-    </li>
   </ul>
 </li>
 <li class="dropdown">
@@ -294,9 +291,6 @@ $(document).ready(function () {
     <li>
       <a href="Exercise_8_v1.html">Exercise 8</a>
     </li>
-    <li>
-      <a href="Exercise_9_v2.html">Exercise 9</a>
-    </li>
   </ul>
 </li>
       </ul>
@@ -320,85 +314,77 @@ $(document).ready(function () {
 
 
 <h1 class="title toc-ignore">Analysis, Visualization and Mapping in R</h1>
-<h3 class="subtitle"><em>Exercise 9: Shiny</em></h3>
+<h3 class="subtitle"><em>Exercise 2: Manipulating a Big Dataset</em></h3>
 
 </div>
 
 
 <ol style="list-style-type: decimal">
-<li>Create a new Shiny App in Rstudio. Load the <code>shiny</code>, <code>tidyverse</code> and <code>cepespR</code> packages.</li>
-</ol>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(shiny)
-<span class="kw">library</span>(tidyverse)
-<span class="kw">library</span>(cepespR)</code></pre></div>
-<ol start="2" style="list-style-type: decimal">
-<li>Using the code below, download the electoral data file ONCE using <code>cepespR</code>, save the data as a “.csv” and then include a line opening the “.csv”. (Remove the <code>cepespR</code> and <code>write.csv</code> code after).</li>
-</ol>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">data &lt;-<span class="st"> </span><span class="kw">get_elections</span>(<span class="dt">year=</span><span class="dv">2014</span>, <span class="dt">position=</span><span class="st">&quot;President&quot;</span>,<span class="dt">regional_aggregation=</span><span class="st">&quot;State&quot;</span>,<span class="dt">political_aggregation=</span><span class="st">&quot;Candidate&quot;</span>) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">NOME_PARTIDO=</span><span class="kw">iconv</span>(NOME_PARTIDO, <span class="st">&quot;ASCII&quot;</span>, <span class="st">&quot;UTF-8&quot;</span>, <span class="dt">sub=</span><span class="st">&quot;&quot;</span>))
-
-<span class="kw">write.csv</span>(data,<span class="st">&quot;data.csv&quot;</span>)
-data &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;data.csv&quot;</span>)</code></pre></div>
-<ol start="3" style="list-style-type: decimal">
-<li><p>Before creating the Shiny app, create an example analysis first: Filter the election for the second round (<code>NUM_TURNO</code>) and the PSDB (<code>SIGLA_PARTIDO</code>). In a separate line of code, create a <code>ggplot</code> output that displays a column chart (<code>geom_col</code>) of the number of votes the party received in each state.</p></li>
-<li><p>Now, let’s put this analysis within a Shiny app. Create a User Interface with appropriate inputs to allow the user to select the round of the election (<code>NUM_TURNO</code>) and the Party (<code>SIGLA_PARTIDO</code>).</p></li>
-<li><p>Turn your code for filtering the dataset by round and party into a <code>reactive</code> function within the <code>server</code> function that responds to the two inputs in your UI.</p></li>
-<li><p>Turn your ggplot2 graphic output into a <code>renderPlot</code> function within the <code>server</code> function so that it depends on the <code>reactive</code> function you created in the previous question.</p></li>
-<li><p>Create a place for this <code>renderPlot</code> graphic to appear in your <code>ui</code> function using <code>plotOutput</code>.</p></li>
-<li><p>Test your Shiny App and see if it works!</p></li>
-<li><p>Make the scale of your graph fixed (<code>ylim</code>) so it shows all the values but is easier to compare vote quantities when selecting between parties. (Hint: The maximum number of votes is for the PSDB in SP in the second round).</p></li>
-<li><p>Create another <code>reactive</code> output that calculates the total percentage of the vote the selected party received in the selected round of the election.</p></li>
-<li><p>Create a text output (<code>renderText</code>) in the <code>server</code> function and a <code>textOutput</code> in the <code>ui</code> function to display the result of the calculation in Question 7.</p></li>
+<li>Create a new Rmarkdown file in Rstudio.</li>
+<li>Load the ‘tidyverse’, ‘knitr’ and ‘nycflights13’ packages</li>
 </ol>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyverse)
-<span class="kw">library</span>(shiny)
-<span class="kw">library</span>(cepespR)
+<span class="kw">library</span>(knitr)
+<span class="kw">library</span>(nycflights13)</code></pre></div>
+<ol start="3" style="list-style-type: decimal">
+<li>Starting from the <code>flights</code> dataset, create a table of all the flights of airline carrier ‘OO’.</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">flights <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(carrier<span class="op">==</span><span class="st">&quot;OO&quot;</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">kable</span>()</code></pre></div>
+<ol start="4" style="list-style-type: decimal">
+<li>What is the average departure delay across all flights?</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">flights <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">summarize</span>(<span class="dt">avg_delay=</span><span class="kw">mean</span>(dep_delay,<span class="dt">na.rm=</span><span class="ot">TRUE</span>)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">kable</span>()</code></pre></div>
+<ol start="5" style="list-style-type: decimal">
+<li>Calculate the speed of each flight and then report a table of just the carrier, flight and speed variables, and just the first 5 rows of the table.</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">flights <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">speed=</span>distance<span class="op">/</span>air_time) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">select</span>(carrier, flight, speed) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">slice</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">kable</span>()</code></pre></div>
+<ol start="6" style="list-style-type: decimal">
+<li>Calculate the average speed separately for each airline (carrier), and arrange the table from fastest to slowest.</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">flights <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">speed=</span>distance<span class="op">/</span>air_time) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">group_by</span>(carrier) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">summarize</span>(<span class="dt">avg_speed=</span><span class="kw">mean</span>(speed,<span class="dt">na.rm=</span><span class="ot">TRUE</span>)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">arrange</span>(<span class="op">-</span>avg_speed) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">kable</span>()</code></pre></div>
+<ol start="7" style="list-style-type: decimal">
+<li>How do departure delays vary across months?</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">flights <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">group_by</span>(month) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">summarize</span>(<span class="dt">avg_delay=</span><span class="kw">mean</span>(dep_delay,<span class="dt">na.rm=</span><span class="ot">TRUE</span>)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">kable</span>()</code></pre></div>
+<ol start="8" style="list-style-type: decimal">
+<li>Make a table showing average departure delays by airline (row) and origin airport (column)</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">flights <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">group_by</span>(carrier,origin) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">summarize</span>(<span class="dt">avg_delay=</span><span class="kw">round</span>(<span class="kw">mean</span>(dep_delay,<span class="dt">na.rm=</span><span class="ot">TRUE</span>),<span class="dv">2</span>)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">spread</span>(<span class="dt">key=</span><span class="st">&quot;origin&quot;</span>,<span class="dt">value=</span><span class="st">&quot;avg_delay&quot;</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">kable</span>()</code></pre></div>
+<ol start="9" style="list-style-type: decimal">
+<li>How many flights from JFK to San Francisco (SFO) landed after 11.45pm on time?</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">flights <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(origin<span class="op">==</span><span class="st">&quot;JFK&quot;</span> <span class="op">&amp;</span><span class="st"> </span>dest<span class="op">==</span><span class="st">&quot;SFO&quot;</span> <span class="op">&amp;</span><span class="st"> </span>arr_time<span class="op">&gt;</span><span class="dv">2345</span> <span class="op">&amp;</span><span class="st"> </span>arr_delay<span class="op">&lt;=</span><span class="dv">0</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">count</span>()</code></pre></div>
+<ol start="10" style="list-style-type: decimal">
+<li>How many distinct planes (each plane has a different <code>tailnum</code>) flew from Newark (EWR) to Phoenix (PHX) in August? Hint: use the verb <code>distinct</code></li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">flights <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(origin<span class="op">==</span><span class="st">&quot;EWR&quot;</span> <span class="op">&amp;</span><span class="st"> </span>dest<span class="op">==</span><span class="st">&quot;PHX&quot;</span> <span class="op">&amp;</span><span class="st"> </span>month<span class="op">==</span><span class="dv">8</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">distinct</span>(tailnum) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">count</span>()</code></pre></div>
+<ol start="11" style="list-style-type: decimal">
+<li>What percentage of flights that took off late arrived on time? Hint: Try making two separate calculations and then calculating the percentage.</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">num_flights &lt;-<span class="st"> </span>flights <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(dep_delay<span class="op">&gt;=</span><span class="dv">0</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">count</span>()
 
-data &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data.csv&quot;</span>)
+late_flights &lt;-<span class="st"> </span>flights <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(dep_delay<span class="op">&gt;=</span><span class="dv">0</span> <span class="op">&amp;</span><span class="st"> </span>arr_delay<span class="op">&lt;=</span><span class="dv">0</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">count</span>()
 
-<span class="co"># Define UI for application that draws a histogram</span>
-ui &lt;-<span class="st"> </span><span class="kw">fluidPage</span>(
-  <span class="kw">sidebarLayout</span>(
-    <span class="kw">sidebarPanel</span>(
-      <span class="kw">selectInput</span>(<span class="st">&quot;Partido&quot;</span>,
-                  <span class="dt">label=</span><span class="st">&quot;Partido&quot;</span>,
-                  <span class="dt">choices =</span> <span class="kw">c</span>(<span class="st">&quot;PSDB&quot;</span>,<span class="st">&quot;PT&quot;</span>,<span class="st">&quot;PSOL&quot;</span>),
-                  <span class="dt">selected =</span> <span class="st">&quot;PT&quot;</span>),
-      <span class="kw">radioButtons</span>(<span class="st">&quot;Turno&quot;</span>,
-                   <span class="dt">label=</span><span class="st">&quot;Numero Turno&quot;</span>,
-                   <span class="dt">choices=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>),
-                   <span class="dt">selected=</span><span class="dv">1</span>)),
-    <span class="kw">mainPanel</span>(
-      <span class="kw">plotOutput</span>(<span class="st">&quot;Graph&quot;</span>),
-      <span class="kw">h4</span>(<span class="st">&quot;The total number of votes received by this party in this election is:&quot;</span>),
-      <span class="kw">textOutput</span>(<span class="st">&quot;Pct_Vote&quot;</span>)
-    )
-  )
-  )
-
-<span class="co"># Define server logic required to draw a histogram</span>
-server &lt;-<span class="st"> </span><span class="cf">function</span>(input, output) {
-  
-  new_data &lt;-<span class="st"> </span><span class="kw">reactive</span>({
-    new_data &lt;-<span class="st"> </span>data <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(SIGLA_PARTIDO<span class="op">==</span>input<span class="op">$</span>Partido <span class="op">&amp;</span><span class="st"> </span>NUM_TURNO<span class="op">==</span>input<span class="op">$</span>Turno) <span class="op">%&gt;%</span>
-<span class="st">      </span><span class="kw">mutate</span>(<span class="dt">NOME_PARTIDO=</span><span class="kw">iconv</span>(NOME_PARTIDO, <span class="st">&quot;ASCII&quot;</span>, <span class="st">&quot;UTF-8&quot;</span>, <span class="dt">sub=</span><span class="st">&quot;&quot;</span>))
-  })
-  
-  output<span class="op">$</span>Graph &lt;-<span class="st"> </span><span class="kw">renderPlot</span>({
-    <span class="kw">new_data</span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">ggplot</span>() <span class="op">+</span>
-<span class="st">      </span><span class="kw">geom_col</span>(<span class="kw">aes</span>(<span class="dt">x=</span>SIGLA_UE,<span class="dt">y=</span>QTDE_VOTOS)) <span class="op">+</span>
-<span class="st">      </span><span class="kw">ylim</span>(<span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">16000000</span>))
-  })
-  
-  output<span class="op">$</span>Pct_Vote &lt;-<span class="st"> </span><span class="kw">renderText</span>({
-    <span class="kw">new_data</span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">summarise</span>(<span class="dt">Total_votes=</span><span class="kw">sum</span>(QTDE_VOTOS,<span class="dt">na.rm=</span>T)) <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">      </span><span class="kw">pull</span>(Total_votes) <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">      </span><span class="kw">formatC</span>(<span class="dt">format=</span><span class="st">&quot;d&quot;</span>, <span class="dt">big.mark=</span><span class="st">&quot;.&quot;</span>)
-  })
-}
-
-<span class="co"># Run the application </span>
-<span class="kw">shinyApp</span>(<span class="dt">ui =</span> ui, <span class="dt">server =</span> server)</code></pre></div>
+late_flights<span class="op">/</span>num_flights<span class="op">*</span><span class="dv">100</span></code></pre></div>
 
 
 

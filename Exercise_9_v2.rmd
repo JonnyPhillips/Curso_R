@@ -45,3 +45,58 @@ data <- read.csv("data.csv")
 10. Create another `reactive` output that calculates the total percentage of the vote the selected party received in the selected round of the election. 
 
 11. Create a text output (`renderText`) in the `server` function and a `textOutput` in the `ui` function to display the result of the calculation in Question 7.
+
+```{r, echo=T, eval=F}
+library(tidyverse)
+library(shiny)
+library(cepespR)
+
+data <- read_csv("data.csv")
+
+# Define UI for application that draws a histogram
+ui <- fluidPage(
+  sidebarLayout(
+    sidebarPanel(
+      selectInput("Partido",
+                  label="Partido",
+                  choices = c("PSDB","PT","PSOL"),
+                  selected = "PT"),
+      radioButtons("Turno",
+                   label="Numero Turno",
+                   choices=c(1,2),
+                   selected=1)),
+    mainPanel(
+      plotOutput("Graph"),
+      h4("The total number of votes received by this party in this election is:"),
+      textOutput("Pct_Vote")
+    )
+  )
+  )
+
+# Define server logic required to draw a histogram
+server <- function(input, output) {
+  
+  new_data <- reactive({
+    new_data <- data %>% filter(SIGLA_PARTIDO==input$Partido & NUM_TURNO==input$Turno) %>%
+      mutate(NOME_PARTIDO=iconv(NOME_PARTIDO, "ASCII", "UTF-8", sub=""))
+  })
+  
+  output$Graph <- renderPlot({
+    new_data() %>% ggplot() +
+      geom_col(aes(x=SIGLA_UE,y=QTDE_VOTOS)) +
+      ylim(c(0,16000000))
+  })
+  
+  output$Pct_Vote <- renderText({
+    new_data() %>% summarise(Total_votes=sum(QTDE_VOTOS,na.rm=T)) %>% 
+      pull(Total_votes) %>% 
+      formatC(format="d", big.mark=".")
+  })
+}
+
+# Run the application 
+shinyApp(ui = ui, server = server)
+
+
+```
+

@@ -258,9 +258,6 @@ $(document).ready(function () {
     <li>
       <a href="class_8_slides3.html">Class 8</a>
     </li>
-    <li>
-      <a href="class_9_slides1.html">Class 9</a>
-    </li>
   </ul>
 </li>
 <li class="dropdown">
@@ -293,9 +290,6 @@ $(document).ready(function () {
     </li>
     <li>
       <a href="Exercise_8_v1.html">Exercise 8</a>
-    </li>
-    <li>
-      <a href="Exercise_9_v2.html">Exercise 9</a>
     </li>
   </ul>
 </li>
@@ -349,76 +343,21 @@ Brazil &lt;-<span class="st"> </span><span class="kw">read_sf</span>(<span class
 <span class="kw">unzip</span>(<span class="st">&quot;ESC2013_RMSP_CEM.zip&quot;</span>)
 Escolas &lt;-<span class="st"> </span><span class="kw">read_sf</span>(<span class="st">&quot;Esc2013_RMSP_CEM.shp&quot;</span>)</code></pre></div>
 <ol start="3" style="list-style-type: decimal">
-<li>Using a spatial join, how many schools are there in each municipality?</li>
-</ol>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Brazil &lt;-<span class="st"> </span>Brazil <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">st_transform</span>(<span class="dv">4326</span>)
-Escolas_per_mun &lt;-<span class="st"> </span>Escolas <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">st_join</span>(Brazil,st_intersects) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">group_by</span>(NM_MUNICIP) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">count</span>()</code></pre></div>
-<ol start="4" style="list-style-type: decimal">
-<li>Using a spatial join, what is the average Prova Brasil maths score at age 13 (<code>MAT13_AF</code>) in each municipality? Note you need to filter out all schools with missing (<code>999.99</code>) values on the score variable before averaging.</li>
-</ol>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Escolas_avg_prova_per_mun &lt;-<span class="st"> </span>Brazil <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">st_transform</span>(<span class="dv">4326</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">st_join</span>(Escolas,st_intersects) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(MAT13_AF<span class="op">!=</span><span class="fl">999.99</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">group_by</span>(NM_MUNICIP) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">summarize</span>(<span class="dt">mean_prova=</span><span class="kw">mean</span>(MAT13_AF,<span class="dt">na.rm=</span>T))</code></pre></div>
-<ol start="5" style="list-style-type: decimal">
-<li>Create a map to display the pattern of average test results per municipality from Question 4.</li>
-</ol>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Escolas_avg_prova_per_mun <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">ggplot</span>() <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_sf</span>(<span class="kw">aes</span>(<span class="dt">fill=</span>mean_prova))</code></pre></div>
-<ol start="6" style="list-style-type: decimal">
-<li>To provide a statistical measure of the pattern of clustering in the map, calculate the Moran’s I measure of clustering for the test score.</li>
-</ol>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(spdep)
-neighbours1 &lt;-<span class="st"> </span>Escolas_avg_prova_per_mun <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">as</span>(<span class="st">&quot;Spatial&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">poly2nb</span>(<span class="dt">queen=</span><span class="ot">TRUE</span>)
-
-Escolas_avg_prova_per_mun_contig &lt;-<span class="st"> </span>Escolas_avg_prova_per_mun <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(<span class="kw">card</span>(neighbours1)<span class="op">!=</span><span class="dv">0</span>)
-
-neighbours2 &lt;-<span class="st"> </span>Escolas_avg_prova_per_mun_contig <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">as</span>(<span class="st">&quot;Spatial&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">poly2nb</span>(<span class="dt">queen=</span><span class="ot">TRUE</span>)
-
-neighbours_weights &lt;-<span class="st"> </span>neighbours2 <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">nb2listw</span>(<span class="dt">style=</span><span class="st">&quot;W&quot;</span>)
-
-Escolas_avg_prova_per_mun_contig <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">pull</span>(mean_prova) <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">moran</span>(neighbours_weights,<span class="kw">length</span>(neighbours2),<span class="kw">Szero</span>(neighbours_weights)) <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">with</span>(I)</code></pre></div>
-<ol start="7" style="list-style-type: decimal">
-<li>Create a hexagonal equal-area map to display the patterns in spatial clustering more clearly.</li>
-</ol>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sf_hex_grid &lt;-<span class="st"> </span>Escolas_avg_prova_per_mun <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">calculate_grid</span>(<span class="dt">grid_type=</span><span class="st">&quot;hexagonal&quot;</span>)
-sf_hex_grid &lt;-<span class="st"> </span>Escolas_avg_prova_per_mun <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">assign_polygons</span>(sf_hex_grid)
-
-hex_map &lt;-<span class="st"> </span>sf_hex_grid <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">st_as_sf</span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">ggplot</span>() <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_sf</span>(<span class="kw">aes</span>(<span class="dt">fill=</span>mean_prova)) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">geom_text</span>(<span class="kw">aes</span>(<span class="dt">x=</span>V1,<span class="dt">y=</span>V2,<span class="dt">label=</span><span class="kw">substr</span>(NM_MUNICIP,<span class="dv">1</span>,<span class="dv">2</span>)),<span class="dt">size=</span><span class="dv">2</span>,<span class="dt">col=</span><span class="st">&quot;white&quot;</span>) <span class="op">+</span>
-<span class="st">  </span><span class="kw">theme_classic</span>() <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">coord_sf</span>(<span class="dt">datum=</span><span class="ot">NA</span>) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;&quot;</span>) <span class="op">+</span>
-<span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;&quot;</span>)</code></pre></div>
-<ol start="8" style="list-style-type: decimal">
-<li>Find the two schools in the municipality (<code>NOMEMUN</code>) of Juquitiba that are closest to each other. How far apart are they (in metres)?</li>
-</ol>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(units)
-Escolas_dist &lt;-<span class="st"> </span>Escolas <span class="op">%&gt;%</span><span class="st"> </span>dplyr<span class="op">::</span><span class="kw">filter</span>(NOMEMUN<span class="op">==</span><span class="st">&quot;JUQUITIBA&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">st_distance</span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">set_units</span>(<span class="ot">NULL</span>)
-<span class="kw">min</span>(Escolas_dist[Escolas_dist<span class="op">&gt;</span><span class="dv">0</span>])</code></pre></div>
-<ol start="9" style="list-style-type: decimal">
-<li>Use the code below to open a raster file of population density in Cambodia. Transform the population density data to the logarithmic scale and create a map.</li>
+<li><p>Using a spatial join, how many schools are there in each municipality?</p></li>
+<li><p>Using a spatial join, what is the average Prova Brasil maths score at age 13 (<code>MAT13_AF</code>) in each municipality? Note you need to filter out all schools with missing (<code>999.99</code>) values on the score variable before averaging.</p></li>
+<li><p>Create a map to display the pattern of average test results per municipality from Question 4.</p></li>
+<li><p>To provide a statistical measure of the pattern of clustering in the map, calculate the Moran’s I measure of clustering for the test score.</p></li>
+<li><p>Create a hexagonal equal-area map to display the patterns in spatial clustering more clearly.</p></li>
+<li><p>Find the two schools in the municipality (<code>NOMEMUN</code>) of Juquitiba that are closest to each other. How far apart are they (in metres)?</p></li>
+<li><p>Use the code below to open a raster file of population density in Cambodia. Transform the population density data to the logarithmic scale and create a map.</p></li>
 </ol>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(raster)
 <span class="kw">download.file</span>(<span class="st">&quot;https://github.com/JonnyPhillips/Curso_R/raw/master/khm_popdenr_landscan_2011.zip&quot;</span>,<span class="dt">destfile=</span><span class="st">&quot;khm_popdenr_landscan_2011.zip&quot;</span>)
 <span class="kw">unzip</span>(<span class="st">&quot;khm_popdenr_landscan_2011.zip&quot;</span>)
 cambodia &lt;-<span class="st"> </span><span class="kw">raster</span>(<span class="st">&quot;khm_popdenr_landscan_2011.tif&quot;</span>)</code></pre></div>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">cambodia <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">as</span>(<span class="st">&quot;SpatialPixelsDataFrame&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">as.data.frame</span>() <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">ggplot</span>() <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">geom_tile</span>(<span class="kw">aes</span>(<span class="dt">x=</span>x,<span class="dt">y=</span>y,<span class="dt">fill=</span><span class="kw">log</span>(khm_popdenr_landscan_<span class="dv">2011</span>))) <span class="op">+</span>
-<span class="st">  </span><span class="kw">coord_equal</span>() <span class="op">+</span>
-<span class="st">  </span><span class="kw">theme_void</span>()</code></pre></div>
 <ol start="10" style="list-style-type: decimal">
 <li>Change the colour scale of the map in Question 9 so that the least densely populated areas are coloured white, the most densely populated are coloured red and <code>NA</code> values show up as white also.</li>
 </ol>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">cambodia <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">as</span>(<span class="st">&quot;SpatialPixelsDataFrame&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">as.data.frame</span>() <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">ggplot</span>() <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">geom_tile</span>(<span class="kw">aes</span>(<span class="dt">x=</span>x,<span class="dt">y=</span>y,<span class="dt">fill=</span><span class="kw">log</span>(khm_popdenr_landscan_<span class="dv">2011</span>))) <span class="op">+</span>
-<span class="st">  </span><span class="kw">coord_equal</span>() <span class="op">+</span>
-<span class="st">  </span><span class="kw">theme_void</span>() <span class="op">+</span>
-<span class="st">  </span><span class="kw">scale_fill_gradient</span>(<span class="dt">low=</span><span class="st">&quot;white&quot;</span>,<span class="dt">high=</span><span class="st">&quot;red&quot;</span>,<span class="dt">na.value=</span><span class="st">&quot;white&quot;</span>)</code></pre></div>
 
 
 
